@@ -2,7 +2,6 @@
 
 class Controller
 {
-//sa
     function pagina()
     {
         require("view/aplicacion.php");
@@ -22,51 +21,34 @@ class Controller
 
 
 
-    function login_check(){
-
+    function login_check()
+    {
+        session_start();
         if (isset($_POST["user"]) && $_POST["user"] != "" && isset($_POST["password"]) && $_POST["password"] != "") {
             $user = $_POST["user"];
             $password = $_POST["password"];
-            try {
-                $db = new Conexion();
-                $conexion = $db->getConexion();
-                $sql = "select * from usuario where usuario='$user' and password='$password'";
-                $registros = $conexion->query($sql);
-                if ($registros->rowCount() > 0) {
-                    session_start();
-                    $_SESSION["loged_in"] = true;
-                    // foreach ($registros as $registro){
-                    //     $id=$registro["id_usuario"];
-                    // }
-                    $registros->closeCursor();
-                    $db = null;
-                    header("Location: /ChristieMeta/index.php/home");
-                } else {
-                    $registros->closeCursor();
-                    $db = null;
-                    session_start();
-                    $mensaje = "Inicio de sesión fallido. Usuario incorrecto2.";
-                    $_SESSION["mensaje_error"] = $mensaje;
-                    header("Location: /ChristieMeta/index.php/login");
-                }
 
-            } catch (PDOException $ex) {
-                
-                $mensaje = $ex ."Inicio de sesión fallido. Usuario incorrecto3.";
-                session_start();
+            $db = new Conexion();
+            $login = $db->loginBBDD($user, $password);
+
+            if ($login) {
+                $_SESSION["loged_in"] = true;
+                header("Location: /ChristieMeta/index.php/home");
+            } else {
+                $mensaje = "Inicio de sesión fallido. Usuario incorrecto2.";
                 $_SESSION["mensaje_error"] = $mensaje;
                 header("Location: /ChristieMeta/index.php/login");
             }
-        }else{
-            $mensaje = "Inicio de sesión fallido. Usuario incorrecto4.";            
-            session_start();
+        } else {
+            $mensaje = "Inicio de sesión fallido. Usuario incorrecto4.";
             $_SESSION["mensaje_error"] = $mensaje;
             header("Location: /ChristieMeta/index.php/login");
         }
-     }
+    }
 
 
-    function restore_password(){
+    function restore_password()
+    {
         session_start();
 
         if (isset($_SESSION["mensaje_correo"]) || !empty($_SESSION["mensaje_correo"])) {

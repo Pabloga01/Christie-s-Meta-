@@ -20,7 +20,7 @@ class Conexion
         return  $db = new PDO($this->db_cadena, $this->db_user, $this->db_password);
     }
 
-    public function loginBBDD($user,$password)
+    public function loginBBDD($user, $password)
     {
         try {
             $conexion = $this->getConexion();
@@ -39,6 +39,28 @@ class Conexion
                 return false;
             }
         } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+
+    public function getListadoProductos(){
+
+        $conexion = $this->getConexion();
+        $sql = "select * from objeto";
+        $registros = $conexion->query($sql);
+        if ($registros->rowCount() > 0) {
+            $datos_lista = [];
+            foreach ($registros as $registro) {
+                array_push($datos_lista,$registro);
+            }
+            $registros->closeCursor();
+            $db = null;
+            return $datos_lista;
+           // echo json_encode($datos_lista);
+        } else {
+            $registros->closeCursor();
+            $db = null;
             return false;
         }
     }

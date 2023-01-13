@@ -78,6 +78,10 @@ class Controller
         require("view/admin/table.php");
     }
 
+    
+
+
+
     function mapa()
     {
         require("view/admin/map.php");

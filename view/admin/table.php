@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Mapa</title>
 </head>
 
 <?php
-require_once("view/admin/template.php")?>
+require_once("view/admin/template.php") ?>
 
 <body class="animsition">
     <div class="page-container">
@@ -76,12 +77,11 @@ require_once("view/admin/template.php")?>
         <div class="main-content">
             <div class="section__content section__content--p30">
                 <div class="container-fluid">
-
                     <div class="row">
                         <div class="col-md-12 col-12">
                             <!-- DATA TABLE -->
                             <h3 class="title-5 m-b-35">Productos comprados</h3>
-                            <div class="table-data__tool">
+                            <div class="pre_tabla table-data__tool">
                                 <div class="table-data__tool-left">
                                     <div class="rs-select2--light rs-select2--md">
                                         <select class="js-select2" name="property">
@@ -111,12 +111,13 @@ require_once("view/admin/template.php")?>
                                             <option value="">10 registros</option>
                                             <option value="">15 registros</option>
                                             <option value="">25 registros</option>
-                                        </select>
+                                        </select>   
                                         <div class="dropDownSelect2"></div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="table-responsive table-responsive-data2">
+
+                            <!-- <div class="table-respons2ive table-responsive-data2">
                                 <table class="table table-data2">
                                     <thead>
                                         <tr>
@@ -156,7 +157,7 @@ require_once("view/admin/template.php")?>
                                             <td>10-01-2023</td>
                                             <td>
                                                 0
-                                                <!-- <span class="status--process">Processed</span> -->
+                                                 <span class="status--process">Processed</span> 
                                             </td>
                                             <td>0</td>
                                             <td>200</td>
@@ -193,7 +194,7 @@ require_once("view/admin/template.php")?>
                                             <td>10-01-2023</td>
                                             <td>
                                                 0
-                                                <!-- <span class="status--process">Processed</span> -->
+                                                 <span class="status--process">Processed</span> 
                                             </td>
                                             <td>0</td>
                                             <td>500</td>
@@ -230,7 +231,7 @@ require_once("view/admin/template.php")?>
                                             <td>10-01-2023</td>
                                             <td>
                                                 0
-                                                <!-- <span class="status--process">Processed</span> -->
+                                                 <span class="status--process">Processed</span> 
                                             </td>
                                             <td>0</td>
                                             <td>199</td>
@@ -267,7 +268,7 @@ require_once("view/admin/template.php")?>
                                             <td>10-01-2023</td>
                                             <td>
                                                 0
-                                                <!-- <span class="status--process">Processed</span> -->
+                                                 <span class="status--process">Processed</span> 
                                             </td>
                                             <td>0</td>
                                             <td>699</td>
@@ -288,8 +289,7 @@ require_once("view/admin/template.php")?>
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                            <!-- END DATA TABLE -->
+                            </div> -->
                             <div id="botones_navegacion" class="mt-4 row d-flex justify-content-end ">
                                 <button class="mx-2 au-btn au-btn-icon au-btn--green au-btn--small">
                                     <i class=""></i>Anterior</button>
@@ -337,7 +337,7 @@ require_once("view/admin/template.php")?>
 
 <!-- Main JS-->
 <script src="view/admin/js/main.js"></script>
-
+<script src="view/admin/js/listados.js"></script>
 
 </html>
 <!-- end document-->

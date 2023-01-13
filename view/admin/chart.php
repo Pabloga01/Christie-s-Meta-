@@ -8,7 +8,7 @@
     <meta name="description" content="au theme template">
     <meta name="author" content="Hau Nguyen">
     <meta name="keywords" content="au theme template">
-    <base href="../../" >
+    <base href="http://localhost/ChristieMeta/" >
 
     <!-- Title Page-->
     <title>Charts</title>
@@ -59,34 +59,27 @@
                     <ul class="navbar-mobile__list list-unstyled">
 
                         <li>
-                            <a href="/view/admin/chart.html">
+                            <a href="index.php/graficos">
                                 <i class="fas fa-chart-bar"></i>Gráficos</a>
                         </li>
                         <li>
-                            <a href="/view/admin/table.html">
+                            <a href="index.php/informes">
                                 <i class="fas fa-table"></i>Informes</a>
                         </li>
 
                         <li>
-                            <a href="/view/admin/calendar.html">
-                                <i class="fas fa-calendar-alt"></i>Calendario</a>
-                        </li>
-                        <li>
-                            <a href="/view/admin/map.html">
+                            <a href="index.php/mapa">
                                 <i class="fas fa-map-marker-alt"></i>Mapa de localizaciones</a>
                         </li>
                         <li class="has-sub">
                             <a class="js-arrow" href="#">
-                                <i class="fas fa-copy"></i>Pages</a>
+                                <i class="fas fa-copy"></i>Otras páginas</a>
                             <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
                                 <li>
-                                    <a href="/view/admin/login.html">Login</a>
+                                    <a href="index.php/login">Login</a>
                                 </li>
                                 <li>
-                                    <a href="/view/admin/register.html">Register</a>
-                                </li>
-                                <li>
-                                    <a href="/view/admin/forget-pass.html">Forget Password</a>
+                                    <a href="index.php/restorepassword">Reestablecer contraseña</a>
                                 </li>
                             </ul>
                         </li>
@@ -109,20 +102,16 @@
                     <ul class="list-unstyled navbar__list">
 
                         <li class="active">
-                            <a href="/view/admin/chart.html">
+                            <a href="index.php/graficos">
                                 <i class="fas fa-chart-bar"></i>Gráficos</a>
                         </li>
                         <li>
-                            <a href="/view/admin/table.html">
+                            <a href="index.php/informes">
                                 <i class="fas fa-table"></i>Informes</a>
                         </li>
 
                         <li>
-                            <a href="/view/admin/calendar.html">
-                                <i class="fas fa-calendar-alt"></i>Calendario</a>
-                        </li>
-                        <li>
-                            <a href="/view/admin/map.html">
+                            <a href="index.php/mapa">
                                 <i class="fas fa-map-marker-alt"></i>Mapa</a>
                         </li>
                         <li class="has-sub">
@@ -130,13 +119,10 @@
                                 <i class="fas fa-copy"></i>Otras páginas</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
-                                    <a href="/view/admin/login.html">Login</a>
+                                    <a href="index.php/login">Login</a>
                                 </li>
                                 <li>
-                                    <a href="/view/admin/register.html">Register</a>
-                                </li>
-                                <li>
-                                    <a href="/view/admin/forget-pass.html">Forget Password</a>
+                                    <a href="index.php/restorepassword">Forget Password</a>
                                 </li>
                             </ul>
                         </li>

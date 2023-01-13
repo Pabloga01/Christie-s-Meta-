@@ -10,7 +10,7 @@ class Conexion
 
     public function __construct()
     {
-        $this->db_cadena = 'mysql:host=localhost;dbname=christiesmeta';
+        $this->db_cadena = 'mysql:host=localhost;dbname=_christiesmeta';
         $this->db_user = 'root';
         $this->db_password = '';
     }

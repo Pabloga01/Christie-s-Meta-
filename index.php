@@ -26,3 +26,13 @@ if (isset($array_ruta[0]) && $array_ruta[0] == "login" && !isset($array_ruta[1])
 else if (isset($array_ruta[0]) && $array_ruta[0] == "home" && !isset($array_ruta[1])) {
     $controller->home();
 }
+
+else if (isset($array_ruta[0]) && $array_ruta[0] == "graficos" && !isset($array_ruta[1])) {
+    $controller->graficos();
+}
+else if (isset($array_ruta[0]) && $array_ruta[0] == "informes" && !isset($array_ruta[1])) {
+    $controller->informes();
+}
+else if (isset($array_ruta[0]) && $array_ruta[0] == "mapa" && !isset($array_ruta[1])) {
+    $controller->mapa();
+}

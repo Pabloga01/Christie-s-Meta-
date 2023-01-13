@@ -65,7 +65,25 @@ class Controller
 
     function recordar_password()
     {
+
     }
+
+    function graficos()
+    {
+        require("view/admin/chart.php");
+    }
+
+    function informes()
+    {
+        require("view/admin/index.php");
+    }
+
+    function mapa()
+    {
+
+    }
+
+
 
     function paginacion()
     {

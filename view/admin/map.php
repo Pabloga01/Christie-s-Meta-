@@ -5,6 +5,9 @@
     <title>Mapa</title>
 </head>
 
+<?php
+require_once("view/admin/template.php")?>
+
 <body>
     <div class="page-container">
         <div class="section__content section__content--p30">

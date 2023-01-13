@@ -4,6 +4,9 @@
 <head>
     <title>Home</title>
 </head>
+<?php
+
+require_once("view/admin/template.php")?>
 
 <body class="animsition">
     <div class="page-wrapper">

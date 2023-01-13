@@ -3,6 +3,10 @@
 <head>
     <title>Mapa</title>
 </head>
+
+<?php
+require_once("view/admin/template.php")?>
+
 <body class="animsition">
     <div class="page-container">
         <!-- HEADER DESKTOP-->

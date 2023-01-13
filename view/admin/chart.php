@@ -4,6 +4,8 @@
 <head>
     <title>Gráficos</title>
 </head>
+<?php
+require_once("view/admin/template.php")?>
 
 <body class="animsition">
     <!-- PAGE CONTAINER-->

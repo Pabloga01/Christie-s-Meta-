@@ -60,7 +60,6 @@ class Controller
 
     function home()
     {
-        require("view/admin/template.php");
         require("view/admin/index.php");
     }
 
@@ -71,19 +70,16 @@ class Controller
 
     function graficos()
     {
-        require("view/admin/template.php");
         require("view/admin/chart.php");
     }
 
     function informes()
     {
         require("view/admin/table.php");
-        require("view/admin/template.php");
     }
 
     function mapa()
     {
-        require("view/admin/template.php");
         require("view/admin/map.php");
     }
 

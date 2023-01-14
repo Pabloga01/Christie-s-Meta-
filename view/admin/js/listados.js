@@ -3,13 +3,13 @@
 var indiceActual = 0;
 var nFilas = 1;
 var botonAnterior, botonSiguiente, idMaximo;
-var cuentaProductos = 0, cuentaActual = 0, filasTotales;
+var lista_productos = 0, cuentaActual = 0, filasTotales;
 
 addEventListener("load", () => {
     // botonSiguiente = document.getElementsByName("siguiente")[0];
     // botonAnterior = document.getElementsByName("anterior")[0];
     // botonAnterior.disabled = true;
-    crearCabeceraTabla();
+    createHeadBoard();
     fetch('http://localhost/ChristieMeta/index.php/api/listado_productos')
         .then(checkStatus)
         .then(parseJSON)
@@ -17,9 +17,8 @@ addEventListener("load", () => {
             var json = data;
             lista_productos = eval(json);
             if (lista_productos != undefined && lista_productos.length != 0) {
-                lista_productos.forEach(element => {
-                    lista_productos = JSON.parse(element["id_objeto"]);
-                });
+                fillTable(lista_productos);
+                
             }
 
 
@@ -27,7 +26,7 @@ addEventListener("load", () => {
             console.log("error request", error);
         });
 
-    event.preventDefault();
+ //   event.preventDefault();
 });
 
 
@@ -68,7 +67,7 @@ function mostrar_productos(n, criterioOrden) {
                 var json = data;
                 let resultados = eval(json);
                 if (resultados != undefined && resultados.length != 0) {
-                    crearCabeceraTabla();
+                    createHeadBoard();
 
                     // var tabla = document.createElement('table');
                     // tabla.setAttribute("border", 1);
@@ -121,7 +120,7 @@ function mostrar_productos(n, criterioOrden) {
 }
 
 
-function crearCabeceraTabla() {
+function createHeadBoard() {
     var elementoAnterior = document.querySelector(".pre_tabla");
 
 
@@ -153,7 +152,7 @@ function crearCabeceraTabla() {
     tr.appendChild(th);
 
 
-    let arrNombreCabeceras = ["cliente", "email", "productos", "descripcion", "categoria", "fecha", "longitud", "latitud", "precio"];
+    let arrNombreCabeceras = ["nombre", "descripción", "precio", "categoría", "longitud", "latitud", "puntuacion total"];
     for (let i = 0; i < arrNombreCabeceras.length; i++) {
         var th1 = document.createElement('th');
         th1.innerHTML = arrNombreCabeceras[i];
@@ -162,9 +161,48 @@ function crearCabeceraTabla() {
 
 }
 
+
 function insertAfter(newNode, existingNode) {
     existingNode.parentNode.insertBefore(newNode, existingNode.nextSibling);
 }
+
+
+
+
+function fillTable(arJson){
+    var previousElement=document.getElementsByTagName("thead")[0];
+    var tbody=document.createElement("tbody");
+    insertAfter(tbody, previousElement);
+
+    arJson.forEach(element => {
+        var tr = document.createElement('tr');
+        tr.classList.add('tr-shadow')
+        tbody.appendChild(tr);
+        var td = document.createElement('td');
+        tr.appendChild(td);
+
+        let arHeadersName = ["nombre", "descripcion", "precio", "categoria", "longitud", "latitud", "puntuacion_total"];
+        for(let i=0;i<arHeadersName.length;i++){
+            var td = document.createElement('td');
+            td.innerHTML=element[arHeadersName[i]];
+            tr.appendChild(td);
+        }
+
+    });
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function checkStatus(response) {
@@ -178,6 +216,6 @@ function checkStatus(response) {
 }
 
 
-function parseJSON(){
+function parseJSON(response){
     return response.json();
 }

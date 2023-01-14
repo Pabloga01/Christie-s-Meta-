@@ -14,7 +14,7 @@
    <link href="view/admin/css/font-face.css" rel="stylesheet" media="all">
     <link href="view/admin/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
     <link href="view/admin/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="view/admin/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all"> -->
+    <link href="view/admin/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all"> 
 
     <!-- Bootstrap CSS-->
     <link href="view/admin/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">

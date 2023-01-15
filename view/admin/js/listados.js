@@ -4,13 +4,82 @@ var indiceActual = 0;
 var nFilas = 1;
 var botonAnterior, botonSiguiente, idMaximo;
 var lista_productos = 0, cuentaActual = 0, filasTotales;
+var actualIndex = 0;
+var cursorNavigator =1;
 
 addEventListener("load", () => {
+    getProductPagedList("");
     // botonSiguiente = document.getElementsByName("siguiente")[0];
     // botonAnterior = document.getElementsByName("anterior")[0];
     // botonAnterior.disabled = true;
+    // createHeadBoard();
+    // fetch('http://localhost/ChristieMeta/index.php/api/listado_productos')
+    //     .then(checkStatus)
+    //     .then(parseJSON)
+    //     .then(function (data) {
+    //         var json = data;
+    //         lista_productos = eval(json);
+    //         if (lista_productos != undefined && lista_productos.length != 0) {
+    //             fillTable(lista_productos);
+
+    //         }
+
+
+    //     }).catch(function (error) {
+    //         console.log("error request", error);
+    //     });
+
+    // event.preventDefault();
+});
+
+
+
+var selectPags = document.querySelector("#select_paginas");
+
+selectPags.addEventListener("change", () => {
+    cleanTable();
+    let value = selectPags.options[selectPags.selectedIndex].value;
+    getProductPagedList();
+});
+
+// for (var i = 0; i < selectPags.children.length; i++) {
+//     selectPags[i].addEventListener("click", () => {
+//         getProductPagedList();
+//     });
+// }
+
+
+
+
+function getProductPagedList(nIndex) {
+
+    let nVisualizedRows = parseInt(selectPags.options[selectPags.selectedIndex].value);
+    if (nIndex == "" || nIndex == undefined) {
+        actualIndex = 0;
+    } else {
+        actualIndex = nIndex;
+    }
+    // nFilas = numFilas;
+    // if (indiceActual >= 0) {
+    //     if (criteria == undefined || criteria == "") {
+    //         criteria = {
+    //             "columna": { "columna": "", "criterio": "" },
+    //         };
+    //         var indice = indiceActual;
+    //         indiceActual += parseInt(numFilas);
+
+    //     } else {
+    //         var indice = indiceActual - numFilas;
+    //     }
+    //     //var indice = 0;
+    // } else {
+    //     indiceActual = 0;
+    //     var indice = indiceActual;
+    //     indiceActual += parseInt(numFilas);
+    // }
+
     createHeadBoard();
-    fetch('http://localhost/ChristieMeta/index.php/api/listado_productos')
+    fetch("http://localhost/ChristieMeta/index.php/api/listado_productos_crit/?q=" + nVisualizedRows + "&indice=" + actualIndex)
         .then(checkStatus)
         .then(parseJSON)
         .then(function (data) {
@@ -18,106 +87,74 @@ addEventListener("load", () => {
             lista_productos = eval(json);
             if (lista_productos != undefined && lista_productos.length != 0) {
                 fillTable(lista_productos);
-                
+
             }
 
 
         }).catch(function (error) {
-            console.log("error request", error);
+            console.log('error request', error);
         });
 
- //   event.preventDefault();
-});
 
 
-
-
-function mostrar_productos(n, criterioOrden) {
-    //var numFilas = document.getElementById("selectFilas").value;
-    var numFilas = 10;
-    nFilas = numFilas;
-
-    if (indiceActual >= 0) {
-        if (criterioOrden == undefined) {
-            criterioOrden = {
-                "columna": { "columna": "", "criterio": "" },
-            };
-            var indice = indiceActual;
-            indiceActual += parseInt(numFilas);
-
-        } else {
-            var indice = indiceActual - numFilas;
-        }
-        //var indice = 0;
-    } else {
-        indiceActual = 0;
-        var indice = indiceActual;
-        indiceActual += parseInt(numFilas);
-
-    }
-    if (numFilas == "") {
-        document.getElementById("tabla").innerHTML = "";
-        return;
-    } else {
-
-        fetch("http://localhost/ChristieMeta/index.php/api/listado_productos_crit/?q=" + numFilas + "&oculto=" + indice + "&criterio=" + criterioOrden["columna"].columna + "&orden=" + criterioOrden["columna"].criterio)
-            .then(checkStatus)
-            .then(parseJSON)
-            .then(function (data) {
-                var json = data;
-                let resultados = eval(json);
-                if (resultados != undefined && resultados.length != 0) {
-                    createHeadBoard();
-
-                    // var tabla = document.createElement('table');
-                    // tabla.setAttribute("border", 1);
-                    // var cabecera = construirCabecera();
-                    // tabla.id = "tablaEmpleados";
-                    // tabla.appendChild(cabecera);
-                    // for (let i = 0; i < resultados.length; i++) {
-                    //     let fila = construirFila(resultados[i], i);
-                    //     tabla.appendChild(fila);
-                    // }
-                    // filasTotales = resultados.length;
-
-                    // document.getElementById("tabla").innerHTML = "";
-                    // document.getElementById("tabla").appendChild(tabla);
-
-                    // let columnas = document.getElementsByTagName("th");
-
-                    // for (let i = 0; i < columnas.length; i++) {
-                    //     columnas[i].addEventListener("click", ordenarColumnas, false);
-                    //     if (criterioOrden != undefined) {
-                    //         let valor = devolverValorColumna(columnas[i].innerHTML);
-                    //         if (valor == criterioOrden.columna.columna) {
-                    //             if (criterioOrden.columna.criterio == "asc") {
-                    //                 columnas[i].innerHTML = columnas[i].innerHTML + "(🔼)";
-                    //             } else {
-                    //                 columnas[i].innerHTML = columnas[i].innerHTML + "(🔽)";
-
-                    //             }
-                    //         }
-                    //     }
-                    // }
-
-                }
-
-
-            }).catch(function (error) {
-                console.log('error request', error);
-            });
-
-    }
-
-    if (criterioOrden == undefined) {
-        criterioOrden = {
-            "columna": { "columna": "", "criterio": "" }
-        };
-    }
-
-
+    // if (criteria == undefined) {
+    //     criteria = {
+    //         "columna": { "columna": "", "criterio": "" }
+    //     };
+    // }
 
 }
+
+document.querySelector('#siguiente').addEventListener("click",()=>{
+    next();
+})
+
+function next() {
+    cleanTable();
+
+    let valueSelect = selectPags.options[selectPags.selectedIndex].value;
+    cursorNavigator++;
+    let valor = (valueSelect * cursorNavigator) - valueSelect;
+    getProductPagedList(valor);
+
+    // let last = parseInt(valueSelect[valueSelect.length - 1].value);
+    // var nextBtn = document.getElementsByName("siguiente")[0];
+
+
+    // if (indiceActual - parseInt(nFilas) < last) {
+    //     getProductPagedList();
+    //     // if (indiceActual >= lista_productos) {
+    //     //     botonSiguiente.disabled = true;
+    //     // }
+    // } else {
+    //     indiceActual = last;
+    //     // botonSiguiente.disabled = true;
+    // }
+}
+
+function before() {
+    let valueSelect = selectPags.options[selectPags.selectedIndex].value;
+
+    let last = parseInt(valueSelect[valueSelect.length - 1].value);
+    if (indiceActual > last) {
+        indiceActual = last;
+    }
+    indiceActual = indiceActual - (nFilas * 2)
+    getProductPagedList();
+    // if (indiceActual == nFilas) {
+    //     botonAnterior.disabled = true;
+    // }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 function createHeadBoard() {
@@ -169,9 +206,9 @@ function insertAfter(newNode, existingNode) {
 
 
 
-function fillTable(arJson){
-    var previousElement=document.getElementsByTagName("thead")[0];
-    var tbody=document.createElement("tbody");
+function fillTable(arJson) {
+    var previousElement = document.getElementsByTagName("thead")[0];
+    var tbody = document.createElement("tbody");
     insertAfter(tbody, previousElement);
 
     arJson.forEach(element => {
@@ -181,10 +218,10 @@ function fillTable(arJson){
         var td = document.createElement('td');
         tr.appendChild(td);
 
-        let arHeadersName = ["nombre", "descripcion", "precio", "categoria", "longitud", "latitud", "puntuacion_total"];
-        for(let i=0;i<arHeadersName.length;i++){
+        let arHeadersName = ["nombre", "descripcion", "precio", "id_categoria", "longitud", "latitud", "puntuacion_total"];
+        for (let i = 0; i < arHeadersName.length; i++) {
             var td = document.createElement('td');
-            td.innerHTML=element[arHeadersName[i]];
+            td.innerHTML = element[arHeadersName[i]];
             tr.appendChild(td);
         }
 
@@ -194,7 +231,14 @@ function fillTable(arJson){
 
 
 
+function cleanTable() {
+    var tableData = document.getElementsByTagName("thead")[0];
+    var tableData1 = document.getElementsByTagName("tbody")[0];
+    tableData.remove();
+    tableData1.remove();
 
+
+}
 
 
 
@@ -216,6 +260,6 @@ function checkStatus(response) {
 }
 
 
-function parseJSON(response){
+function parseJSON(response) {
     return response.json();
 }

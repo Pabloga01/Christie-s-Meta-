@@ -64,4 +64,30 @@ class Conexion
             return false;
         }
     }
+
+
+    public function getProductPagedList($q,$indice){
+
+        $conexion = $this->getConexion();
+        $sql = "select * from objeto limit $indice , $q" ;
+        $registros = $conexion->query($sql);
+        if ($registros->rowCount() > 0) {
+            $datos_lista = [];
+            foreach ($registros as $registro) {
+                array_push($datos_lista,$registro);
+            }
+            $registros->closeCursor();
+            $db = null;
+            return $datos_lista;
+           // echo json_encode($datos_lista);
+        } else {
+            $registros->closeCursor();
+            $db = null;
+            return false;
+        }
+    }
+ 
+
+
+
 }

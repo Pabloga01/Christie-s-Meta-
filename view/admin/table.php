@@ -44,12 +44,18 @@ require_once("view/admin/template.php") ?>
                                     <button class="au-btn au-btn-icon au-btn--green au-btn--small">
                                         <i class="zmdi zmdi-plus"></i>añadir</button>
                                     <div class=" rs-select2--dark rs-select2--sm rs-select2--dark2">
-                                        <select class="js-select2" name="type">
-                                            <option selected="selected">Paginación</option>
-                                            <option value="">10 registros</option>
-                                            <option value="">15 registros</option>
-                                            <option value="">25 registros</option>
-                                        </select>   
+                                        <select id="select_paginas1" class="js-select2" name="type">
+                                            <option value="5" selected="selected">5 registros</option>
+                                            <option value="10">10 registros</option>
+                                            <option value="15">15 registros</option>
+                                            <option value="25">25 registros</option>
+                                        </select>
+                                        <select id="select_paginas" >
+                                            <option value="5" selected="selected">5 registros</option>
+                                            <option value="10">10 registros</option>
+                                            <option value="15">15 registros</option>
+                                            <option value="25">25 registros</option>
+                                        </select>
                                         <div class="dropDownSelect2"></div>
                                     </div>
                                 </div>
@@ -232,7 +238,7 @@ require_once("view/admin/template.php") ?>
                                 <button class="mx-2 au-btn au-btn-icon au-btn--green au-btn--small">
                                     <i class=""></i>Anterior</button>
 
-                                <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                <button id="siguiente"  class="au-btn au-btn-icon au-btn--green au-btn--small">
                                     <i class=" "></i>Siguiente</button>
                             </div>
                         </div>
@@ -253,7 +259,7 @@ require_once("view/admin/template.php") ?>
 </body>
 
 <!-- Jquery JS-->
- <script src="view/admin/vendor/jquery-3.2.1.min.js"></script> 
+<script src="view/admin/vendor/jquery-3.2.1.min.js"></script>
 <!-- Bootstrap JS-->
 <script src="view/admin/vendor/bootstrap-4.1/popper.min.js"></script>
 <script src="view/admin/vendor/bootstrap-4.1/bootstrap.min.js"></script>
@@ -264,8 +270,8 @@ require_once("view/admin/template.php") ?>
 <script src="view/admin/vendor/animsition/animsition.min.js"></script>
 <script src="view/admin/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
 </script>
- <script src="view/admin/vendor/counter-up/jquery.waypoints.min.js"></script>
-<script src="view/admin/vendor/counter-up/jquery.counterup.min.js"> 
+<script src="view/admin/vendor/counter-up/jquery.waypoints.min.js"></script>
+<script src="view/admin/vendor/counter-up/jquery.counterup.min.js">
 </script>
 <script src="view/admin/vendor/circle-progress/circle-progress.min.js"></script>
 <script src="view/admin/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>

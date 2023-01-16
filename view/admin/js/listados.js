@@ -494,7 +494,7 @@ function deployModalWindow() {
     div.classList.add("modal_content");
     let span = document.createElement("span");
     let innerDiv = document.createElement("div");
-    innerDiv.classList.add("");
+    //innerDiv.classList.add("");
 
     let p = document.createElement("p");
     let p2 = document.createElement("p");
@@ -507,7 +507,7 @@ function deployModalWindow() {
 
 
 
-    div.appendChild();
+    //div.appendChild();
 
 
     div.appendChild(span);

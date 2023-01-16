@@ -3,103 +3,259 @@
 var indiceActual = 0;
 var nFilas = 1;
 var botonAnterior, botonSiguiente, idMaximo;
-var lista_productos = 0, cuentaActual = 0, filasTotales;
+var productList = 0, cuentaActual = 0, filasTotales;
 var actualIndex = 0;
 var cursorNavigator = 1;
 var totalObjectsLength = 0;
 
+var titleTable=document.querySelector(".titulo_tabla");
+
+
 addEventListener("load", () => {
 
+    let listValue = selectList.options[selectList.selectedIndex].value;
+    if (listValue == "productos") {
+        productsCount();
+    } else if (listValue == "categorias") {
+        categoriesCount();
+    } else if (listValue == "comentarios") {
+        commentsCount();
+    } else if (listValue == "usuarios") {
+        usersCount();
+    }
+});
+
+
+function productsCount() {
     fetch('http://localhost/ChristieMeta/index.php/api/listado_productos')
         .then(checkStatus)
         .then(parseJSON)
         .then(function (data) {
             var json = data;
-            lista_productos = eval(json);
-            if (lista_productos != undefined && lista_productos.length != 0) {
-                totalObjectsLength = lista_productos.length;
+            productList = eval(json);
+            if (productList != undefined && productList.length != 0) {
+                totalObjectsLength = productList.length;
             }
+            getProductPagedList();
+            checkOnChangeLists();
+
         }).catch(function (error) {
             console.log("error request", error);
         });
-    getProductPagedList();
-
     event.preventDefault();
-});
+}
+
+
+function categoriesCount() {
+    fetch('http://localhost/ChristieMeta/index.php/api/listado_categorias')
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(function (data) {
+            var json = data;
+            var categoriesList = eval(json);
+            if (categoriesList != undefined && categoriesList.length != 0) {
+                totalObjectsLength = categoriesList.length;
+            }
+            getCategoriesPagedList();
+            checkOnChangeLists();
+
+        }).catch(function (error) {
+            console.log("error request", error);
+        });
+    event.preventDefault();
+}
+
+
+
+function commentsCount() {
+    fetch('http://localhost/ChristieMeta/index.php/api/listado_comentarios')
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(function (data) {
+            var json = data;
+            var commentsList = eval(json);
+            if (commentsList != undefined && commentsList.length != 0) {
+                totalObjectsLength = commentsList.length;
+            }
+            getCommentsPagedList();
+            checkOnChangeLists();
+
+        }).catch(function (error) {
+            console.log("error request", error);
+        });
+    event.preventDefault();
+}
+
+
+
+function usersCount() {
+    fetch('http://localhost/ChristieMeta/index.php/api/listado_usuarios')
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(function (data) {
+            var json = data;
+            var userList = eval(json);
+            if (userList != undefined && userList.length != 0) {
+                totalObjectsLength = userList.length;
+            }
+            getUsersPagedList();
+            checkOnChangeLists();
+
+        }).catch(function (error) {
+            console.log("error request", error);
+        });
+    event.preventDefault();
+}
+
 
 
 
 var selectPags = document.querySelector("#select_paginas");
-
 selectPags.addEventListener("change", () => {
     cleanTable();
-    let value = selectPags.options[selectPags.selectedIndex].value;
-    getProductPagedList();
-    checkOnChangeLists();
+    let listValue = selectList.options[selectList.selectedIndex].value;
+
+    if (listValue == "productos") {
+        productsCount();
+    } else if (listValue == "categorias") {
+        categoriesCount();
+    } else if (listValue == "comentarios") {
+        commentsCount();
+    } else if (listValue == "usuarios") {
+        usersCount();
+    }
 });
 
-// for (var i = 0; i < selectPags.children.length; i++) {
-//     selectPags[i].addEventListener("click", () => {
-//         getProductPagedList();
-//     });
-// }
 
-
+var selectList = document.querySelector("#listSelect");
+selectList.addEventListener("change", () => {
+    cleanTable();
+    let listValue = selectList.options[selectList.selectedIndex].value;
+    cursorNavigator=1;
+    if (listValue == "productos") {
+        productsCount();
+    } else if (listValue == "categorias") {
+        categoriesCount();
+    } else if (listValue == "comentarios") {
+        commentsCount();
+    } else if (listValue == "usuarios") {
+        usersCount();
+    }
+});
 
 
 function getProductPagedList(nIndex) {
-
+    titleTable.innerHTML="Productos";
     let nVisualizedRows = parseInt(selectPags.options[selectPags.selectedIndex].value);
     if (nIndex == "" || nIndex == undefined) {
         actualIndex = 0;
     } else {
         actualIndex = nIndex;
     }
-    // nFilas = numFilas;
-    // if (indiceActual >= 0) {
-    //     if (criteria == undefined || criteria == "") {
-    //         criteria = {
-    //             "columna": { "columna": "", "criterio": "" },
-    //         };
-    //         var indice = indiceActual;
-    //         indiceActual += parseInt(numFilas);
-
-    //     } else {
-    //         var indice = indiceActual - numFilas;
-    //     }
-    //     //var indice = 0;
-    // } else {
-    //     indiceActual = 0;
-    //     var indice = indiceActual;
-    //     indiceActual += parseInt(numFilas);
-    // }
-
     createHeadBoard();
-    fetch("http://localhost/ChristieMeta/index.php/api/listado_productos_crit/?q=" + nVisualizedRows + "&indice=" + actualIndex)
+    fetch("http://localhost/ChristieMeta/index.php/api/listado_productos/?q=" + nVisualizedRows + "&indice=" + actualIndex)
         .then(checkStatus)
         .then(parseJSON)
         .then(function (data) {
             var json = data;
-            lista_productos = eval(json);
-            if (lista_productos != undefined && lista_productos.length != 0) {
-                fillTable(lista_productos);
+            productList = eval(json);
+            if (productList != undefined && productList.length != 0) {
+                fillTable(productList);
 
             }
-
 
         }).catch(function (error) {
             console.log('error request', error);
         });
-
-
-
-    // if (criteria == undefined) {
-    //     criteria = {
-    //         "columna": { "columna": "", "criterio": "" }
-    //     };
-    // }
-
 }
+
+
+function getCategoriesPagedList(nIndex) {
+    titleTable.innerHTML="Categorías";
+    let nVisualizedRows = parseInt(selectPags.options[selectPags.selectedIndex].value);
+    if (nIndex == "" || nIndex == undefined) {
+        actualIndex = 0;
+    } else {
+        actualIndex = nIndex;
+    }
+    createHeadBoard();
+    fetch("http://localhost/ChristieMeta/index.php/api/listado_categorias/?q=" + nVisualizedRows + "&indice=" + actualIndex)
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(function (data) {
+            var json = data;
+            productList = eval(json);
+            if (productList != undefined && productList.length != 0) {
+                fillTable(productList);
+
+            }
+
+        }).catch(function (error) {
+            console.log('error request', error);
+        });
+}
+
+
+function getCommentsPagedList(nIndex) {
+    titleTable.innerHTML="Comentarios de usuarios";
+    let nVisualizedRows = parseInt(selectPags.options[selectPags.selectedIndex].value);
+    if (nIndex == "" || nIndex == undefined) {
+        actualIndex = 0;
+    } else {
+        actualIndex = nIndex;
+    }
+    createHeadBoard();
+    fetch("http://localhost/ChristieMeta/index.php/api/listado_comentarios/?q=" + nVisualizedRows + "&indice=" + actualIndex)
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(function (data) {
+            var json = data;
+            productList = eval(json);
+            if (productList != undefined && productList.length != 0) {
+                fillTable(productList);
+
+            }
+
+        }).catch(function (error) {
+            console.log('error request', error);
+        });
+}
+
+
+function getUsersPagedList(nIndex) {
+    titleTable.innerHTML="Usuarios";
+    let nVisualizedRows = parseInt(selectPags.options[selectPags.selectedIndex].value);
+    if (nIndex == "" || nIndex == undefined) {
+        actualIndex = 0;
+    } else {
+        actualIndex = nIndex;
+    }
+    createHeadBoard();
+    fetch("http://localhost/ChristieMeta/index.php/api/listado_usuarios/?q=" + nVisualizedRows + "&indice=" + actualIndex)
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(function (data) {
+            var json = data;
+            productList = eval(json);
+            if (productList != undefined && productList.length != 0) {
+                fillTable(productList);
+
+            }
+
+        }).catch(function (error) {
+            console.log('error request', error);
+        });
+}
+
+
+
+
+
+
+
+
+
+
 var nextBtn = document.querySelector('#siguiente');
 var beforeBtn = document.querySelector('#anterior');
 disableButton("before");
@@ -122,7 +278,7 @@ function next() {
         let valor = (valueSelect * cursorNavigator) - valueSelect;
         getProductPagedList(valor);
         disableButton("next");
-    } else if (totalObjectsLength <(valueSelect * cursorNavigator) + valueSelect) {
+    } else if (totalObjectsLength < (valueSelect * cursorNavigator) + valueSelect) {
         disableButton("next");
     } else {
         cleanTable();
@@ -150,13 +306,13 @@ function before() {
     }
 }
 
-function checkOnChangeLists(){
+function checkOnChangeLists() {
     let valueSelect = parseInt(selectPags.options[selectPags.selectedIndex].value);
-    if(totalObjectsLength>valueSelect){
+    if (totalObjectsLength > valueSelect) {
         enableButton("next");
-    }else if(totalObjectsLength==valueSelect){
+    } else if (totalObjectsLength == valueSelect) {
         disableButton("next");
-    }else{
+    } else {
         disableButton("next");
     }
 
@@ -269,8 +425,12 @@ function fillTable(arJson) {
 function cleanTable() {
     var tableData = document.getElementsByTagName("thead")[0];
     var tableData1 = document.getElementsByTagName("tbody")[0];
-    tableData.remove();
-    tableData1.remove();
+    if(tableData!=undefined){
+        tableData.remove();
+    }
+    if(tableData1!=undefined){
+        tableData1.remove();
+    }
 
 
 }

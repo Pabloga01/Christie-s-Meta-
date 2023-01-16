@@ -18,19 +18,21 @@ require_once("view/admin/template.php") ?>
                     <div class="row">
                         <div class="col-md-12 col-12">
                             <!-- DATA TABLE -->
-                            <h3 class="title-5 m-b-35">Productos </h3>
+                            <h3 class="titulo_tabla title-5 m-b-35">Productos </h3>
                             <div class="pre_tabla table-data__tool">
                                 <div class="table-data__tool-left">
                                     <div class="rs-select2--light rs-select2--md">
-                                        <select class="js-select2" name="property">
-                                            <option selected="selected">Propiedades</option>
-                                            <option value="">Opcion 1</option>
-                                            <option value="">Opcion 2</option>
+
+                                        <select id="listSelect" class="btn btn-light" name="property">
+                                            <option value="productos" selected="selected">Productos</option>
+                                            <option value="categorias">Categorías</option>
+                                            <option value="comentarios">Comentarios</option>
+                                            <option value="usuarios">Usuarios</option>
                                         </select>
                                         <div class="dropDownSelect2"></div>
                                     </div>
                                     <div class="rs-select2--light rs-select2--sm">
-                                        <select class="js-select2" name="time">
+                                        <select class="btn btn-light" name="time">
                                             <option selected="selected">Hoy</option>
                                             <option value="">3 Días</option>
                                             <option value="">Semanal</option>

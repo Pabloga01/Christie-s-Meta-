@@ -44,10 +44,10 @@ class Conexion
     }
 
 
-    public function getListadoProductos(){
+    public function getItemList($itemName){
 
         $conexion = $this->getConexion();
-        $sql = "select * from objeto";
+        $sql = "select * from $itemName";
         $registros = $conexion->query($sql);
         if ($registros->rowCount() > 0) {
             $datos_lista = [];
@@ -66,10 +66,10 @@ class Conexion
     }
 
 
-    public function getProductPagedList($q,$indice){
+    public function getItemPagedList($q,$indice,$item){
 
         $conexion = $this->getConexion();
-        $sql = "select * from objeto limit $indice , $q" ;
+        $sql = "select * from $item limit $indice , $q" ;
         $registros = $conexion->query($sql);
         if ($registros->rowCount() > 0) {
             $datos_lista = [];
@@ -86,7 +86,7 @@ class Conexion
             return false;
         }
     }
- 
+
 
 
 

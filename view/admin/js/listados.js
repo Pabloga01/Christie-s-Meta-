@@ -8,8 +8,8 @@ var actualIndex = 0;
 var cursorNavigator = 1;
 var totalObjectsLength = 0;
 
-var titleTable=document.querySelector(".titulo_tabla");
-
+var titleTable = document.querySelector(".titulo_tabla");
+var columnas;
 
 addEventListener("load", () => {
 
@@ -131,7 +131,7 @@ var selectList = document.querySelector("#listSelect");
 selectList.addEventListener("change", () => {
     cleanTable();
     let listValue = selectList.options[selectList.selectedIndex].value;
-    cursorNavigator=1;
+    cursorNavigator = 1;
     if (listValue == "productos") {
         productsCount();
     } else if (listValue == "categorias") {
@@ -145,14 +145,18 @@ selectList.addEventListener("change", () => {
 
 
 function getProductPagedList(nIndex) {
-    titleTable.innerHTML="Productos";
+    titleTable.innerHTML = "Productos";
     let nVisualizedRows = parseInt(selectPags.options[selectPags.selectedIndex].value);
     if (nIndex == "" || nIndex == undefined) {
         actualIndex = 0;
     } else {
         actualIndex = nIndex;
     }
-    createHeadBoard();
+
+    let arrProductHeaders = ["nombre", "descripcion", "precio", "categoria", "longitud", "latitud", "puntuacion total"];
+    let arrProductHeaders2 = [1, 11, "precio", "nombre", "longitud", "latitud", "puntuacion_total"];
+    createHeadBoard(arrProductHeaders);
+
     fetch("http://localhost/ChristieMeta/index.php/api/listado_productos/?q=" + nVisualizedRows + "&indice=" + actualIndex)
         .then(checkStatus)
         .then(parseJSON)
@@ -160,7 +164,7 @@ function getProductPagedList(nIndex) {
             var json = data;
             productList = eval(json);
             if (productList != undefined && productList.length != 0) {
-                fillTable(productList);
+                fillTable(productList, arrProductHeaders2);
 
             }
 
@@ -171,14 +175,18 @@ function getProductPagedList(nIndex) {
 
 
 function getCategoriesPagedList(nIndex) {
-    titleTable.innerHTML="Categorías";
+    titleTable.innerHTML = "Categorías";
     let nVisualizedRows = parseInt(selectPags.options[selectPags.selectedIndex].value);
     if (nIndex == "" || nIndex == undefined) {
         actualIndex = 0;
     } else {
         actualIndex = nIndex;
     }
-    createHeadBoard();
+
+    let arrCategoriesHeaders = ["nombre", "descripcion", "puntuacion", "categoria padre"]
+    let arrCategoriesHeaders2 = ["nombre", "descripcion", "puntuacion", "cod_categoria_padre"]
+    createHeadBoard(arrCategoriesHeaders);
+
     fetch("http://localhost/ChristieMeta/index.php/api/listado_categorias/?q=" + nVisualizedRows + "&indice=" + actualIndex)
         .then(checkStatus)
         .then(parseJSON)
@@ -186,7 +194,7 @@ function getCategoriesPagedList(nIndex) {
             var json = data;
             productList = eval(json);
             if (productList != undefined && productList.length != 0) {
-                fillTable(productList);
+                fillTable(productList, arrCategoriesHeaders2);
 
             }
 
@@ -197,14 +205,17 @@ function getCategoriesPagedList(nIndex) {
 
 
 function getCommentsPagedList(nIndex) {
-    titleTable.innerHTML="Comentarios de usuarios";
+    titleTable.innerHTML = "Comentarios de usuarios";
     let nVisualizedRows = parseInt(selectPags.options[selectPags.selectedIndex].value);
     if (nIndex == "" || nIndex == undefined) {
         actualIndex = 0;
     } else {
         actualIndex = nIndex;
     }
-    createHeadBoard();
+    let arrCommentsHeaders = ["fecha", "usuario", "objeto", "texto"];
+    let arrCommentsHeaders2 = ["fecha", "id_usuario", "id_objeto", "texto"];
+    createHeadBoard(arrCommentsHeaders);
+
     fetch("http://localhost/ChristieMeta/index.php/api/listado_comentarios/?q=" + nVisualizedRows + "&indice=" + actualIndex)
         .then(checkStatus)
         .then(parseJSON)
@@ -212,7 +223,7 @@ function getCommentsPagedList(nIndex) {
             var json = data;
             productList = eval(json);
             if (productList != undefined && productList.length != 0) {
-                fillTable(productList);
+                fillTable(productList, arrCommentsHeaders2);
 
             }
 
@@ -223,14 +234,16 @@ function getCommentsPagedList(nIndex) {
 
 
 function getUsersPagedList(nIndex) {
-    titleTable.innerHTML="Usuarios";
+    titleTable.innerHTML = "Usuarios";
     let nVisualizedRows = parseInt(selectPags.options[selectPags.selectedIndex].value);
     if (nIndex == "" || nIndex == undefined) {
         actualIndex = 0;
     } else {
         actualIndex = nIndex;
     }
-    createHeadBoard();
+    let arrUserHeaders = ["usuario", "moneda", "nombre", "apellidos", "correo", "rol", "id usuario"];
+    let arrUserHeaders2 = ["usuario", "moneda", "nombre", "apellidos", "correo", "rol", "id_usuario"];
+    createHeadBoard(arrUserHeaders);
     fetch("http://localhost/ChristieMeta/index.php/api/listado_usuarios/?q=" + nVisualizedRows + "&indice=" + actualIndex)
         .then(checkStatus)
         .then(parseJSON)
@@ -238,7 +251,7 @@ function getUsersPagedList(nIndex) {
             var json = data;
             productList = eval(json);
             if (productList != undefined && productList.length != 0) {
-                fillTable(productList);
+                fillTable(productList, arrUserHeaders2);
 
             }
 
@@ -348,7 +361,7 @@ function enableButton(buttonName) {
 
 
 
-function createHeadBoard() {
+function createHeadBoard(arNameHeaders) {
     var elementoAnterior = document.querySelector(".pre_tabla");
 
 
@@ -380,10 +393,10 @@ function createHeadBoard() {
     tr.appendChild(th);
 
 
-    let arrNombreCabeceras = ["nombre", "descripción", "precio", "categoría", "longitud", "latitud", "puntuacion total"];
-    for (let i = 0; i < arrNombreCabeceras.length; i++) {
+    //let arrNombreCabeceras = ["nombre", "descripción", "precio", "categoría", "longitud", "latitud", "puntuacion total"];
+    for (let i = 0; i < arNameHeaders.length; i++) {
         var th1 = document.createElement('th');
-        th1.innerHTML = arrNombreCabeceras[i];
+        th1.innerHTML = arNameHeaders[i];
         tr.appendChild(th1);
     }
 
@@ -397,19 +410,26 @@ function insertAfter(newNode, existingNode) {
 
 
 
-function fillTable(arJson) {
+function fillTable(arJson, arHeadersName) {
     var previousElement = document.getElementsByTagName("thead")[0];
     var tbody = document.createElement("tbody");
     insertAfter(tbody, previousElement);
 
     arJson.forEach(element => {
         var tr = document.createElement('tr');
-        tr.classList.add('tr-shadow')
+        tr.classList.add('tr-shadow');
+
+        tr.addEventListener("click", () => {
+            //element.firstChild.nextSibling.i;
+            deployModalWindow();
+
+        });
+
         tbody.appendChild(tr);
         var td = document.createElement('td');
         tr.appendChild(td);
 
-        let arHeadersName = ["nombre", "descripcion", "precio", "id_categoria", "longitud", "latitud", "puntuacion_total"];
+        //let arHeadersName = ["nombre", "descripcion", "precio", "id_categoria", "longitud", "latitud", "puntuacion_total"];
         for (let i = 0; i < arHeadersName.length; i++) {
             var td = document.createElement('td');
             td.innerHTML = element[arHeadersName[i]];
@@ -425,23 +445,14 @@ function fillTable(arJson) {
 function cleanTable() {
     var tableData = document.getElementsByTagName("thead")[0];
     var tableData1 = document.getElementsByTagName("tbody")[0];
-    if(tableData!=undefined){
+    if (tableData != undefined) {
         tableData.remove();
     }
-    if(tableData1!=undefined){
+    if (tableData1 != undefined) {
         tableData1.remove();
     }
 
-
 }
-
-
-
-
-
-
-
-
 
 
 function checkStatus(response) {
@@ -458,3 +469,114 @@ function checkStatus(response) {
 function parseJSON(response) {
     return response.json();
 }
+
+
+// function addClickerRows() {
+
+//     columnas = document.getElementsByTagName("tr");
+//     if (columnas != undefined) {
+//         columnas.forEach(element => {
+//             element.addEventListener("click", () => {
+//                 //element.firstChild.nextSibling.i;
+//                 deployModalWindow();
+
+//             })
+//         });
+//     }
+// }
+
+function deployModalWindow() {
+    let divFather = document.createElement("div");
+    divFather.classList.add("modal");
+
+
+    let div = document.createElement("div");
+    div.classList.add("modal_content");
+    let span = document.createElement("span");
+    let innerDiv = document.createElement("div");
+    innerDiv.classList.add("");
+
+    let p = document.createElement("p");
+    let p2 = document.createElement("p");
+    span.classList.add = "close";
+    p.innerHTML = "Texto de ejemplo";
+    p2.innerHTML = "Texto de ejemplo";
+
+    document.body.appendChild(divFather);
+    divFather.appendChild(div);
+
+
+
+    div.appendChild();
+
+
+    div.appendChild(span);
+    div.appendChild(p);
+    div.appendChild(p2);
+
+    divFather.style.display = "block";
+
+
+
+}
+
+
+
+/* <div class="modal-body">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-9">
+                Level 1: .col-sm-9
+                <div class="row">
+                    <div class="col-8 col-sm-6">
+                        Level 2: .col-8 .col-sm-6
+                    </div>
+                    <div class="col-4 col-sm-6">
+                        Level 2: .col-4 .col-sm-6
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> */
+
+// function deployModalWindow() {
+//     let divFather = document.createElement("div");
+//     divFather.classList.add("modal-body");
+//     divFather.classList.add("modal");
+
+//     let div = document.createElement("div");
+//     div.classList.add("container-fluid");
+//     div.classList.add("modal-content");
+
+//     let divRow = document.createElement("div");
+//     divRow.classList.add("row");
+
+//     let divStructure= document.createElement("div");
+//     divStructure.classList.add("col-sm-9");
+
+//     let divRow1 = document.createElement("div");
+//     divRow1.classList.add("row");
+
+//     let divRow2 = document.createElement("div");
+//     divRow2.classList.add("col-8", "col-sm-6");
+
+
+
+//     document.body.appendChild(divFather);
+//     divFather.appendChild(div);
+//     div.appendChild(divRow);
+//     divRow.appendChild(divStructure);
+//     divStructure.appendChild(divRow1);
+    
+//     for (let i = 0; i < 6; i++) {
+        
+//         let divRow2 = document.createElement("div");
+//         divRow2.classList.add("col-8" ,"col-sm-6");
+//         divRow2.innerHTML="N-"+i;
+    
+//         divRow1.appendChild(divRow2);
+
+//     }
+
+// }

@@ -3,8 +3,8 @@
 
 <head>
     <title>Informes</title>
+    <link rel="stylesheet" href="http://localhost/ChristieMeta/view/admin/css/informes.css">
 </head>
-
 <?php
 require_once("view/admin/template.php") ?>
 

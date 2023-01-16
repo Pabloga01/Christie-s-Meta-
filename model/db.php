@@ -24,7 +24,7 @@ class Conexion
     {
         try {
             $conexion = $this->getConexion();
-            $sql = "select * from usuario where usuario='$user' and password='$password'";
+            $sql = "select * from usuario where correo='$user' and password='$password'";
             $registros = $conexion->query($sql);
             if ($registros->rowCount() > 0) {
                 // foreach ($registros as $registro){
@@ -44,20 +44,30 @@ class Conexion
     }
 
 
-    public function getItemList($itemName){
+    public function getItemList($itemName)
+    {
 
         $conexion = $this->getConexion();
+
+        // if ($itemName == "objeto") {
+        //     $sql = "SELECT * FROM $itemName ";
+        // } else if ($itemName == "categoria") {
+        //     $sql = "SELECT * FROM $itemName ";
+        // } else {
+        //     $sql = "select * from $itemName";
+        // }
         $sql = "select * from $itemName";
+
         $registros = $conexion->query($sql);
         if ($registros->rowCount() > 0) {
             $datos_lista = [];
             foreach ($registros as $registro) {
-                array_push($datos_lista,$registro);
+                array_push($datos_lista, $registro);
             }
             $registros->closeCursor();
             $db = null;
             return $datos_lista;
-           // echo json_encode($datos_lista);
+            // echo json_encode($datos_lista);
         } else {
             $registros->closeCursor();
             $db = null;
@@ -66,28 +76,33 @@ class Conexion
     }
 
 
-    public function getItemPagedList($q,$indice,$item){
+    public function getItemPagedList($q, $indice, $itemName)
+    {
 
         $conexion = $this->getConexion();
-        $sql = "select * from $item limit $indice , $q" ;
+
+        if ($itemName == "objeto") {
+            $sql = "SELECT * FROM $itemName left outer join categoria on objeto.id_categoria=categoria.id_categoria limit $indice , $q";
+        } else if ($itemName == "categoria") {
+            $sql = "SELECT * FROM $itemName inner join objeto on categoria.id_categoria=objeto.id_categoria limit $indice , $q";
+        } else {
+            $sql = "select * from $itemName limit $indice , $q";
+        }
+
         $registros = $conexion->query($sql);
         if ($registros->rowCount() > 0) {
             $datos_lista = [];
             foreach ($registros as $registro) {
-                array_push($datos_lista,$registro);
+                array_push($datos_lista, $registro);
             }
             $registros->closeCursor();
             $db = null;
             return $datos_lista;
-           // echo json_encode($datos_lista);
+            // echo json_encode($datos_lista);
         } else {
             $registros->closeCursor();
             $db = null;
             return false;
         }
     }
-
-
-
-
 }

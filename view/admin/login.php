@@ -63,8 +63,8 @@
 
                             <form name="login" align="center" enctype="multipart/form-data" action="index.php/loginprocess" method="post">
                                 <div class="form-group">
-                                    <label class="text-left">Usuario</label>
-                                    <input class="au-input au-input--full" type="text" name="user" placeholder="Nombre de usuario">
+                                    <label class="text-left">Correo Electrónico</label>
+                                    <input class="au-input au-input--full" type="text" name="user" placeholder="Correo electrónico">
                                 </div>
                                 <div class="form-group">
                                     <label class="text-left">Contraseña</label>

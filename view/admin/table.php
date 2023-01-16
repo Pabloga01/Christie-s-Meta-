@@ -44,13 +44,8 @@ require_once("view/admin/template.php") ?>
                                     <button class="au-btn au-btn-icon au-btn--green au-btn--small">
                                         <i class="zmdi zmdi-plus"></i>añadir</button>
                                     <div class=" rs-select2--dark rs-select2--sm rs-select2--dark2">
-                                        <select id="select_paginas1" class="js-select2" name="type">
-                                            <option value="5" selected="selected">5 registros</option>
-                                            <option value="10">10 registros</option>
-                                            <option value="15">15 registros</option>
-                                            <option value="25">25 registros</option>
-                                        </select>
-                                        <select id="select_paginas" >
+
+                                        <select id="select_paginas" class="btn btn-secondary" >
                                             <option value="5" selected="selected">5 registros</option>
                                             <option value="10">10 registros</option>
                                             <option value="15">15 registros</option>
@@ -235,7 +230,7 @@ require_once("view/admin/template.php") ?>
                                 </table>
                             </div> -->
                             <div id="botones_navegacion" class="mt-4 row d-flex justify-content-end ">
-                                <button class="mx-2 au-btn au-btn-icon au-btn--green au-btn--small">
+                                <button id="anterior" class="mx-2 au-btn au-btn-icon au-btn--green au-btn--small">
                                     <i class=""></i>Anterior</button>
 
                                 <button id="siguiente"  class="au-btn au-btn-icon au-btn--green au-btn--small">

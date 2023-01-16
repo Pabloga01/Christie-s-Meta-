@@ -5,31 +5,26 @@ var nFilas = 1;
 var botonAnterior, botonSiguiente, idMaximo;
 var lista_productos = 0, cuentaActual = 0, filasTotales;
 var actualIndex = 0;
-var cursorNavigator =1;
+var cursorNavigator = 1;
+var totalObjectsLength = 0;
 
 addEventListener("load", () => {
-    getProductPagedList("");
-    // botonSiguiente = document.getElementsByName("siguiente")[0];
-    // botonAnterior = document.getElementsByName("anterior")[0];
-    // botonAnterior.disabled = true;
-    // createHeadBoard();
-    // fetch('http://localhost/ChristieMeta/index.php/api/listado_productos')
-    //     .then(checkStatus)
-    //     .then(parseJSON)
-    //     .then(function (data) {
-    //         var json = data;
-    //         lista_productos = eval(json);
-    //         if (lista_productos != undefined && lista_productos.length != 0) {
-    //             fillTable(lista_productos);
 
-    //         }
+    fetch('http://localhost/ChristieMeta/index.php/api/listado_productos')
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(function (data) {
+            var json = data;
+            lista_productos = eval(json);
+            if (lista_productos != undefined && lista_productos.length != 0) {
+                totalObjectsLength = lista_productos.length;
+            }
+        }).catch(function (error) {
+            console.log("error request", error);
+        });
+    getProductPagedList();
 
-
-    //     }).catch(function (error) {
-    //         console.log("error request", error);
-    //     });
-
-    // event.preventDefault();
+    event.preventDefault();
 });
 
 
@@ -40,6 +35,7 @@ selectPags.addEventListener("change", () => {
     cleanTable();
     let value = selectPags.options[selectPags.selectedIndex].value;
     getProductPagedList();
+    checkOnChangeLists();
 });
 
 // for (var i = 0; i < selectPags.children.length; i++) {
@@ -104,55 +100,94 @@ function getProductPagedList(nIndex) {
     // }
 
 }
+var nextBtn = document.querySelector('#siguiente');
+var beforeBtn = document.querySelector('#anterior');
+disableButton("before");
 
-document.querySelector('#siguiente').addEventListener("click",()=>{
+
+nextBtn.addEventListener("click", () => {
     next();
-})
+});
+beforeBtn.addEventListener("click", () => {
+    before();
+});
 
 function next() {
-    cleanTable();
+    let valueSelect = parseInt(selectPags.options[selectPags.selectedIndex].value);
 
-    let valueSelect = selectPags.options[selectPags.selectedIndex].value;
-    cursorNavigator++;
-    let valor = (valueSelect * cursorNavigator) - valueSelect;
-    getProductPagedList(valor);
-
-    // let last = parseInt(valueSelect[valueSelect.length - 1].value);
-    // var nextBtn = document.getElementsByName("siguiente")[0];
-
-
-    // if (indiceActual - parseInt(nFilas) < last) {
-    //     getProductPagedList();
-    //     // if (indiceActual >= lista_productos) {
-    //     //     botonSiguiente.disabled = true;
-    //     // }
-    // } else {
-    //     indiceActual = last;
-    //     // botonSiguiente.disabled = true;
-    // }
+    if (totalObjectsLength == (valueSelect * cursorNavigator) + valueSelect) {
+        cleanTable();
+        enableButton("before");
+        cursorNavigator++;
+        let valor = (valueSelect * cursorNavigator) - valueSelect;
+        getProductPagedList(valor);
+        disableButton("next");
+    } else if (totalObjectsLength <(valueSelect * cursorNavigator) + valueSelect) {
+        disableButton("next");
+    } else {
+        cleanTable();
+        enableButton("before");
+        cursorNavigator++;
+        let valor = (valueSelect * cursorNavigator) - valueSelect;
+        getProductPagedList(valor);
+    }
 }
 
 function before() {
+    enableButton("next");
     let valueSelect = selectPags.options[selectPags.selectedIndex].value;
-
-    let last = parseInt(valueSelect[valueSelect.length - 1].value);
-    if (indiceActual > last) {
-        indiceActual = last;
+    cursorNavigator--;
+    if (cursorNavigator < 1) {
+        cursorNavigator = 1;
+        disableButton("before");
+    } else {
+        let valor = (valueSelect * cursorNavigator) - valueSelect;
+        cleanTable();
+        getProductPagedList(valor);
+        if (cursorNavigator == 1) {
+            disableButton("before");
+        }
     }
-    indiceActual = indiceActual - (nFilas * 2)
-    getProductPagedList();
-    // if (indiceActual == nFilas) {
-    //     botonAnterior.disabled = true;
-    // }
 }
 
+function checkOnChangeLists(){
+    let valueSelect = parseInt(selectPags.options[selectPags.selectedIndex].value);
+    if(totalObjectsLength>valueSelect){
+        enableButton("next");
+    }else if(totalObjectsLength==valueSelect){
+        disableButton("next");
+    }else{
+        disableButton("next");
+    }
 
+}
 
+function disableButton(buttonName) {
 
+    let btn;
+    if (buttonName == "before") {
+        btn = beforeBtn;
+    } else {
+        btn = nextBtn;
+    }
 
+    btn.disabled = true;
+    btn.style.cursor = "default";
+    btn.classList.remove('mx-2', 'au-btn', 'au-btn-icon', 'au-btn--green');
+}
 
+function enableButton(buttonName) {
+    let btn;
+    if (buttonName == "before") {
+        btn = beforeBtn;
+    } else {
+        btn = nextBtn;
+    }
 
-
+    btn.disabled = false;
+    btn.style.cursor = "pointer";
+    btn.classList.add('mx-2', 'au-btn', 'au-btn-icon', 'au-btn--green');
+}
 
 
 

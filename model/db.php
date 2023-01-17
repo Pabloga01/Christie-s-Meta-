@@ -49,13 +49,6 @@ class Conexion
 
         $conexion = $this->getConexion();
 
-        // if ($itemName == "objeto") {
-        //     $sql = "SELECT * FROM $itemName ";
-        // } else if ($itemName == "categoria") {
-        //     $sql = "SELECT * FROM $itemName ";
-        // } else {
-        //     $sql = "select * from $itemName";
-        // }
         $sql = "select * from $itemName";
 
         $registros = $conexion->query($sql);
@@ -84,7 +77,7 @@ class Conexion
         if ($itemName == "objeto") {
             $sql = "SELECT * FROM $itemName left outer join categoria on objeto.id_categoria=categoria.id_categoria limit $indice , $q";
         } else if ($itemName == "categoria") {
-            $sql = "SELECT * FROM $itemName inner join objeto on categoria.id_categoria=objeto.id_categoria limit $indice , $q";
+            $sql = "SELECT * FROM $itemName limit $indice , $q";
         } else {
             $sql = "select * from $itemName limit $indice , $q";
         }
@@ -102,6 +95,33 @@ class Conexion
         } else {
             $registros->closeCursor();
             $db = null;
+            return false;
+        }
+    }
+
+
+
+
+
+    public function updateUser()
+    {
+        try {
+            $conexion = $this->getConexion();
+            $sql = "update into usuario values()";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                // foreach ($registros as $registro){
+                //     $id=$registro["id_usuario"];
+                // }
+                $registros->closeCursor();
+                $db = null;
+                return true;
+            } else {
+                $registros->closeCursor();
+                $db = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
             return false;
         }
     }

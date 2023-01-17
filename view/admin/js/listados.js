@@ -241,7 +241,7 @@ function getUsersPagedList(nIndex) {
     } else {
         actualIndex = nIndex;
     }
-    let arrUserHeaders = ["usuario", "moneda", "nombre", "apellidos", "correo", "rol", "id usuario"];
+    let arrUserHeaders = ["usuario", "monedas", "nombre", "apellidos", "correo", "rol", "id usuario"];
     let arrUserHeaders2 = ["usuario", "moneda", "nombre", "apellidos", "correo", "rol", "id_usuario"];
     createHeadBoard(arrUserHeaders);
     fetch("http://localhost/ChristieMeta/index.php/api/listado_usuarios/?q=" + nVisualizedRows + "&indice=" + actualIndex)
@@ -420,8 +420,7 @@ function fillTable(arJson, arHeadersName) {
         tr.classList.add('tr-shadow');
 
         tr.addEventListener("click", () => {
-            //element.firstChild.nextSibling.i;
-            deployModalWindow();
+            deployModalWindow(titleTable.innerHTML);
 
         });
 
@@ -429,7 +428,6 @@ function fillTable(arJson, arHeadersName) {
         var td = document.createElement('td');
         tr.appendChild(td);
 
-        //let arHeadersName = ["nombre", "descripcion", "precio", "id_categoria", "longitud", "latitud", "puntuacion_total"];
         for (let i = 0; i < arHeadersName.length; i++) {
             var td = document.createElement('td');
             td.innerHTML = element[arHeadersName[i]];
@@ -485,34 +483,98 @@ function parseJSON(response) {
 //     }
 // }
 
-function deployModalWindow() {
+function deployModalWindow(titleTable) {
+    var arFieldsCard = [];
+    switch (titleTable) {
+        case "Productos":
+            arFieldsCard = ["Nombre", "Precio", "Puntuación", "Latitud", "Longitud", "Categoría", "Descripción"];
+            break;
+        case "Categorías":
+            arFieldsCard = ["Nombre", "Puntuación", "Categoría Padre","Descripción"];
+            break;
+        case "Usuarios":
+            arFieldsCard = ["Usuario", "Nombre", "Apellidos", "Rol", "Monedas", "Correo", "Contraseña"];
+            break;
+
+    }
+
+
+
     let divFather = document.createElement("div");
     divFather.classList.add("modal");
 
 
     let div = document.createElement("div");
     div.classList.add("modal_content");
+    div.style.backgroundColor = "gray";
+
+    let h3 = document.createElement("h3");
+    h3.style.marginBottom = "4%";
+    h3.style.textAlign = "center";
+    h3.innerHTML = "Ficha de " + titleTable;
+    div.appendChild(h3);
+
+
     let span = document.createElement("span");
     let innerDiv = document.createElement("div");
-    //innerDiv.classList.add("");
+    innerDiv.classList.add("col-xl-12","col-lg-12","col-md-12", "row");
+    innerDiv.style.marginLeft = "0.1%";
 
-    let p = document.createElement("p");
-    let p2 = document.createElement("p");
+
     span.classList.add = "close";
-    p.innerHTML = "Texto de ejemplo";
-    p2.innerHTML = "Texto de ejemplo";
 
     document.body.appendChild(divFather);
     divFather.appendChild(div);
-
-
-
-    //div.appendChild();
-
-
     div.appendChild(span);
-    div.appendChild(p);
-    div.appendChild(p2);
+    div.appendChild(innerDiv);
+
+
+    for (let i = 0; i < arFieldsCard.length; i++) {
+        let innerDivleft = document.createElement("div");
+        let contentDiv = document.createElement("div");
+        
+        
+        let lbl = document.createElement("label");
+        lbl.innerHTML = arFieldsCard[i];
+        if (arFieldsCard[i]=="Descripción") {
+            innerDivleft.classList.add("col-12");
+            lbl.style.width = "13%";
+            
+        }else{
+            innerDivleft.classList.add("col-xl-6","col-lg-6","col-md-6","col-sm-12","col-12");
+            lbl.style.marginRight = "15%";
+            lbl.style.width = "22%";
+        }
+
+        
+        let input ;
+        if (arFieldsCard[i]=="Descripción") {
+            input = document.createElement("textarea");
+            input.classList.add("col-xl-6","col-lg-6","col-md-6","col-sm-10","col-10");
+            input.style.marginLeft = "10%";
+
+            //input.style.width = "50%";
+            input.style.height= "150px";            
+            input.style.paddingBottom = "-5%";
+
+            
+        }else{
+             input = document.createElement("input");
+            input.style.width = "50%";
+            input.style.marginBottom = "5%";
+        }
+        input.type = "text";
+        
+
+        innerDivleft.appendChild(contentDiv);
+        contentDiv.appendChild(lbl);
+        contentDiv.appendChild(input);
+        contentDiv.style.justifyItems = "center";
+
+        // innerDivleft.style.margin = "auto";
+        innerDiv.appendChild(innerDivleft);
+
+    }
 
     divFather.style.display = "block";
 
@@ -520,63 +582,3 @@ function deployModalWindow() {
 
 }
 
-
-
-/* <div class="modal-body">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-9">
-                Level 1: .col-sm-9
-                <div class="row">
-                    <div class="col-8 col-sm-6">
-                        Level 2: .col-8 .col-sm-6
-                    </div>
-                    <div class="col-4 col-sm-6">
-                        Level 2: .col-4 .col-sm-6
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> */
-
-// function deployModalWindow() {
-//     let divFather = document.createElement("div");
-//     divFather.classList.add("modal-body");
-//     divFather.classList.add("modal");
-
-//     let div = document.createElement("div");
-//     div.classList.add("container-fluid");
-//     div.classList.add("modal-content");
-
-//     let divRow = document.createElement("div");
-//     divRow.classList.add("row");
-
-//     let divStructure= document.createElement("div");
-//     divStructure.classList.add("col-sm-9");
-
-//     let divRow1 = document.createElement("div");
-//     divRow1.classList.add("row");
-
-//     let divRow2 = document.createElement("div");
-//     divRow2.classList.add("col-8", "col-sm-6");
-
-
-
-//     document.body.appendChild(divFather);
-//     divFather.appendChild(div);
-//     div.appendChild(divRow);
-//     divRow.appendChild(divStructure);
-//     divStructure.appendChild(divRow1);
-    
-//     for (let i = 0; i < 6; i++) {
-        
-//         let divRow2 = document.createElement("div");
-//         divRow2.classList.add("col-8" ,"col-sm-6");
-//         divRow2.innerHTML="N-"+i;
-    
-//         divRow1.appendChild(divRow2);
-
-//     }
-
-// }

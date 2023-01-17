@@ -108,4 +108,37 @@ class DataController
             }
         }
     }
+
+
+
+    function updateUser(){
+        $db = new Conexion();
+        $datos = $db->updateUser();
+        if (isset($datos)) {
+            if ($datos != false) {
+                echo json_encode($datos);
+            }
+        }
+    }
+
+    function updateObject(){
+        $db = new Conexion();
+        $datos = $db->
+        if (isset($datos)) {
+            if ($datos != false) {
+                echo json_encode($datos);
+            }
+        }
+    }
+
+    function updateCategory(){
+        $db = new Conexion();
+        $datos = $db->
+        if (isset($datos)) {
+            if ($datos != false) {
+                echo json_encode($datos);
+            }
+        }
+    }
+
 }

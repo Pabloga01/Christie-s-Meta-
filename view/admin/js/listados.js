@@ -7,6 +7,7 @@ var productList = 0, cuentaActual = 0, filasTotales;
 var actualIndex = 0;
 var cursorNavigator = 1;
 var totalObjectsLength = 0;
+var jsonActual = [];
 
 var titleTable = document.querySelector(".titulo_tabla");
 var columnas;
@@ -163,6 +164,7 @@ function getProductPagedList(nIndex) {
         .then(function (data) {
             var json = data;
             productList = eval(json);
+            jsonActual = productList;
             if (productList != undefined && productList.length != 0) {
                 fillTable(productList, arrProductHeaders2);
 
@@ -184,7 +186,7 @@ function getCategoriesPagedList(nIndex) {
     }
 
     let arrCategoriesHeaders = ["nombre", "descripcion", "puntuacion", "categoria padre"]
-    let arrCategoriesHeaders2 = ["nombre", "descripcion", "puntuacion", "cod_categoria_padre"]
+    let arrCategoriesHeaders2 = [1, 3, "puntuacion_total", "cod_categoria_padre"]
     createHeadBoard(arrCategoriesHeaders);
 
     fetch("http://localhost/ChristieMeta/index.php/api/listado_categorias/?q=" + nVisualizedRows + "&indice=" + actualIndex)
@@ -193,6 +195,7 @@ function getCategoriesPagedList(nIndex) {
         .then(function (data) {
             var json = data;
             productList = eval(json);
+            jsonActual = productList;
             if (productList != undefined && productList.length != 0) {
                 fillTable(productList, arrCategoriesHeaders2);
 
@@ -221,6 +224,7 @@ function getCommentsPagedList(nIndex) {
         .then(parseJSON)
         .then(function (data) {
             var json = data;
+            jsonActual = productList;
             productList = eval(json);
             if (productList != undefined && productList.length != 0) {
                 fillTable(productList, arrCommentsHeaders2);
@@ -250,6 +254,7 @@ function getUsersPagedList(nIndex) {
         .then(function (data) {
             var json = data;
             productList = eval(json);
+            jsonActual = productList;
             if (productList != undefined && productList.length != 0) {
                 fillTable(productList, arrUserHeaders2);
 
@@ -418,7 +423,7 @@ function fillTable(arJson, arHeadersName) {
     arJson.forEach(element => {
         var tr = document.createElement('tr');
         tr.classList.add('tr-shadow');
-
+        tr.id = element[0];
         tr.addEventListener("click", () => {
             deployModalWindow(titleTable.innerHTML);
 
@@ -485,19 +490,20 @@ function parseJSON(response) {
 
 function deployModalWindow(titleTable) {
     var arFieldsCard = [];
+    var arFieldsLoad = [];
     switch (titleTable) {
         case "Productos":
-            arFieldsCard = ["Nombre", "Precio", "Puntuación", "Latitud", "Longitud", "Categoría", "Descripción"];
+            arFieldsCard = ["Nombre", "Precio", "Puntuación", "Latitud", "Longitud", "Categoría", "Imagen 1", "Imagen 2", "Imagen 3", "Descripción"];
             break;
         case "Categorías":
-            arFieldsCard = ["Nombre", "Puntuación", "Categoría Padre","Descripción"];
+            arFieldsCard = ["Nombre", "Puntuación", "Cat. Padre", "Descripción"];
             break;
         case "Usuarios":
             arFieldsCard = ["Usuario", "Nombre", "Apellidos", "Rol", "Monedas", "Correo", "Contraseña"];
             break;
-
+        default:
+            return;
     }
-
 
 
     let divFather = document.createElement("div");
@@ -506,7 +512,21 @@ function deployModalWindow(titleTable) {
 
     let div = document.createElement("div");
     div.classList.add("modal_content");
-    div.style.backgroundColor = "gray";
+    div.style.backgroundColor = "#bebebe";
+
+    let btnClose = document.createElement("button");
+    btnClose.innerHTML = "Cerrar";
+    btnClose.classList.add("btn", "btn-danger");
+
+    btnClose.style.backgroundColor = "red";
+    btnClose.style.marginLeft = "83%";
+
+    btnClose.addEventListener("click", () => {
+        divFather.remove();
+    });
+    div.appendChild(btnClose);
+
+
 
     let h3 = document.createElement("h3");
     h3.style.marginBottom = "4%";
@@ -517,7 +537,7 @@ function deployModalWindow(titleTable) {
 
     let span = document.createElement("span");
     let innerDiv = document.createElement("div");
-    innerDiv.classList.add("col-xl-12","col-lg-12","col-md-12", "row");
+    innerDiv.classList.add("col-xl-12", "col-lg-12", "col-md-12", "row");
     innerDiv.style.marginLeft = "0.1%";
 
 
@@ -532,39 +552,85 @@ function deployModalWindow(titleTable) {
     for (let i = 0; i < arFieldsCard.length; i++) {
         let innerDivleft = document.createElement("div");
         let contentDiv = document.createElement("div");
-        
-        
+
+
         let lbl = document.createElement("label");
         lbl.innerHTML = arFieldsCard[i];
-        if (arFieldsCard[i]=="Descripción") {
+        if (arFieldsCard[i] == "Descripción") {
             innerDivleft.classList.add("col-12");
             lbl.style.width = "13%";
-            
-        }else{
-            innerDivleft.classList.add("col-xl-6","col-lg-6","col-md-6","col-sm-12","col-12");
+
+        } else {
+            innerDivleft.classList.add("col-xl-6", "col-lg-6", "col-md-6", "col-sm-12", "col-12");
             lbl.style.marginRight = "15%";
             lbl.style.width = "22%";
         }
 
-        
-        let input ;
-        if (arFieldsCard[i]=="Descripción") {
+
+        let input;
+
+
+        if (arFieldsCard[i] == "Descripción") {
             input = document.createElement("textarea");
-            input.classList.add("col-xl-6","col-lg-6","col-md-6","col-sm-10","col-10");
+            input.classList.add("col-xl-6", "col-lg-6", "col-md-6", "col-sm-10", "col-10");
             input.style.marginLeft = "10%";
 
             //input.style.width = "50%";
-            input.style.height= "150px";            
+            input.style.height = "150px";
             input.style.paddingBottom = "-5%";
 
-            
-        }else{
-             input = document.createElement("input");
+
+        } else {
+            input = document.createElement("input");
             input.style.width = "50%";
             input.style.marginBottom = "5%";
         }
-        input.type = "text";
-        
+
+        if (arFieldsCard[i] == "Categoría") {
+            input = document.createElement("select");
+            input.classList.add("selectCategories");
+
+            fetch("http://localhost/ChristieMeta/index.php/api/listado_categorias")
+                .then(checkStatus)
+                .then(parseJSON)
+                .then(function (data) {
+                    var json = data;
+                    productList = eval(json);
+                    if (productList != undefined && productList.length != 0) {
+
+                        input = document.querySelector(".selectCategories");
+                        productList.forEach(element => {
+                            var option = document.createElement("option");
+                            option.text = element["nombre"];
+                            option.value = element["id_categoria"];
+                            input.add(option);
+
+                        });
+                        input.style.width = "50%";
+                        input.style.marginBottom = "5%";
+                    }
+
+
+                }).catch(function (error) {
+                    console.log('error request', error);
+                });
+        }
+
+        if (arFieldsCard[i].includes("Imagen")) {
+            input = document.createElement("input");
+            input.type = "file";
+            input.classList.add("file");
+
+            // input.classList.add("form-control-file");
+            input.style.width = "90%";
+            input.style.marginBottom = "2%";
+        } else {
+            input.classList.add("inputModal");
+
+        }
+
+
+
 
         innerDivleft.appendChild(contentDiv);
         contentDiv.appendChild(lbl);
@@ -576,9 +642,131 @@ function deployModalWindow(titleTable) {
 
     }
 
+    let btnSave = document.createElement("button");
+    btnSave.innerHTML = "Guardar";
+
+    div.appendChild(btnSave);
+    btnSave.classList.add("btn", "btn-success");
+    btnSave.style.display = "flex";
+    btnSave.style.justifyContent = "right";
+    btnSave.style.marginLeft = "77%";
+
+    btnSave.addEventListener("click", () => {
+        fetch("http://localhost/ChristieMeta/index.php/api/actualizar_usuario")
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(function (data) {
+
+
+
+        }).catch(function (error) {
+            console.log('error request', error);
+        });
+    });
+
+    var idJson = event.target.parentNode.id
     divFather.style.display = "block";
 
+    switch (titleTable) {
+        case "Productos":
+            loadFileDataProducts(idJson);
+            break;
+        case "Categorías":
+            loadFileDataCategories(idJson);
+            break;
+        case "Comentarios":
+            loadFileDataComments(idJson);
+            break;
+        case "Usuarios":
+            loadFileDataUsers(idJson);
+            break;
+    }
+}
 
+
+function loadFileDataProducts(idJson) {
+    var inputsModal = document.querySelectorAll(".inputModal");
+    var inputsFile = document.querySelectorAll(".file");
+
+    let fileProductList = [1, 2, 5, 3, 4, 14, 11];
+    let fileFiles = ["fotografia1", "fotografia2", "fotografia3"];
+
+
+    let i = 0;
+    jsonActual.forEach(element => {
+        if (element[0] == idJson) {
+            inputsModal.forEach(element1 => {
+                element1.value = element[fileProductList[i]];
+                i++;
+            });
+            return;
+        }
+    });
+
+    let x = 0;
+    jsonActual.forEach(element => {
+        var myFile;
+        if (element[0] == idJson) {
+            inputsFile.forEach(element1 => {
+
+                if (fileFiles[x] != undefined && fileFiles[x] != "") {
+
+                    'myFile.txt'
+
+                    myFile = new File(['Hello World!'], '../images/'+fileFiles[x]+".txt", {
+                        type: 'text/plain',
+                        lastModified: new Date(),
+                    });
+
+                } else {
+                    myFile = new File(['Hello World!'], 'myFile.txt', {
+                        type: 'text/plain',
+                        lastModified: new Date(),
+                    });
+
+                    
+                }
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(myFile);
+                element1.files = dataTransfer.files;
+                x++;
+                return;
+            });
+        }
+    });
 
 }
 
+
+function loadFileDataCategories(idJson) {
+    var inputsModal = document.querySelectorAll(".inputModal");
+    let fileProductList = [1, "puntuacion", "cod_categoria_padre", 3];
+    let i = 0;
+    jsonActual.forEach(element => {
+        if (element[0] == idJson) {
+            inputsModal.forEach(element1 => {
+                element1.value = element[fileProductList[i]];
+                i++;
+            });
+            return;
+
+        }
+    });
+}
+
+
+function loadFileDataUsers(idJson) {
+    var inputsModal = document.querySelectorAll(".inputModal");
+    let fileProductList = [0, 3, 4, 5, 2, 7, 1];
+    let i = 0;
+    jsonActual.forEach(element => {
+        if (element[0] == idJson) {
+            inputsModal.forEach(element1 => {
+                element1.value = element[fileProductList[i]];
+                i++;
+            });
+            return;
+        }
+    });
+
+}

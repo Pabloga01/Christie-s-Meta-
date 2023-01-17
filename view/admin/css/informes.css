@@ -20,6 +20,7 @@
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
+  margin-top: -3%;
 }
 
 .close {
@@ -39,3 +40,12 @@
 .divModalFlex{
     
 }
+
+
+.btnModal{
+  width: 20%;
+  height: 10%;
+  background-color: red;
+  border: solid 2px black;
+}
+

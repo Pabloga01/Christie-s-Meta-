@@ -114,63 +114,133 @@ class DataController
     function updateUser()
     {
 
-        $arVar = [];
-        if (isset($_POST['usuario'])) {
-            $usuario = "usuario='" . $_POST['usuario'] . "'";
-            array_push($arVar, $usuario);
-        }
+        if (isset($_GET["q"])) {
 
-        if (isset($_POST['nombre'])) {
-            $nombre = "nombre='" . $_POST['nombre'] . "'";
-            array_push($arVar, $nombre);
-        }
+            $jsonParams = json_decode($_GET["q"], true);
+            json_decode($_GET["q"], true);
+            $arVar = [];
 
-        if (isset($_POST['apellidos'])) {
-            $apellidos = "apellidos='" . $_POST['apellidos'] . "'";
-            array_push($arVar, $apellidos);
-        }
+            if (isset($jsonParams['usuario'])) {
+                $usuario = "usuario='" . $jsonParams['usuario'] . "'";
+                array_push($arVar, $usuario);
+            }
 
-        if (isset($_POST['rol'])) {
-            $rol = "rol='" . $_POST['rol'] . "'";
-            array_push($arVar, $rol);
-        }
+            if (isset($jsonParams['nombre'])) {
+                $nombre = "nombre='" . $jsonParams['nombre'] . "'";
+                array_push($arVar, $nombre);
+            }
 
-        if (isset($_POST['moneda'])) {
-            $moneda = "moneda=" . $_POST['moneda'];
-            array_push($arVar, $moneda);
-        }
-        if (isset($_POST['correo'])) {
-            $correo = "correo='" . $_POST['correo'] . "'";
-            array_push($arVar, $correo);
-        }
-        if (isset($_POST['password'])) {
-            $password = "password='" . $_POST['password'] . "'";
-            array_push($arVar, $password);
-        }
+            if (isset($jsonParams['apellidos'])) {
+                $apellidos = "apellidos='" . $jsonParams['apellidos'] . "'";
+                array_push($arVar, $apellidos);
+            }
 
-        $db = new Conexion();
-        $datos = $db->updateUser($arVar, $_POST['correo']);
-        if (isset($datos)) {
-            if ($datos) {
-                require("view/admin/map.php");
-                return true;
-            } else {
-                require("view/admin/map.php");
+            if (isset($jsonParams['rol'])) {
+                $rol = "rol='" . $jsonParams['rol'] . "'";
+                array_push($arVar, $rol);
+            }
 
-                return false;
+            if (isset($jsonParams['moneda'])) {
+                $moneda = "moneda=" . $jsonParams['moneda'];
+                array_push($arVar, $moneda);
+            }
+            if (isset($jsonParams['correo'])) {
+                 $correo = "correo='" . $jsonParams['correo'] . "'";
+                array_push($arVar, $correo);
+            }
+            if (isset($jsonParams['password'])) {
+                $password = "password='" . $jsonParams['password'] . "'";
+                array_push($arVar, $password);
+            }
+
+            if (count($arVar) > 1) {
+                $db = new Conexion();
+                $datos = $db->updateUser($arVar, $jsonParams['correo']);
+                if (isset($datos)) {
+                    if ($datos) {
+                        echo "true";
+                        return true;
+                    } else {
+                        echo "FALSE";
+                        return false;
+                    }
+                }
             }
         }
     }
 
-    // function updateObject(){
-    //     $db = new Conexion();
-    //     $datos = $db->
-    //     if (isset($datos)) {
-    //         if ($datos != false) {
-    //             echo json_encode($datos);
-    //         }
-    //     }
-    // }
+
+    function updateObject()
+    {
+
+        if (isset($_GET["q"])) {
+            
+            $jsonParams = json_decode($_GET["q"], true);
+           var_dump(json_decode($_GET["q"], true));
+            $arVar = [];
+
+            if (isset($jsonParams['nombre'])) {
+                $nombre = "nombre='" . $jsonParams['nombre'] . "'";
+                array_push($arVar, $nombre);
+            }
+
+            if (isset($jsonParams['precio'])) {
+                $precio = "precio=" . $jsonParams['precio'];
+                array_push($arVar, $precio);
+            }
+
+            if (isset($jsonParams['puntuacion_total'])) {
+                $puntuacion_total = "puntuacion_total=".$jsonParams['puntuacion_total'];
+                array_push($arVar, $puntuacion_total);
+            }
+
+            if (isset($jsonParams['latitud'])) {
+                $latitud = "latitud=" . $jsonParams['latitud'];
+                array_push($arVar, $latitud);
+            }
+
+            if (isset($jsonParams['longitud'])) {
+                $longitud = "longitud=" . $jsonParams['longitud'];
+                array_push($arVar, $longitud);
+            }
+            if (isset($jsonParams['id_categoria'])) {
+                 $categoria = "id_categoria=" . $jsonParams['id_categoria'];
+                 array_push($arVar, $categoria);
+            }
+            if (isset($jsonParams['imagen1'])) {
+                $imagen1 = "imagen1='" . $jsonParams['imagen1'] . "'";
+                array_push($arVar, $imagen1);
+            }
+            if (isset($jsonParams['imagen2'])) {
+                $imagen2 = "imagen2='" . $jsonParams['imagen2'] . "'";
+                array_push($arVar, $imagen2);
+            }
+            if (isset($jsonParams['imagen3'])) {
+                $imagen3 = "imagen3='" . $jsonParams['imagen3'] . "'";
+                array_push($arVar, $imagen3);
+            }
+            if (isset($jsonParams['descripcion'])) {
+                $descripcion = "descripcion='" . $jsonParams['descripcion'] . "'";
+                array_push($arVar, $descripcion);
+            }
+
+
+            echo  $jsonParams["id_categoria"];
+            if (count($arVar) > 1) {
+                $db = new Conexion();
+                $datos = $db->updateObject($arVar, $jsonParams['nombre']);
+                if (isset($datos)) {
+                    if ($datos) {
+                        echo "true";
+                        return true;
+                    } else {
+                        echo "FALSE";
+                        return false;
+                    }
+                }
+            }
+        }
+    }
 
     // function updateCategory(){
     //     $db = new Conexion();

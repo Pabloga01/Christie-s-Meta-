@@ -107,13 +107,12 @@ class Conexion
     {
         $paramsOnString = "";
         foreach ($arVal as $element) {
-            $paramsOnString += $element + ",";
+            $paramsOnString .= $element . ",";
         }
         $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
-
         try {
             $conexion = $this->getConexion();
-            $sql = "update usuario set ($paramsOnString) where id_usuario='$mailId'";
+            $sql = "update usuario set $paramsOnString where correo='$mailId'";
             $registros = $conexion->query($sql);
             if ($registros) {
                 // foreach ($registros as $registro){
@@ -132,7 +131,30 @@ class Conexion
     }
 
 
+    public function updateObject($arVal, $name)
+    {
+        $paramsOnString = "";
+        foreach ($arVal as $element) {
+            $paramsOnString .= $element . ",";
+        }
+        $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
+        try {
+            $conexion = $this->getConexion();
+            $sql = "update objeto set $paramsOnString where nombre='$name'";
+            $registros = $conexion->query($sql);
+            if ($registros) {
 
+                $registros->closeCursor();
+                $db = null;
+                return true;
+            } else {
+                $db = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
 
 
 
@@ -158,6 +180,4 @@ class Conexion
             return false;
         }
     }
-
-
 }

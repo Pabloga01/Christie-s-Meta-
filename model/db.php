@@ -103,13 +103,19 @@ class Conexion
 
 
 
-    public function updateUser()
+    public function updateUser($arVal, $mailId)
     {
+        $paramsOnString = "";
+        foreach ($arVal as $element) {
+            $paramsOnString += $element + ",";
+        }
+        $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
+
         try {
             $conexion = $this->getConexion();
-            $sql = "update into usuario values()";
+            $sql = "update usuario set ($paramsOnString) where id_usuario='$mailId'";
             $registros = $conexion->query($sql);
-            if ($registros->rowCount() > 0) {
+            if ($registros) {
                 // foreach ($registros as $registro){
                 //     $id=$registro["id_usuario"];
                 // }
@@ -117,7 +123,6 @@ class Conexion
                 $db = null;
                 return true;
             } else {
-                $registros->closeCursor();
                 $db = null;
                 return false;
             }
@@ -125,4 +130,34 @@ class Conexion
             return false;
         }
     }
+
+
+
+
+
+
+
+
+
+
+    public function deleteUser($mail)
+    {
+        try {
+            $conexion = $this->getConexion();
+            $sql = "delete from usuario where correo='$mail'";
+            $registros = $conexion->query($sql);
+            if ($registros) {
+                $registros->closeCursor();
+                $db = null;
+                return true;
+            } else {
+                $db = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+
 }

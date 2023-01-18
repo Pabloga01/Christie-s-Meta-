@@ -512,7 +512,7 @@ function deployModalWindow(titleTable) {
 
     let div = document.createElement("div");
     div.classList.add("modal_content");
-    div.style.backgroundColor = "#bebebe";
+    div.style.backgroundColor = "#e8e4e4";
 
     let btnClose = document.createElement("button");
     btnClose.innerHTML = "Cerrar";
@@ -626,11 +626,10 @@ function deployModalWindow(titleTable) {
             input.style.marginBottom = "2%";
         } else {
             input.classList.add("inputModal");
-
         }
 
 
-
+        input.style.border = "1px solid black";
 
         innerDivleft.appendChild(contentDiv);
         contentDiv.appendChild(lbl);
@@ -641,28 +640,30 @@ function deployModalWindow(titleTable) {
         innerDiv.appendChild(innerDivleft);
 
     }
+    let divButtons = document.createElement("div");
+    divButtons.classList.add("d-flex", "row","justify-content-end","mx-4");
+
 
     let btnSave = document.createElement("button");
     btnSave.innerHTML = "Guardar";
 
-    div.appendChild(btnSave);
+    let btnDelete = document.createElement("button");
+    btnDelete.innerHTML = "Borrar";
+
+    div.appendChild(divButtons);
+
+    divButtons.appendChild(btnSave);
+    divButtons.appendChild(btnDelete);
     btnSave.classList.add("btn", "btn-success");
+    btnDelete.classList.add("btn", "btn-danger");
     btnSave.style.display = "flex";
+    btnDelete.classList.add("ml-2");
     btnSave.style.justifyContent = "right";
-    btnSave.style.marginLeft = "77%";
-
-    btnSave.addEventListener("click", () => {
-        fetch("http://localhost/ChristieMeta/index.php/api/actualizar_usuario")
-        .then(checkStatus)
-        .then(parseJSON)
-        .then(function (data) {
 
 
 
-        }).catch(function (error) {
-            console.log('error request', error);
-        });
-    });
+
+
 
     var idJson = event.target.parentNode.id
     divFather.style.display = "block";
@@ -670,18 +671,103 @@ function deployModalWindow(titleTable) {
     switch (titleTable) {
         case "Productos":
             loadFileDataProducts(idJson);
+            btnSave.addEventListener("click", () => {
+
+            });
+            btnDelete.addEventListener("click", () => {
+                remove();
+            });
+
             break;
         case "Categorías":
             loadFileDataCategories(idJson);
+            btnSave.addEventListener("click", () => {
+
+            });
+            btnDelete.addEventListener("click", () => {
+                remove();
+            });
             break;
         case "Comentarios":
             loadFileDataComments(idJson);
             break;
         case "Usuarios":
             loadFileDataUsers(idJson);
+            btnSave.addEventListener("click", () => {
+                updateUser();
+                let input = document.querySelector(".modal");
+                input.remove();
+
+            });
+            btnDelete.addEventListener("click", () => {
+                removeUser();
+                let input = document.querySelector(".modal");
+                input.remove();
+                cleanTable();
+                usersCount();
+            });
             break;
     }
 }
+
+
+
+function updateUser() {
+    let fields = document.querySelectorAll(".inputModal");
+
+    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_usuario", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            usuario: "'" + fields[0].value + "'",
+            nombre: "'" + fields[1].value + "'",
+            apellidos: "'" + fields[2].value + "'",
+            rol: "'" + fields[3].value + "'",
+            moneda: parseInt(fields[4].value),
+            correo: "'" + fields[5].value + "'",
+            password: "'" + fields[6].value + "'",
+        })
+    })
+        .then((response) => response.text())
+        .then((responseText) => {
+            alert(responseText);
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
+
+
+
+
+function removeUser(){
+    let fields = document.querySelectorAll(".inputModal");
+    let correo=fields[5].value;
+
+    fetch("http://localhost/ChristieMeta/index.php/api/borrar_usuario/?correo="+correo)
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(function (data) {
+            var json = data;
+            var categoriesList = eval(json);
+            if (categoriesList != undefined && categoriesList.length != 0) {
+                totalObjectsLength = categoriesList.length;
+            }
+            getCategoriesPagedList();
+            checkOnChangeLists();
+
+        }).catch(function (error) {
+            console.log("error request", error);
+        });
+    event.preventDefault();
+
+}
+
+
+
 
 
 function loadFileDataProducts(idJson) {
@@ -713,7 +799,7 @@ function loadFileDataProducts(idJson) {
 
                     'myFile.txt'
 
-                    myFile = new File(['Hello World!'], '../images/'+fileFiles[x]+".txt", {
+                    myFile = new File(['Hello World!'], '../images/' + fileFiles[x] + ".txt", {
                         type: 'text/plain',
                         lastModified: new Date(),
                     });
@@ -724,7 +810,7 @@ function loadFileDataProducts(idJson) {
                         lastModified: new Date(),
                     });
 
-                    
+
                 }
                 const dataTransfer = new DataTransfer();
                 dataTransfer.items.add(myFile);

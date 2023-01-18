@@ -424,6 +424,7 @@ function fillTable(arJson, arHeadersName) {
         var tr = document.createElement('tr');
         tr.classList.add('tr-shadow');
         tr.id = element[0];
+        tr.style.cursor="pointer";
         tr.addEventListener("click", () => {
             deployModalWindow(titleTable.innerHTML);
 
@@ -672,7 +673,11 @@ function deployModalWindow(titleTable) {
         case "Productos":
             loadFileDataProducts(idJson);
             btnSave.addEventListener("click", () => {
-
+                updateObject();
+                let input = document.querySelector(".modal");
+                input.remove();
+                cleanTable();
+                productsCount();
             });
             btnDelete.addEventListener("click", () => {
                 remove();
@@ -697,7 +702,8 @@ function deployModalWindow(titleTable) {
                 updateUser();
                 let input = document.querySelector(".modal");
                 input.remove();
-
+                cleanTable();
+                usersCount();
             });
             btnDelete.addEventListener("click", () => {
                 removeUser();
@@ -714,30 +720,99 @@ function deployModalWindow(titleTable) {
 
 function updateUser() {
     let fields = document.querySelectorAll(".inputModal");
+    
+    let jsonValues={
+        usuario:  fields[0].value,
+        nombre: fields[1].value,
+        apellidos:  fields[2].value,
+        rol: fields[3].value ,
+        correo: fields[5].value,
+        password: fields[6].value,
+        moneda: parseInt(fields[4].value),
+    }
+    let jsonFormat=JSON.stringify(jsonValues);
 
-    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_usuario", {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            usuario: "'" + fields[0].value + "'",
-            nombre: "'" + fields[1].value + "'",
-            apellidos: "'" + fields[2].value + "'",
-            rol: "'" + fields[3].value + "'",
-            moneda: parseInt(fields[4].value),
-            correo: "'" + fields[5].value + "'",
-            password: "'" + fields[6].value + "'",
-        })
-    })
-        .then((response) => response.text())
-        .then((responseText) => {
-            alert(responseText);
-        })
-        .catch((error) => {
-            console.error(error);
+    let index="aaa";
+    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_usuario/?q="+jsonFormat)
+
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(function (data) {
+
+
+
+        }).catch(function (error) {
+            console.log("error request", error);
         });
+        event.preventDefault();
+
+
+    // fetch("http://localhost/ChristieMeta/index.php/api/actualizar_usuario", {
+    //     method: 'POST',
+    //     headers: {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(jsonValues)
+    // })
+    //     .then((response) => response.text())
+    //     // .then((responseText) => {
+    //     //     alert(responseText);
+    //     // })
+    //     .catch((error) => {
+    //         console.error(error);
+    //     });
+}
+
+
+
+function updateObject(){
+    let fields = document.querySelectorAll(".inputModal");
+    var inputsFile = document.querySelectorAll(".file");
+
+    let jsonValues={
+        nombre:  fields[0].value,
+        precio: parseInt(fields[1].value),
+        puntuacion_total: parseInt(fields[2].value),
+        latitud:  parseFloat(fields[3].value),
+        longitud: parseFloat(fields[4].value) ,
+        id_categoria: parseInt(fields[5].value),
+        fotografia1: inputsFile[0].files[0].name,
+        fotografia2:  inputsFile[1].files[0].name,
+        fotografia3:  inputsFile[2].files[0].name,
+        descripcion: fields[6].value,
+    }
+    let jsonFormat=JSON.stringify(jsonValues);
+
+    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_objeto/?q="+jsonFormat)
+
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(function (data) {
+
+
+
+        }).catch(function (error) {
+            console.log("error request", error);
+        });
+        event.preventDefault();
+
+
+    // fetch("http://localhost/ChristieMeta/index.php/api/actualizar_usuario", {
+    //     method: 'POST',
+    //     headers: {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(jsonValues)
+    // })
+    //     .then((response) => response.text())
+    //     // .then((responseText) => {
+    //     //     alert(responseText);
+    //     // })
+    //     .catch((error) => {
+    //         console.error(error);
+    //     });
 }
 
 

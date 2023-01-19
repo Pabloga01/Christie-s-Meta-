@@ -813,6 +813,7 @@ function updateObject() {
     });
 
     let jsonValues = {
+        id_objeto: fields[0].id,
         nombre: fields[0].value,
         precio: parseInt(fields[1].value),
         puntuacion_total: parseInt(fields[2].value),
@@ -820,7 +821,7 @@ function updateObject() {
         longitud: parseFloat(fields[4].value),
         id_categoria: parseInt(fields[5].value),
 
-        fotografia1: inputsFileChecked[0],
+        imagen1: inputsFileChecked[0],
         fotografia2: inputsFileChecked[1],
         fotografia3: inputsFileChecked[2],
         descripcion: fields[6].value,
@@ -893,9 +894,9 @@ function removeUser() {
 
 function removeObject() {
     let fields = document.querySelectorAll(".inputModal");
-    let name = fields[0].value;
+    let idObject = fields[0].id;
 
-    fetch("http://localhost/ChristieMeta/index.php/api/borrar_objeto/?object=" + name)
+    fetch("http://localhost/ChristieMeta/index.php/api/borrar_objeto/?object=" + idObject)
         .then(checkStatus)
         .then(parseJSON)
         .then(function (data) {
@@ -942,11 +943,13 @@ function loadFileDataProducts(idJson) {
 
     let fileProductList = [1, 2, 5, 3, 4, 14, 11];
     let fileFiles = ["fotografia1", "fotografia2", "fotografia3"];
-
+    let idProduct;
 
     let i = 0;
     jsonActual.forEach(element => {
         if (element[0] == idJson) {
+            idProduct=element["id_objeto"];
+            inputsModal[0].id=idProduct;
             inputsModal[5].value = element["id_categoria"];
             selectSelected = element["id_categoria"];
             inputsModal.forEach(element1 => {
@@ -967,8 +970,7 @@ function loadFileDataProducts(idJson) {
 
                 if (fileFiles[x] != undefined && element[fileFiles[x]] != "" && element[fileFiles[x]] != null) {
 
-
-                    myFile = new File(['Hello World!'], '../images/' + element[fileFiles[x]] + ".txt", {
+                    myFile = new File(['Hello World!'], '../images/' + element[fileFiles[x]], {
                         type: 'text/plain',
                         lastModified: new Date(),
                     });

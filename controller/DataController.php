@@ -184,6 +184,11 @@ class DataController
                 array_push($arVar, $nombre);
             }
 
+            // if (isset($jsonParams['id_objeto'])) {
+            //     $id_objeto = "id_objeto='" . $jsonParams['id_objeto'] . "'";
+            //     array_push($arVar, $id_objeto);
+            // }
+
             if (isset($jsonParams['precio'])) {
                 $precio = "precio=" . $jsonParams['precio'];
                 array_push($arVar, $precio);
@@ -207,17 +212,17 @@ class DataController
                 $categoria = "id_categoria=" . $jsonParams['id_categoria'];
                 array_push($arVar, $categoria);
             }
-            if (isset($jsonParams['imagen1'])) {
-                $imagen1 = "imagen1='" . $jsonParams['imagen1'] . "'";
-                array_push($arVar, $imagen1);
+            if (isset($jsonParams['fotografia1'])) {
+                $fotografia1 = "fotografia1='" . $jsonParams['fotografia1'] . "'";
+                array_push($arVar, $fotografia1);
             }
-            if (isset($jsonParams['imagen2'])) {
-                $imagen2 = "imagen2='" . $jsonParams['imagen2'] . "'";
-                array_push($arVar, $imagen2);
+            if (isset($jsonParams['fotografia2'])) {
+                $fotografia2 = "fotografia2='" . $jsonParams['fotografia2'] . "'";
+                array_push($arVar, $fotografia2);
             }
-            if (isset($jsonParams['imagen3'])) {
-                $imagen3 = "imagen3='" . $jsonParams['imagen3'] . "'";
-                array_push($arVar, $imagen3);
+            if (isset($jsonParams['fotografia3'])) {
+                $fotografia3 = "fotografia3='" . $jsonParams['fotografia3'] . "'";
+                array_push($arVar, $fotografia3);
             }
             if (isset($jsonParams['descripcion'])) {
                 $descripcion = "descripcion='" . $jsonParams['descripcion'] . "'";
@@ -228,7 +233,7 @@ class DataController
             echo  $jsonParams["id_categoria"];
             if (count($arVar) > 1) {
                 $db = new Conexion();
-                $datos = $db->updateObject($arVar, $jsonParams['nombre']);
+                $datos = $db->updateObject($arVar, $jsonParams['id_objeto']);
                 if (isset($datos)) {
                     if ($datos) {
                         echo "true";

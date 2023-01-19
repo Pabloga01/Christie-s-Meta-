@@ -131,7 +131,7 @@ class Conexion
     }
 
 
-    public function updateObject($arVal, $name)
+    public function updateObject($arVal, $id)
     {
         $paramsOnString = "";
         foreach ($arVal as $element) {
@@ -140,7 +140,7 @@ class Conexion
         $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
         try {
             $conexion = $this->getConexion();
-            $sql = "update objeto set $paramsOnString where nombre='$name'";
+            $sql = "update objeto set $paramsOnString where id_objeto=$id";
             $registros = $conexion->query($sql);
             if ($registros) {
 
@@ -202,11 +202,11 @@ class Conexion
         }
     }
 
-    public function deleteObject($object)
+    public function deleteObject($idObject)
     {
         try {
             $conexion = $this->getConexion();
-            $sql = "delete from objeto where nombre='$object'";
+            $sql = "delete from objeto where id_objeto=$idObject";
             $registros = $conexion->query($sql);
             if ($registros) {
                 $registros->closeCursor();

@@ -425,7 +425,7 @@ function fillTable(arJson, arHeadersName) {
         var tr = document.createElement('tr');
         tr.classList.add('tr-shadow');
         tr.id = element[0];
-        tr.style.cursor="pointer";
+        tr.style.cursor = "pointer";
         tr.addEventListener("click", () => {
             deployModalWindow(titleTable.innerHTML);
 
@@ -517,23 +517,23 @@ function deployModalWindow(titleTable) {
     div.style.backgroundColor = "#e8e4e4";
 
     let divHeader = document.createElement("div");
-    divHeader.classList.add("modal_header","mb-5");
-    
+    divHeader.classList.add("modal_header", "mb-5");
+
     let div2 = document.createElement("div");
-    div2.classList.add("d-flex", "row","justify-content-end","mx-4");
-    
+    div2.classList.add("d-flex", "row", "justify-content-end", "mx-4");
+
     let btnClose = document.createElement("button");
     btnClose.innerHTML = "Cerrar";
     btnClose.classList.add("btn", "btn-danger");
-    
+
     //btnClose.style.marginLeft = "83%";
-    
+
     btnClose.addEventListener("click", () => {
         divFather.remove();
     });
-    
-    
-    
+
+
+
     let h3 = document.createElement("h3");
     h3.style.marginBottom = "4%";
     h3.style.textAlign = "center";
@@ -603,12 +603,12 @@ function deployModalWindow(titleTable) {
 
 
 
-        if (arFieldsCard[i] == "Categoría" ) {
+        if (arFieldsCard[i] == "Categoría") {
             input = document.createElement("select");
             input.classList.add("selectCategories");
 
             fetch("http://localhost/ChristieMeta/index.php/api/listado_categorias")
-              //  .then(checkStatus)
+                //  .then(checkStatus)
                 .then(parseJSON)
                 .then(function (data) {
                     var json = data;
@@ -622,11 +622,11 @@ function deployModalWindow(titleTable) {
                             option.text = element["nombre"];
                             option.value = element["id_categoria"];
                             input.add(option);
-                            
-                            
+
+
                         });
 
-                        input.value =selectSelected;
+                        input.value = selectSelected;
                         input.style.width = "50%";
                         input.style.marginBottom = "5%";
                     }
@@ -662,7 +662,7 @@ function deployModalWindow(titleTable) {
 
     }
     let divButtons = document.createElement("div");
-    divButtons.classList.add("d-flex", "row","justify-content-end","mx-4");
+    divButtons.classList.add("d-flex", "row", "justify-content-end", "mx-4");
 
 
     let btnSave = document.createElement("button");
@@ -752,20 +752,20 @@ function deployModalWindow(titleTable) {
 
 function updateUser() {
     let fields = document.querySelectorAll(".inputModal");
-    
-    let jsonValues={
-        usuario:  fields[0].value,
+
+    let jsonValues = {
+        usuario: fields[0].value,
         nombre: fields[1].value,
-        apellidos:  fields[2].value,
-        rol: fields[3].value ,
+        apellidos: fields[2].value,
+        rol: fields[3].value,
         correo: fields[5].value,
         password: fields[6].value,
         moneda: parseInt(fields[4].value),
     }
-    let jsonFormat=JSON.stringify(jsonValues);
+    let jsonFormat = JSON.stringify(jsonValues);
 
-    let index="aaa";
-    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_usuario/?q="+jsonFormat)
+    let index = "aaa";
+    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_usuario/?q=" + jsonFormat)
 
         .then(checkStatus)
         .then(parseJSON)
@@ -776,7 +776,7 @@ function updateUser() {
         }).catch(function (error) {
             console.log("error request", error);
         });
-        event.preventDefault();
+    event.preventDefault();
 
 
     // fetch("http://localhost/ChristieMeta/index.php/api/actualizar_usuario", {
@@ -798,25 +798,36 @@ function updateUser() {
 
 
 
-function updateObject(){
+function updateObject() {
     let fields = document.querySelectorAll(".inputModal");
     var inputsFile = document.querySelectorAll(".file");
+    var inputsFileChecked=[];
+    let i=0;
+    inputsFile.forEach(element=>{
+        if(element.files[0]!=undefined){
+            inputsFileChecked[i] =element.files[0].name;
+        }else{
+            inputsFileChecked[i]="";
+        }
+        i++;
+    });
 
-    let jsonValues={
-        nombre:  fields[0].value,
+    let jsonValues = {
+        nombre: fields[0].value,
         precio: parseInt(fields[1].value),
         puntuacion_total: parseInt(fields[2].value),
-        latitud:  parseFloat(fields[3].value),
-        longitud: parseFloat(fields[4].value) ,
+        latitud: parseFloat(fields[3].value),
+        longitud: parseFloat(fields[4].value),
         id_categoria: parseInt(fields[5].value),
-        fotografia1: inputsFile[0].files[0].name,
-        fotografia2:  inputsFile[1].files[0].name,
-        fotografia3:  inputsFile[2].files[0].name,
+
+        fotografia1: inputsFileChecked[0],
+        fotografia2: inputsFileChecked[1],
+        fotografia3: inputsFileChecked[2],
         descripcion: fields[6].value,
     }
-    let jsonFormat=JSON.stringify(jsonValues);
+    let jsonFormat = JSON.stringify(jsonValues);
 
-    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_objeto/?q="+jsonFormat)
+    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_objeto/?q=" + jsonFormat)
 
         .then(checkStatus)
         .then(parseJSON)
@@ -827,23 +838,23 @@ function updateObject(){
         }).catch(function (error) {
             console.log("error request", error);
         });
-        event.preventDefault();
+    event.preventDefault();
 }
 
-function updateCategory(){
+function updateCategory() {
     let fields = document.querySelectorAll(".inputModal");
 
-    let jsonValues={
+    let jsonValues = {
         nombre: fields[0].value,
-        anterior:fields[0].id,
+        anterior: fields[0].id,
         //nombre:  fields[0].options[fields[0].selectedIndex].text,
         puntuacion: parseInt(fields[1].value),
         cod_categoria_padre: parseInt(fields[2].value),
-        descripcion:  fields[3].value,
+        descripcion: fields[3].value,
     }
-    let jsonFormat=JSON.stringify(jsonValues);
+    let jsonFormat = JSON.stringify(jsonValues);
 
-    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_categoria/?categoria="+jsonFormat)
+    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_categoria/?categoria=" + jsonFormat)
 
         .then(checkStatus)
         .then(parseJSON)
@@ -854,15 +865,15 @@ function updateCategory(){
         }).catch(function (error) {
             console.log("error request", error);
         });
-        event.preventDefault();
+    event.preventDefault();
 }
 
 
-function removeUser(){
+function removeUser() {
     let fields = document.querySelectorAll(".inputModal");
-    let mail=fields[5].value;
+    let mail = fields[5].value;
 
-    fetch("http://localhost/ChristieMeta/index.php/api/borrar_usuario/?correo="+mail)
+    fetch("http://localhost/ChristieMeta/index.php/api/borrar_usuario/?correo=" + mail)
         .then(checkStatus)
         .then(parseJSON)
         .then(function (data) {
@@ -880,11 +891,11 @@ function removeUser(){
     event.preventDefault();
 }
 
-function removeObject(){
+function removeObject() {
     let fields = document.querySelectorAll(".inputModal");
-    let name=fields[0].value;
+    let name = fields[0].value;
 
-    fetch("http://localhost/ChristieMeta/index.php/api/borrar_objeto/?object="+name)
+    fetch("http://localhost/ChristieMeta/index.php/api/borrar_objeto/?object=" + name)
         .then(checkStatus)
         .then(parseJSON)
         .then(function (data) {
@@ -902,11 +913,11 @@ function removeObject(){
     event.preventDefault();
 }
 
-function removeCategory(){
+function removeCategory() {
     let fields = document.querySelectorAll(".inputModal");
-    let cat=fields[0].value;
+    let cat = fields[0].value;
 
-    fetch("http://localhost/ChristieMeta/index.php/api/borrar_categoria/?categoria="+cat)
+    fetch("http://localhost/ChristieMeta/index.php/api/borrar_categoria/?categoria=" + cat)
         .then(checkStatus)
         .then(parseJSON)
         .then(function (data) {
@@ -936,14 +947,14 @@ function loadFileDataProducts(idJson) {
     let i = 0;
     jsonActual.forEach(element => {
         if (element[0] == idJson) {
-            inputsModal[5].value=element["id_categoria"];
-            selectSelected=element["id_categoria"];
+            inputsModal[5].value = element["id_categoria"];
+            selectSelected = element["id_categoria"];
             inputsModal.forEach(element1 => {
                 element1.value = element[fileProductList[i]];
                 i++;
             });
             return;
-            
+
         }
     });
 
@@ -954,27 +965,27 @@ function loadFileDataProducts(idJson) {
         if (element[0] == idJson) {
             inputsFile.forEach(element1 => {
 
-                if (fileFiles[x] != undefined && element[fileFiles[x]] != "" && element[fileFiles[x]]!=null) {
+                if (fileFiles[x] != undefined && element[fileFiles[x]] != "" && element[fileFiles[x]] != null) {
 
 
-                    myFile = new File(['Hello World!'], '../images/' +element[fileFiles[x]] + ".txt", {
+                    myFile = new File(['Hello World!'], '../images/' + element[fileFiles[x]] + ".txt", {
                         type: 'text/plain',
                         lastModified: new Date(),
                     });
 
-                
-                //else {
-                //     myFile = new File(['Hello World!'], 'myFile.txt', {
-                //         type: 'text/plain',
-                //         lastModified: new Date(),
-                //     });
-                // }
 
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(myFile);
-                element1.files = dataTransfer.files;
-                x++;
-                return;
+                    //else {
+                    //     myFile = new File(['Hello World!'], 'myFile.txt', {
+                    //         type: 'text/plain',
+                    //         lastModified: new Date(),
+                    //     });
+                    // }
+
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(myFile);
+                    element1.files = dataTransfer.files;
+                    x++;
+                    return;
                 }
             });
         }
@@ -988,11 +999,11 @@ function loadFileDataCategories(idJson) {
     let fileProductList = [1, "puntuacion", "cod_categoria_padre", 3];
     let i = 0;
 
-    
+
     jsonActual.forEach(element => {
         if (element[0] == idJson) {
             inputsModal.forEach(element1 => {
-                inputsModal[0].id=element[fileProductList[0]];
+                inputsModal[0].id = element[fileProductList[0]];
                 element1.value = element[fileProductList[i]];
                 i++;
             });

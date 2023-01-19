@@ -61,7 +61,7 @@
                                 Inicio de sesión fallido. Usuario incorrecto.
                             </div>
 
-                            <form name="login" align="center" enctype="multipart/form-data" action="index.php/loginprocess" method="post">
+                            <form name="login" align="center" enctype="multipart/form-data" action="index.php/admin/loginprocess" method="post">
                                 <div class="form-group">
                                     <label class="text-left">Correo Electrónico</label>
                                     <input class="au-input au-input--full" type="text" name="user" placeholder="Correo electrónico">
@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="social-login-content">
                                     <div class="option-button">
-                                        <a class="au-btn au-btn--block au-btn--blue2 text-center" href="index.php/restorepassword">recuperar contraseña</a>
+                                        <a class="au-btn au-btn--block au-btn--blue2 text-center" href="index.php/admin/restorepassword">recuperar contraseña</a>
                                     </div>
                                 </div>
                             </form>

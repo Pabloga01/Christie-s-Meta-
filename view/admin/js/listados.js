@@ -754,6 +754,7 @@ function updateUser() {
     let fields = document.querySelectorAll(".inputModal");
 
     let jsonValues = {
+        id_usuario: fields[0].id,
         usuario: fields[0].value,
         nombre: fields[1].value,
         apellidos: fields[2].value,
@@ -847,7 +848,7 @@ function updateCategory() {
 
     let jsonValues = {
         nombre: fields[0].value,
-        anterior: fields[0].id,
+        id_categoria: fields[0].id,
         //nombre:  fields[0].options[fields[0].selectedIndex].text,
         puntuacion: parseInt(fields[1].value),
         cod_categoria_padre: parseInt(fields[2].value),
@@ -872,9 +873,9 @@ function updateCategory() {
 
 function removeUser() {
     let fields = document.querySelectorAll(".inputModal");
-    let mail = fields[5].value;
+    let idUser = fields[0].id;
 
-    fetch("http://localhost/ChristieMeta/index.php/api/borrar_usuario/?correo=" + mail)
+    fetch("http://localhost/ChristieMeta/index.php/api/borrar_usuario/?id=" + idUser)
         .then(checkStatus)
         .then(parseJSON)
         .then(function (data) {
@@ -1001,11 +1002,10 @@ function loadFileDataCategories(idJson) {
     let fileProductList = [1, "puntuacion", "cod_categoria_padre", 3];
     let i = 0;
 
-
     jsonActual.forEach(element => {
         if (element[0] == idJson) {
             inputsModal.forEach(element1 => {
-                inputsModal[0].id = element[fileProductList[0]];
+                inputsModal[0].id = element["id_categoria"];
                 element1.value = element[fileProductList[i]];
                 i++;
             });
@@ -1023,6 +1023,7 @@ function loadFileDataUsers(idJson) {
     jsonActual.forEach(element => {
         if (element[0] == idJson) {
             inputsModal.forEach(element1 => {
+                element1.id=element["id_usuario"];
                 element1.value = element[fileProductList[i]];
                 i++;
             });

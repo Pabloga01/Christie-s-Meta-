@@ -155,7 +155,7 @@ class DataController
 
             if (count($arVar) > 1) {
                 $db = new Conexion();
-                $datos = $db->updateUser($arVar, $jsonParams['correo']);
+                $datos = $db->updateUser($arVar, $jsonParams['id_usuario']);
                 if (isset($datos)) {
                     if ($datos) {
                         echo "true";
@@ -284,7 +284,7 @@ class DataController
 
             if (count($arVar) > 1) {
                 $db = new Conexion();
-                $datos = $db->updateCategory($arVar, $jsonParams["anterior"]);
+                $datos = $db->updateCategory($arVar, $jsonParams["id_categoria"]);
                 if (isset($datos)) {
                     if ($datos) {
                      //   echo "true";
@@ -312,9 +312,9 @@ class DataController
 
     function removeUser()
     {
-        if (isset($_GET['correo'])) {
+        if (isset($_GET['id'])) {
             $db = new Conexion();
-            $datos = $db->deleteUser($_GET['correo']);
+            $datos = $db->deleteUser($_GET['id']);
             if ($datos) {
                 return true;
             } else {

@@ -103,7 +103,7 @@ class Conexion
 
 
 
-    public function updateUser($arVal, $mailId)
+    public function updateUser($arVal, $idUser)
     {
         $paramsOnString = "";
         foreach ($arVal as $element) {
@@ -112,7 +112,7 @@ class Conexion
         $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
         try {
             $conexion = $this->getConexion();
-            $sql = "update usuario set $paramsOnString where correo='$mailId'";
+            $sql = "update usuario set $paramsOnString where id_usuario=$idUser";
             $registros = $conexion->query($sql);
             if ($registros) {
                 // foreach ($registros as $registro){
@@ -156,7 +156,7 @@ class Conexion
         }
     }
 
-    public function updateCategory($arVal, $name)
+    public function updateCategory($arVal, $idCategory)
     {
         $paramsOnString = "";
         foreach ($arVal as $element) {
@@ -167,7 +167,7 @@ class Conexion
         $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
         try {
             $conexion = $this->getConexion();
-            $sql = "update categoria set $paramsOnString where nombre='$name'";
+            $sql = "update categoria set $paramsOnString where id_categoria=$idCategory";
             $registros = $conexion->query($sql);
             if ($registros) {
 
@@ -183,11 +183,11 @@ class Conexion
         }
     }
 
-    public function deleteUser($mail)
+    public function deleteUser($userId)
     {
         try {
             $conexion = $this->getConexion();
-            $sql = "delete from usuario where correo='$mail'";
+            $sql = "delete from usuario where id_usuario=$userId";
             $registros = $conexion->query($sql);
             if ($registros) {
                 $registros->closeCursor();

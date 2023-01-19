@@ -156,11 +156,32 @@ class Conexion
         }
     }
 
+    public function updateCategory($arVal, $name)
+    {
+        $paramsOnString = "";
+        foreach ($arVal as $element) {
+             $paramsOnString .= $element . ",";
+        }
+        //var_dump($arVal);
+        echo $paramsOnString;
+        $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
+        try {
+            $conexion = $this->getConexion();
+            $sql = "update categoria set $paramsOnString where nombre='$name'";
+            $registros = $conexion->query($sql);
+            if ($registros) {
 
-
-
-
-
+                $registros->closeCursor();
+                $db = null;
+                return true;
+            } else {
+                $db = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
 
     public function deleteUser($mail)
     {
@@ -180,4 +201,44 @@ class Conexion
             return false;
         }
     }
+
+    public function deleteObject($object)
+    {
+        try {
+            $conexion = $this->getConexion();
+            $sql = "delete from objeto where nombre='$object'";
+            $registros = $conexion->query($sql);
+            if ($registros) {
+                $registros->closeCursor();
+                $db = null;
+                return true;
+            } else {
+                $db = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+    public function deleteCategory($idCategory)
+    {
+        try {
+            $conexion = $this->getConexion();
+            $sql = "delete from categoria where id_categoria=$idCategory";
+            $registros = $conexion->query($sql);
+            if ($registros) {
+                $registros->closeCursor();
+                $db = null;
+                return true;
+            } else {
+                $db = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+
 }

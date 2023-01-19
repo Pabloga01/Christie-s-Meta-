@@ -145,7 +145,7 @@ class DataController
                 array_push($arVar, $moneda);
             }
             if (isset($jsonParams['correo'])) {
-                 $correo = "correo='" . $jsonParams['correo'] . "'";
+                $correo = "correo='" . $jsonParams['correo'] . "'";
                 array_push($arVar, $correo);
             }
             if (isset($jsonParams['password'])) {
@@ -174,9 +174,9 @@ class DataController
     {
 
         if (isset($_GET["q"])) {
-            
+
             $jsonParams = json_decode($_GET["q"], true);
-           var_dump(json_decode($_GET["q"], true));
+            var_dump(json_decode($_GET["q"], true));
             $arVar = [];
 
             if (isset($jsonParams['nombre'])) {
@@ -190,7 +190,7 @@ class DataController
             }
 
             if (isset($jsonParams['puntuacion_total'])) {
-                $puntuacion_total = "puntuacion_total=".$jsonParams['puntuacion_total'];
+                $puntuacion_total = "puntuacion_total=" . $jsonParams['puntuacion_total'];
                 array_push($arVar, $puntuacion_total);
             }
 
@@ -204,8 +204,8 @@ class DataController
                 array_push($arVar, $longitud);
             }
             if (isset($jsonParams['id_categoria'])) {
-                 $categoria = "id_categoria=" . $jsonParams['id_categoria'];
-                 array_push($arVar, $categoria);
+                $categoria = "id_categoria=" . $jsonParams['id_categoria'];
+                array_push($arVar, $categoria);
             }
             if (isset($jsonParams['imagen1'])) {
                 $imagen1 = "imagen1='" . $jsonParams['imagen1'] . "'";
@@ -242,6 +242,57 @@ class DataController
         }
     }
 
+
+    function updateCategory()
+    {
+
+        if (isset($_GET["categoria"])) {
+
+            $jsonParams = json_decode($_GET["categoria"], true);
+            //var_dump(json_decode($_GET["categoria"], true));
+            $arVar = [];
+            if (isset($jsonParams['nombre'])) {
+                $nombre = "nombre='" . $jsonParams['nombre'] . "'";
+                array_push($arVar, $nombre);
+            }
+
+
+            // if (isset($jsonParams['id_categoria'])) {
+            //     $id_categoria = "id_categoria=" . $jsonParams['id_categoria'];
+            //     array_push($arVar, $id_categoria);
+            // }
+
+            if (isset($jsonParams['puntuacion'])) {
+                $puntuacion = "puntuacion=" . $jsonParams['puntuacion'];
+                array_push($arVar, $puntuacion);
+            }
+
+            if (isset($jsonParams['cod_categoria_padre'])) {
+                $cod_categoria_padre = "cod_categoria_padre=" . $jsonParams['cod_categoria_padre'];
+                array_push($arVar, $cod_categoria_padre);
+            }
+
+            if (isset($jsonParams['descripcion'])) {
+                $descripcion = "descripcion='" . $jsonParams['descripcion'] . "'";
+                array_push($arVar, $descripcion);
+            }
+
+            if (count($arVar) > 1) {
+                $db = new Conexion();
+                $datos = $db->updateCategory($arVar, $jsonParams["anterior"]);
+                if (isset($datos)) {
+                    if ($datos) {
+                     //   echo "true";
+                        return true;
+                    } else {
+                      //  echo "FALSE";
+                        return false;
+                    }
+                }
+            }
+        }
+    }
+
     // function updateCategory(){
     //     $db = new Conexion();
     //     $datos = $db->
@@ -256,10 +307,35 @@ class DataController
 
     function removeUser()
     {
-
         if (isset($_GET['correo'])) {
             $db = new Conexion();
             $datos = $db->deleteUser($_GET['correo']);
+            if ($datos) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    function removeObject()
+    {
+        if (isset($_GET['object'])) {
+            $db = new Conexion();
+            $datos = $db->deleteObject($_GET['object']);
+            if ($datos) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    function removeCategory()
+    {
+        if (isset($_GET['categoria'])) {
+            $db = new Conexion();
+            $datos = $db->deleteCategory($_GET['categoria']);
             if ($datos) {
                 return true;
             } else {

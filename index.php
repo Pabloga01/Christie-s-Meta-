@@ -28,12 +28,16 @@ if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) &&
     //$controller->login();
     $dataController->updateUser();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "actualizar_categoria") {
-    // $dataController->updateCategory();
+     $dataController->updateCategory();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "actualizar_objeto") {
       $dataController->updateObject();
 
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "borrar_usuario") {
     $dataController->removeUser();
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "borrar_objeto") {
+    $dataController->removeObject();
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "borrar_categoria") {
+    $dataController->removeCategory();
 }
 
 

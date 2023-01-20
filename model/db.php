@@ -160,7 +160,7 @@ class Conexion
     {
         $paramsOnString = "";
         foreach ($arVal as $element) {
-             $paramsOnString .= $element . ",";
+            $paramsOnString .= $element . ",";
         }
         //var_dump($arVal);
         echo $paramsOnString;
@@ -240,5 +240,99 @@ class Conexion
         }
     }
 
+    public function addCategory($arVal, $headers)
+    {
+        $paramsOnString = "";
+        $headersOnString = "";
+        foreach ($arVal as $element) {
+            $paramsOnString .= $element . ",";
+        }
 
+        foreach ($headers as $element) {
+            $headersOnString .= $element . ",";
+        }
+
+        echo $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
+        echo $headersOnString = substr($headersOnString, 0, strlen($headersOnString) - 1);
+        try {
+            $conexion = $this->getConexion();
+            $sql = "insert into categoria ($headersOnString) values ($paramsOnString)";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                $registros->closeCursor();
+                $db = null;
+                return true;
+            } else {
+                $db = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+    public function addObject($arVal, $headers)
+    {
+        $paramsOnString = "";
+        $headersOnString = "";
+        foreach ($arVal as $element) {
+            $paramsOnString .= $element . ",";
+        }
+
+        foreach ($headers as $element) {
+            $headersOnString .= $element . ",";
+        }
+        //var_dump($arVal);
+        echo $paramsOnString;
+        $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
+        $headersOnString = substr($headersOnString, 0, strlen($headersOnString) - 1);
+        try {
+            $conexion = $this->getConexion();
+            $sql = "insert into objeto ($headersOnString) values ($paramsOnString)";
+            $registros = $conexion->query($sql);
+            if ($registros) {
+                $registros->closeCursor();
+                $db = null;
+                return true;
+            } else {
+                $db = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+
+    public function addUser($arVal, $headers)
+    {
+        $paramsOnString = "";
+        $headersOnString = "";
+        foreach ($arVal as $element) {
+            $paramsOnString .= $element . ",";
+        }
+
+        foreach ($headers as $element) {
+            $headersOnString .= $element . ",";
+        }
+        //var_dump($arVal);
+        echo $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
+        echo "<br>";
+        echo $headersOnString = substr($headersOnString, 0, strlen($headersOnString) - 1);
+        try {
+            $conexion = $this->getConexion();
+            $sql = "insert into usuario ($headersOnString) values ($paramsOnString)";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                $registros->closeCursor();
+                $db = null;
+                return true;
+            } else {
+                $db = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
 }

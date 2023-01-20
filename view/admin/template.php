@@ -59,20 +59,20 @@
                     <ul class="navbar-mobile__list list-unstyled">
 
                         <li>
-                            <a href="index.php/home">
+                            <a href="index.php/admin/home">
                                 <i class="fas fa-table"></i>Home</a>
                         </li>
                         <li>
-                            <a href="index.php/graficos">
+                            <a href="index.php/admin/graficos">
                                 <i class="fas fa-chart-bar"></i>Gráficos</a>
                         </li>
                         <li>
-                            <a href="index.php/informes">
+                            <a href="index.php/admin/informes">
                                 <i class="fas fa-table"></i>Informes</a>
                         </li>
 
                         <li>
-                            <a href="index.php/mapa">
+                            <a href="index.php/admin/mapa">
                                 <i class="fas fa-map-marker-alt"></i>Mapas</a>
                         </li>
 
@@ -94,20 +94,20 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li>
-                            <a href="index.php/home">
+                            <a href="index.php/admin/home">
                                 <i class="fas fa-table"></i>Home</a>
                         </li>
                         <li>
-                            <a href="index.php/graficos">
+                            <a href="index.php/admin/graficos">
                                 <i class="fas fa-chart-bar"></i>Gráficos</a>
                         </li>
                         <li>
-                            <a href="index.php/informes">
+                            <a href="index.php/admin/informes">
                                 <i class="fas fa-table"></i>Informes</a>
                         </li>
 
                         <li>
-                            <a href="index.php/mapa">
+                            <a href="index.php/admin/mapa">
                                 <i class="fas fa-map-marker-alt"></i>Mapa</a>
                         </li>
 

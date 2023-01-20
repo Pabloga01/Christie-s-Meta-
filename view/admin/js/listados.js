@@ -209,7 +209,7 @@ function getCategoriesPagedList(nIndex) {
 
 
 function getCommentsPagedList(nIndex) {
-    titleTable.innerHTML = "Comentarios de usuarios";
+    titleTable.innerHTML = "Comentarios";
     let nVisualizedRows = parseInt(selectPags.options[selectPags.selectedIndex].value);
     if (nIndex == "" || nIndex == undefined) {
         actualIndex = 0;
@@ -225,8 +225,8 @@ function getCommentsPagedList(nIndex) {
         .then(parseJSON)
         .then(function (data) {
             var json = data;
-            jsonActual = productList;
             productList = eval(json);
+            jsonActual = productList;
             if (productList != undefined && productList.length != 0) {
                 fillTable(productList, arrCommentsHeaders2);
 
@@ -503,6 +503,9 @@ function deployModalWindow(titleTable) {
         case "Usuarios":
             arFieldsCard = ["Usuario", "Nombre", "Apellidos", "Rol", "Monedas", "Correo", "Contraseña"];
             break;
+        case "Comentarios":
+            arFieldsCard = ["Fecha", "Id_usuario", "Id_objeto", "Descripción"];
+            break;
         default:
             return;
     }
@@ -667,6 +670,7 @@ function deployModalWindow(titleTable) {
 
     let btnSave = document.createElement("button");
     btnSave.innerHTML = "Guardar";
+    btnSave.id = "actualizar";
 
     let btnDelete = document.createElement("button");
     btnDelete.innerHTML = "Borrar";
@@ -680,70 +684,101 @@ function deployModalWindow(titleTable) {
     btnSave.style.display = "flex";
     btnDelete.classList.add("ml-2");
     btnSave.style.justifyContent = "right";
-
-
-
-
-
-
     var idJson = event.target.parentNode.id
     divFather.style.display = "block";
 
+    if (titleTable == "Comentarios") {
+        var idUser = event.target.parentNode.children[2].textContent;
+        var idObject = event.target.parentNode.children[3].textContent;
+    }
+
+
     switch (titleTable) {
         case "Productos":
-            loadFileDataProducts(idJson);
-            btnSave.addEventListener("click", () => {
-                updateObject();
-                let input = document.querySelector(".modal");
-                input.remove();
-                cleanTable();
-                productsCount();
-            });
+            if (loadFileDataProducts(idJson)) {
+                btnSave.addEventListener("click", () => {
+                    updateObject();
+                    reloadPostOperation();
+                });
+            } else {
+                btnSave.addEventListener("click", () => {
+                    addObject();
+                    reloadPostOperation();
+                });
+            }
             btnDelete.addEventListener("click", () => {
                 removeObject();
-                let input = document.querySelector(".modal");
-                input.remove();
-                cleanTable();
-                productsCount();
+                reloadPostOperation();
             });
-
             break;
+
         case "Categorías":
-            loadFileDataCategories(idJson);
-            btnSave.addEventListener("click", () => {
-                updateCategory();
-                let input = document.querySelector(".modal");
-                input.remove();
-                cleanTable();
-                categoriesCount();
-            });
+            if (loadFileDataCategories(idJson)) {
+                btnSave.addEventListener("click", () => {
+                    updateCategory();
+                    reloadPostOperation();
+                });
+            } else {
+                btnSave.addEventListener("click", () => {
+                    addCategory();
+                    reloadPostOperation();
+                });
+            }
             btnDelete.addEventListener("click", () => {
                 removeCategory();
-                let input = document.querySelector(".modal");
-                input.remove();
-                cleanTable();
-                categoriesCountCount();
+                reloadPostOperation();
             });
             break;
+
         case "Comentarios":
-            loadFileDataComments(idJson);
-            break;
+            if (loadFileDataComments(idUser, idObject)) {
+                btnSave.addEventListener("click", () => {
+                    updateComment();
+                    reloadPostOperation();
+                });
+            } else {
+                btnSave.addEventListener("click", () => {
+                    addComment();
+                    reloadPostOperation();
+                });
+            }
+
         case "Usuarios":
-            loadFileDataUsers(idJson);
-            btnSave.addEventListener("click", () => {
-                updateUser();
-                let input = document.querySelector(".modal");
-                input.remove();
-                cleanTable();
-                usersCount();
-            });
+            if (loadFileDataUsers(idJson)) {
+                btnSave.addEventListener("click", () => {
+                    updateUser();
+                    reloadPostOperation();
+                });
+            } else {
+                btnSave.addEventListener("click", () => {
+                    addUser();
+                    reloadPostOperation();
+                });
+            }
+
             btnDelete.addEventListener("click", () => {
                 removeUser();
-                let input = document.querySelector(".modal");
-                input.remove();
-                cleanTable();
-                usersCount();
+                reloadPostOperation();
             });
+            break;
+    }
+}
+
+function reloadPostOperation() {
+    let input = document.querySelector(".modal");
+    input.remove();
+    cleanTable();
+    switch (titleTable.innerHTML) {
+        case "Usuarios":
+            usersCount();
+            break;
+        case "Productos":
+            productsCount();
+            break;
+        case "Categorías":
+            categoriesCount();
+            break;
+        case "Comentarios":
             break;
     }
 }
@@ -802,13 +837,13 @@ function updateUser() {
 function updateObject() {
     let fields = document.querySelectorAll(".inputModal");
     var inputsFile = document.querySelectorAll(".file");
-    var inputsFileChecked=[];
-    let i=0;
-    inputsFile.forEach(element=>{
-        if(element.files[0]!=undefined){
-            inputsFileChecked[i] =element.files[0].name;
-        }else{
-            inputsFileChecked[i]="";
+    var inputsFileChecked = [];
+    let i = 0;
+    inputsFile.forEach(element => {
+        if (element.files[0] != undefined) {
+            inputsFileChecked[i] = element.files[0].name;
+        } else {
+            inputsFileChecked[i] = "";
         }
         i++;
     });
@@ -821,8 +856,7 @@ function updateObject() {
         latitud: parseFloat(fields[3].value),
         longitud: parseFloat(fields[4].value),
         id_categoria: parseInt(fields[5].value),
-
-        imagen1: inputsFileChecked[0],
+        fotografia1: inputsFileChecked[0],
         fotografia2: inputsFileChecked[1],
         fotografia3: inputsFileChecked[2],
         descripcion: fields[6].value,
@@ -917,7 +951,7 @@ function removeObject() {
 
 function removeCategory() {
     let fields = document.querySelectorAll(".inputModal");
-    let cat = fields[0].value;
+    let cat = fields[0].id;
 
     fetch("http://localhost/ChristieMeta/index.php/api/borrar_categoria/?categoria=" + cat)
         .then(checkStatus)
@@ -945,19 +979,20 @@ function loadFileDataProducts(idJson) {
     let fileProductList = [1, 2, 5, 3, 4, 14, 11];
     let fileFiles = ["fotografia1", "fotografia2", "fotografia3"];
     let idProduct;
+    let emptyMark = false;
 
     let i = 0;
     jsonActual.forEach(element => {
         if (element[0] == idJson) {
-            idProduct=element["id_objeto"];
-            inputsModal[0].id=idProduct;
+            emptyMark = true;
+            idProduct = element["id_objeto"];
+            inputsModal[0].id = idProduct;
             inputsModal[5].value = element["id_categoria"];
             selectSelected = element["id_categoria"];
             inputsModal.forEach(element1 => {
                 element1.value = element[fileProductList[i]];
                 i++;
             });
-            return;
 
         }
     });
@@ -970,6 +1005,7 @@ function loadFileDataProducts(idJson) {
             inputsFile.forEach(element1 => {
 
                 if (fileFiles[x] != undefined && element[fileFiles[x]] != "" && element[fileFiles[x]] != null) {
+                    emptyMark = true;
 
                     myFile = new File(['Hello World!'], '../images/' + element[fileFiles[x]], {
                         type: 'text/plain',
@@ -988,12 +1024,16 @@ function loadFileDataProducts(idJson) {
                     dataTransfer.items.add(myFile);
                     element1.files = dataTransfer.files;
                     x++;
-                    return;
                 }
             });
         }
     });
 
+    if (emptyMark) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 
@@ -1001,6 +1041,7 @@ function loadFileDataCategories(idJson) {
     var inputsModal = document.querySelectorAll(".inputModal");
     let fileProductList = [1, "puntuacion", "cod_categoria_padre", 3];
     let i = 0;
+    let emptyMark = false;
 
     jsonActual.forEach(element => {
         if (element[0] == idJson) {
@@ -1008,11 +1049,16 @@ function loadFileDataCategories(idJson) {
                 inputsModal[0].id = element["id_categoria"];
                 element1.value = element[fileProductList[i]];
                 i++;
+                emptyMark = true;
             });
             return;
-
         }
     });
+    if (emptyMark) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 
@@ -1020,15 +1066,160 @@ function loadFileDataUsers(idJson) {
     var inputsModal = document.querySelectorAll(".inputModal");
     let fileProductList = [0, 3, 4, 5, 2, 7, 1];
     let i = 0;
+    let emptyMark = false;
+
     jsonActual.forEach(element => {
         if (element[0] == idJson) {
             inputsModal.forEach(element1 => {
-                element1.id=element["id_usuario"];
+                emptyMark = true;
+                element1.id = element["id_usuario"];
                 element1.value = element[fileProductList[i]];
                 i++;
             });
             return;
         }
     });
+    if (emptyMark) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function loadFileDataComments(idUser, idObject) {
+    var inputsModal = document.querySelectorAll(".inputModal");
+    let fileProductList = ["fecha", "id_usuario", "id_objeto", "texto"];
+    let i = 0;
+    let emptyMark = false;
+
+    jsonActual.forEach(element => {
+        if (element[1] == idUser && element[2] == idObject) {
+            inputsModal.forEach(element1 => {
+                emptyMark = true;
+                //element1.id = element["id_usuario"];
+                element1.value = element[fileProductList[i]];
+                i++;
+            });
+            return;
+        }
+    });
+    if (emptyMark) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+var btnAddItem = document.querySelector("#añadirItem");
+btnAddItem.addEventListener("click", () => {
+
+    deployModalWindow(titleTable.innerHTML);
+
+    // switch (titleTable) {
+    //     case "Categorías":
+    //         addCategory();
+    //         break;
+    //     case "Productos":
+    //         addObject();
+    //         break;
+    //     case "Comentarios":
+    //         // addComment();
+    //         break;
+    //     case "Usuarios":
+    //         addUser();
+    //         break;
+    // }
+});
+
+
+function updateComment() {
+    let fields = document.querySelectorAll(".inputModal");
+
+    let jsonValues = {
+        fecha: fields[0].value,
+        id_usuario: fields[1].value,
+        id_objeto: fields[2].value,
+        texto: fields[3].value,
+    }
+
+    let jsonFormat = JSON.stringify(jsonValues);
+
+    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_comentario/?q=" + jsonFormat)
+
+        .then(checkStatus)
+        .then(parseJSON)
+
+    event.preventDefault();
 
 }
+
+
+function addUser() {
+    let fields = document.querySelectorAll(".inputModal");
+    let jsonValues = {
+        id_usuario: fields[0].id,
+        usuario: fields[0].value,
+        nombre: fields[1].value,
+        apellidos: fields[2].value,
+        rol: fields[3].value,
+        correo: fields[5].value,
+        password: fields[6].value,
+        moneda: parseInt(fields[4].value),
+    }
+    let jsonFormat = JSON.stringify(jsonValues);
+
+    fetch('http://localhost/ChristieMeta/index.php/api/anadir_usuario/?usuario=' + jsonFormat)
+        .then(checkStatus)
+    event.preventDefault();
+}
+
+function addCategory() {
+    let fields = document.querySelectorAll(".inputModal");
+
+    let jsonValues = {
+        nombre: fields[0].value,
+        puntuacion: parseInt(fields[1].value),
+        cod_categoria_padre: parseInt(fields[2].value),
+        descripcion: fields[3].value,
+    }
+    let jsonFormat = JSON.stringify(jsonValues);
+
+    fetch('http://localhost/ChristieMeta/index.php/api/anadir_categoria/?categoria=' + jsonFormat)
+        .then(checkStatus)
+    event.preventDefault();
+}
+
+function addObject() {
+    let fields = document.querySelectorAll(".inputModal");
+
+    var inputsFile = document.querySelectorAll(".file");
+    var inputsFileChecked = [];
+    let i = 0;
+    inputsFile.forEach(element => {
+        if (element.files[0] != undefined) {
+            inputsFileChecked[i] = element.files[0].name;
+        } else {
+            inputsFileChecked[i] = "";
+        }
+        i++;
+    });
+
+    let jsonValues = {
+        nombre: fields[0].value,
+        precio: parseInt(fields[1].value),
+        puntuacion_total: parseInt(fields[2].value),
+        latitud: parseFloat(fields[3].value),
+        longitud: parseFloat(fields[4].value),
+        id_categoria: parseInt(fields[5].value),
+        fotografia1: inputsFileChecked[0],
+        fotografia2: inputsFileChecked[1],
+        fotografia3: inputsFileChecked[2],
+        descripcion: fields[6].value,
+    }
+    let jsonFormat = JSON.stringify(jsonValues);
+    fetch('http://localhost/ChristieMeta/index.php/api/anadir_objeto/?objeto=' + jsonFormat)
+        .then(checkStatus)
+
+    event.preventDefault();
+}
+

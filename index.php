@@ -27,12 +27,13 @@ if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) &&
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "listado_usuarios") {
     $dataController->loadUsersPagedList();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "actualizar_usuario") {
-    //$controller->login();
     $dataController->updateUser();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "actualizar_categoria") {
-     $dataController->updateCategory();
+    $dataController->updateCategory();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "actualizar_objeto") {
-      $dataController->updateObject();
+    $dataController->updateObject();
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "actualizar_comentario") {
+    $dataController->updateComment();
 
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "borrar_usuario") {
     $dataController->removeUser();
@@ -40,23 +41,29 @@ if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) &&
     $dataController->removeObject();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "borrar_categoria") {
     $dataController->removeCategory();
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "anadir_usuario") {
+    $dataController->addUser();
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "anadir_objeto") {
+    $dataController->addObject();
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "anadir_categoria") {
+    $dataController->addCategory();
 }
 
 
 //redirecciones del programa al backend
-if (isset($array_ruta[0]) && $array_ruta[0] == "login" && !isset($array_ruta[1])) {
+if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta[1]) && $array_ruta[1] == "login") {
     $controller->login();
-} else if (isset($array_ruta[0]) && $array_ruta[0] == "loginprocess" && !isset($array_ruta[1])) {
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta[1]) && $array_ruta[1] == "loginprocess") {
     $controller->login_check();
-} else if (isset($array_ruta[0]) && $array_ruta[0] == "restorepassword" && !isset($array_ruta[1])) {
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta[1]) && $array_ruta[1] == "restorepassword") {
     $controller->restore_password();
-} else if (isset($array_ruta[0]) && $array_ruta[0] == "home" && !isset($array_ruta[1])) {
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta[1]) && $array_ruta[1] == "home") {
     $controller->home();
-} else if (isset($array_ruta[0]) && $array_ruta[0] == "graficos" && !isset($array_ruta[1])) {
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta[1]) && $array_ruta[1] == "graficos") {
     $controller->graficos();
-} else if (isset($array_ruta[0]) && $array_ruta[0] == "informes" && !isset($array_ruta[1])) {
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta[1]) && $array_ruta[1] == "informes") {
     $controller->informes();
-} else if (isset($array_ruta[0]) && $array_ruta[0] == "mapa" && !isset($array_ruta[1])) {
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta[1]) && $array_ruta[1] == "mapa") {
     $controller->mapa();
 }
 
@@ -65,4 +72,4 @@ if (isset($array_ruta[0]) && $array_ruta[0] == "login" && !isset($array_ruta[1])
     $frontController->login();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "loginprocess" && !isset($array_ruta[1])) {
     $frontController->login_check();
-} 
+}

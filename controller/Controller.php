@@ -33,16 +33,19 @@ class Controller
 
             if ($login) {
                 $_SESSION["loged_in"] = true;
-                header("Location: /ChristieMeta/index.php/home");
+                header("Location: /ChristieMeta/index.php/admin/home");
+                return true;
             } else {
                 $mensaje = "Inicio de sesión fallido. Usuario incorrecto2.";
                 $_SESSION["mensaje_error"] = $mensaje;
-                header("Location: /ChristieMeta/index.php/login");
+                header("Location: /ChristieMeta/index.php/admin/login");
+                return false;
             }
         } else {
             $mensaje = "Inicio de sesión fallido. Usuario incorrecto4.";
             $_SESSION["mensaje_error"] = $mensaje;
-            header("Location: /ChristieMeta/index.php/login");
+            header("Location: /ChristieMeta/index.php/admin/login");
+            return false;
         }
     }
 

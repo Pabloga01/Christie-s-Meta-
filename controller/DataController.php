@@ -145,7 +145,9 @@ class DataController
                 array_push($arVar, $correo);
             }
             if (isset($jsonParams['password'])) {
-                $password = "password='" . $jsonParams['password'] . "'";
+                $password = "password='" . sha1(
+                    $jsonParams['password']
+                ) . "'";
                 array_push($arVar, $password);
             }
 
@@ -163,6 +165,7 @@ class DataController
                 }
             }
         }
+        return false;
     }
 
 
@@ -232,6 +235,7 @@ class DataController
                 }
             }
         }
+        return false;
     }
 
 
@@ -277,6 +281,7 @@ class DataController
                 }
             }
         }
+        return false;
     }
 
     function updateComment()
@@ -309,7 +314,7 @@ class DataController
 
             if (count($arVar) > 0) {
                 $db = new Conexion();
-                $datos = $db->updateCategory($arVar, $jsonParams["id_categoria"]);
+                $datos = $db->updateComment($arVar, $jsonParams["id_usuario_anterior"], $jsonParams["id_objeto_anterior"]);
                 if (isset($datos)) {
                     if ($datos) {
                         //   echo "true";
@@ -320,6 +325,8 @@ class DataController
                     }
                 }
             }
+        } else {
+            return false;
         }
     }
 
@@ -335,6 +342,8 @@ class DataController
             } else {
                 return false;
             }
+        } else {
+            return false;
         }
     }
 
@@ -348,6 +357,8 @@ class DataController
             } else {
                 return false;
             }
+        } else {
+            return false;
         }
     }
 
@@ -361,9 +372,23 @@ class DataController
             } else {
                 return false;
             }
+        } else {
+            return false;
         }
     }
 
+    function removeComment()
+    {
+        if (isset($_GET['usuario']) && isset($_GET['objeto'])) {
+            $db = new Conexion();
+            $datos = $db->deleteComment($_GET['usuario'], $_GET['objeto']);
+            if ($datos) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 
     function addUser()
     {
@@ -374,42 +399,42 @@ class DataController
             $arVar = [];
             $paramsHeaders = [];
 
-            if (isset($jsonParams['usuario']) && $jsonParams['usuario']!="")  {
+            if (isset($jsonParams['usuario']) && $jsonParams['usuario'] != "") {
                 $usuario = "'" . $jsonParams['usuario'] . "'";
                 array_push($arVar, $usuario);
                 array_push($paramsHeaders, "usuario");
             }
-            
-            if (isset($jsonParams['nombre'])&& $jsonParams['nombre']!="") {
+
+            if (isset($jsonParams['nombre']) && $jsonParams['nombre'] != "") {
                 $nombre = "'" . $jsonParams['nombre'] . "'";
                 array_push($arVar, $nombre);
                 array_push($paramsHeaders, "nombre");
             }
-            
-            if (isset($jsonParams['apellidos'])&& $jsonParams['apellidos']!="") {
+
+            if (isset($jsonParams['apellidos']) && $jsonParams['apellidos'] != "") {
                 $apellidos = "'" . $jsonParams['apellidos'] . "'";
                 array_push($arVar, $apellidos);
                 array_push($paramsHeaders, "apellidos");
             }
-            
-            if (isset($jsonParams['rol'])&& $jsonParams['rol']!="") {
+
+            if (isset($jsonParams['rol']) && $jsonParams['rol'] != "") {
                 $rol = "'" . $jsonParams['rol'] . "'";
                 array_push($arVar, $rol);
                 array_push($paramsHeaders, "rol");
             }
-            
+
             if (isset($jsonParams['moneda'])) {
                 $moneda = $jsonParams['moneda'];
                 array_push($arVar, $moneda);
                 array_push($paramsHeaders, "moneda");
             }
-            if (isset($jsonParams['correo']) && $jsonParams['correo']!="") {
+            if (isset($jsonParams['correo']) && $jsonParams['correo'] != "") {
                 $correo = "'" . $jsonParams['correo'] . "'";
                 array_push($arVar, $correo);
                 array_push($paramsHeaders, "correo");
             }
-            if (isset($jsonParams['password']) && $jsonParams['correo']!="") {
-                $password = "'" . $jsonParams['password'] . "'";
+            if (isset($jsonParams['password']) && $jsonParams['correo'] != "") {
+                $password = "'" . sha1($jsonParams['password']) . "'";
                 array_push($arVar, $password);
                 array_push($paramsHeaders, "password");
             }
@@ -434,7 +459,7 @@ class DataController
 
             $jsonParams = json_decode($_GET["objeto"], true);
             $arVar = [];
-            $paramsHeaders=[];
+            $paramsHeaders = [];
 
             if (isset($jsonParams['nombre'])) {
                 $nombre = "'" . $jsonParams['nombre'] . "'";
@@ -490,7 +515,7 @@ class DataController
             var_dump($arVar);
             if (count($arVar) > 0) {
                 $db = new Conexion();
-                $datos = $db->addObject($arVar,$paramsHeaders);
+                $datos = $db->addObject($arVar, $paramsHeaders);
                 if (isset($datos)) {
                     if ($datos) {
                         echo "true";
@@ -507,21 +532,21 @@ class DataController
     function addCategory()
     {
         if (isset($_GET["categoria"])) {
-            $paramsHeaders=[];
+            $paramsHeaders = [];
             $jsonParams = json_decode($_GET["categoria"], true);
             $arVar = [];
-            if (isset($jsonParams['nombre'])&& $jsonParams['nombre'] != "") {
+            if (isset($jsonParams['nombre']) && $jsonParams['nombre'] != "") {
                 $nombre = "'" . $jsonParams['nombre'] . "'";
                 array_push($arVar, $nombre);
                 array_push($paramsHeaders, "nombre");
             }
             if (isset($jsonParams['puntuacion'])) {
-                $puntuacion =$jsonParams['puntuacion'];
+                $puntuacion = $jsonParams['puntuacion'];
                 array_push($arVar, $puntuacion);
                 array_push($paramsHeaders, "puntuacion");
             }
             if (isset($jsonParams['cod_categoria_padre'])) {
-                $cod_categoria_padre =$jsonParams['cod_categoria_padre'];
+                $cod_categoria_padre = $jsonParams['cod_categoria_padre'];
                 array_push($arVar, $cod_categoria_padre);
                 array_push($paramsHeaders, "cod_categoria_padre");
             }
@@ -535,7 +560,7 @@ class DataController
             var_dump($arVar);
             if (count($arVar) > 0) {
                 $db = new Conexion();
-                $datos = $db->addCategory($arVar,$paramsHeaders);
+                $datos = $db->addCategory($arVar, $paramsHeaders);
                 if (isset($datos)) {
                     if ($datos) {
                         return true;
@@ -546,8 +571,85 @@ class DataController
             }
             return false;
         }
-
     }
 
 
+    function addComment()
+    {
+        if (isset($_GET["comentario"])) {
+            $paramsHeaders = [];
+            $jsonParams = json_decode($_GET["comentario"], true);
+            $arVar = [];
+            if (isset($jsonParams['fecha']) && $jsonParams['fecha'] != "") {
+                $fecha = "'" . $jsonParams['fecha'] . "'";
+                array_push($arVar, $fecha);
+                array_push($paramsHeaders, "fecha");
+            }
+            if (isset($jsonParams['id_objeto'])) {
+                $id_objeto = $jsonParams['id_objeto'];
+                array_push($arVar, $id_objeto);
+                array_push($paramsHeaders, "id_objeto");
+            }
+            if (isset($jsonParams['id_usuario'])) {
+                $id_usuario = $jsonParams['id_usuario'];
+                array_push($arVar, $id_usuario);
+                array_push($paramsHeaders, "id_usuario");
+            }
+            if (isset($jsonParams['texto']) && $jsonParams['texto'] != "") {
+                $texto = "'" . $jsonParams['texto'] . "'";
+                array_push($arVar, $texto);
+                array_push($paramsHeaders, "texto");
+            }
+
+            if (count($arVar) > 0) {
+                $db = new Conexion();
+                $datos = $db->addComment($arVar, $paramsHeaders);
+                if (isset($datos)) {
+                    if ($datos) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            return false;
+        }
+    }
+
+
+
+    function getComment()
+    {
+        if (isset($_GET["usuario"]) && isset($_GET["objeto"])) {
+            $db = new Conexion();
+            $datos = $db->getComment($_GET["usuario"], $_GET["objeto"]);
+            if ($datos != false) {
+                echo json_encode($datos);
+            }
+        }
+        return false;
+    }
+
+
+
+
+    function createDirectoryCategory($idCat)
+    {
+         //$file = "http:\\\\localhost\\ChristieMeta\\view\\admin\\dir_categorias\\$idCat";
+        $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_categorias\\$idCat";
+        if (!file_exists($file)) {
+            mkdir($file, 0777, true);
+            echo "si";
+        }
+    }
+
+    function createDirectoryObject($idObj)
+    {
+         //$file = "http:\\\\localhost\\ChristieMeta\\view\\admin\\dir_categorias\\$idCat";
+        $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj";
+        if (!file_exists($file)) {
+            mkdir($file, 0777, true);
+            echo "si";
+        }
+    }
 }

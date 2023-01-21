@@ -1,7 +1,5 @@
 <?php
 session_start();
-if($_SESSION["loged_in"]){
-}else{
-    header("Location: /ChristieMeta/index.php/");
+if (!isset($_SESSION["loged_in"])) {
+    header("Location: /ChristieMeta/index.php/admin/login");
 }
-?>

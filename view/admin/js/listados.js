@@ -217,7 +217,7 @@ function getCommentsPagedList(nIndex) {
         actualIndex = nIndex;
     }
     let arrCommentsHeaders = ["fecha", "usuario", "objeto", "texto"];
-    let arrCommentsHeaders2 = ["fecha", "id_usuario", "id_objeto", "texto"];
+    let arrCommentsHeaders2 = ["fecha", 4, 13, "texto"];
     createHeadBoard(arrCommentsHeaders);
 
     fetch("http://localhost/ChristieMeta/index.php/api/listado_comentarios/?q=" + nVisualizedRows + "&indice=" + actualIndex)
@@ -246,8 +246,8 @@ function getUsersPagedList(nIndex) {
     } else {
         actualIndex = nIndex;
     }
-    let arrUserHeaders = ["usuario", "monedas", "nombre", "apellidos", "correo", "rol", "id usuario"];
-    let arrUserHeaders2 = ["usuario", "moneda", "nombre", "apellidos", "correo", "rol", "id_usuario"];
+    let arrUserHeaders = ["usuario", "monedas", "nombre", "apellidos", "correo", "rol"];
+    let arrUserHeaders2 = ["usuario", "moneda", "nombre", "apellidos", "correo", "rol"];
     createHeadBoard(arrUserHeaders);
     fetch("http://localhost/ChristieMeta/index.php/api/listado_usuarios/?q=" + nVisualizedRows + "&indice=" + actualIndex)
         .then(checkStatus)
@@ -501,10 +501,10 @@ function deployModalWindow(titleTable) {
             arFieldsCard = ["Nombre", "Puntuación", "Cat. Padre", "Descripción"];
             break;
         case "Usuarios":
-            arFieldsCard = ["Usuario", "Nombre", "Apellidos", "Rol", "Monedas", "Correo", "Contraseña"];
+            arFieldsCard = ["Tag. Usuario", "Nombre", "Apellidos", "Rol", "Monedas", "Correo", "Contraseña"];
             break;
         case "Comentarios":
-            arFieldsCard = ["Fecha", "Id_usuario", "Id_objeto", "Descripción"];
+            arFieldsCard = ["Fecha", "Usuario", "Item", "Descripción"];
             break;
         default:
             return;
@@ -586,6 +586,8 @@ function deployModalWindow(titleTable) {
         let input;
 
 
+
+
         if (arFieldsCard[i] == "Descripción") {
             input = document.createElement("textarea");
             input.classList.add("col-xl-6", "col-lg-6", "col-md-6", "col-sm-10", "col-10");
@@ -595,15 +597,75 @@ function deployModalWindow(titleTable) {
             input.style.height = "150px";
             input.style.paddingBottom = "-5%";
 
-
         } else {
             input = document.createElement("input");
             input.style.width = "50%";
             input.style.marginBottom = "5%";
         }
 
+        if (arFieldsCard[i] == "Fecha") {
+            input.type = "date";
+        }else if (arFieldsCard[i] == "Contraseña") {
+            input.type = "password";
+        }
+        if (arFieldsCard[i] == "Usuario") {
+            input = document.createElement("select");
+            input.classList.add("selectUsers");
+
+            fetch("http://localhost/ChristieMeta/index.php/api/listado_usuarios")
+                //  .then(checkStatus)
+                .then(parseJSON)
+                .then(function (data) {
+                    var json = data;
+                    userList = eval(json);
+                    if (userList != undefined && userList.length != 0) {
+
+                        input = document.querySelector(".selectUsers");
+                        var option;
+                        userList.forEach(element => {
+                            option = document.createElement("option");
+                            option.text = element["usuario"];
+                            option.value = element["id_usuario"];
+                            input.add(option);
+                        });
+                        input.value = input.id;
+                        input.style.width = "50%";
+                        input.style.marginBottom = "5%";
+                    }
+                }).catch(function (error) {
+                    console.log('error request', error);
+                });
+        }
 
 
+        if (arFieldsCard[i] == "Item") {
+            input = document.createElement("select");
+            input.classList.add("selectItems");
+
+            fetch("http://localhost/ChristieMeta/index.php/api/listado_productos")
+                //  .then(checkStatus)
+                .then(parseJSON)
+                .then(function (data) {
+                    var json = data;
+                    userList = eval(json);
+                    if (userList != undefined && userList.length != 0) {
+
+                        input = document.querySelector(".selectItems");
+                        var option;
+                        userList.forEach(element => {
+                            option = document.createElement("option");
+                            option.text = element["nombre"];
+                            option.value = element["id_objeto"];
+                            input.add(option);
+                        });
+                        input.value = input.id;
+                        input.style.width = "50%";
+                        input.style.marginBottom = "5%";
+                    }
+                }).catch(function (error) {
+                    console.log('error request', error);
+                });
+        }
 
 
         if (arFieldsCard[i] == "Categoría") {
@@ -688,8 +750,21 @@ function deployModalWindow(titleTable) {
     divFather.style.display = "block";
 
     if (titleTable == "Comentarios") {
-        var idUser = event.target.parentNode.children[2].textContent;
-        var idObject = event.target.parentNode.children[3].textContent;
+        try {
+            var idUser = event.target.parentNode.children[2].textContent;
+            var idObject = event.target.parentNode.children[3].textContent;
+        } catch (exception) {
+            btnSave.addEventListener("click", () => {
+                addComment();
+                reloadPostOperation();
+            });
+            
+            btnDelete.addEventListener("click", () => {
+                removeComment();
+                reloadPostOperation();
+            });
+        }
+        
     }
 
 
@@ -731,18 +806,36 @@ function deployModalWindow(titleTable) {
             break;
 
         case "Comentarios":
-            if (loadFileDataComments(idUser, idObject)) {
-                btnSave.addEventListener("click", () => {
-                    updateComment();
-                    reloadPostOperation();
-                });
-            } else {
-                btnSave.addEventListener("click", () => {
-                    addComment();
-                    reloadPostOperation();
-                });
-            }
+            fetch("http://localhost/ChristieMeta/index.php/api/consultar_comentario/?usuario=" + idUser + "&objeto=" + idObject)
+                //  .then(checkStatus)
+                .then(parseJSON)
+                .then(function (data) {
+                    var json = data;
+                    json = eval(json);
 
+                    if (json != undefined && json.length != 0) {
+                        idUser = json[0][1];
+                        idObject = json[0][2];
+                    }
+                    if (loadFileDataComments(idUser, idObject)) {
+                        btnSave.addEventListener("click", () => {
+                            updateComment();
+                            reloadPostOperation();
+                        });
+                    } else {
+                        btnSave.addEventListener("click", () => {
+                            addComment();
+                            reloadPostOperation();
+                        });
+                    }
+                    btnDelete.addEventListener("click", () => {
+                        removeComment();
+                        reloadPostOperation();
+                    });
+                }).catch(function (error) {
+                    console.log('error request', error);
+                });
+            break;
         case "Usuarios":
             if (loadFileDataUsers(idJson)) {
                 btnSave.addEventListener("click", () => {
@@ -779,6 +872,7 @@ function reloadPostOperation() {
             categoriesCount();
             break;
         case "Comentarios":
+            commentsCount();
             break;
     }
 }
@@ -971,6 +1065,13 @@ function removeCategory() {
     event.preventDefault();
 }
 
+function removeComment() {
+    let fields = document.querySelectorAll(".inputModal");
+    let idUser = fields[1].value;
+    let idObject = fields[2].value;
+    fetch("http://localhost/ChristieMeta/index.php/api/borrar_comentario/?usuario=" + idUser + "&objeto=" + idObject)
+    event.preventDefault();
+}
 
 function loadFileDataProducts(idJson) {
     var inputsModal = document.querySelectorAll(".inputModal");
@@ -1094,13 +1195,14 @@ function loadFileDataComments(idUser, idObject) {
 
     jsonActual.forEach(element => {
         if (element[1] == idUser && element[2] == idObject) {
+            inputsModal[1].id = idUser;
+            inputsModal[2].id = idObject;
             inputsModal.forEach(element1 => {
                 emptyMark = true;
-                //element1.id = element["id_usuario"];
                 element1.value = element[fileProductList[i]];
                 i++;
             });
-            return;
+
         }
     });
     if (emptyMark) {
@@ -1140,17 +1242,16 @@ function updateComment() {
         id_usuario: fields[1].value,
         id_objeto: fields[2].value,
         texto: fields[3].value,
+        id_usuario_anterior: fields[1].id,
+        id_objeto_anterior: fields[2].id,
     }
 
     let jsonFormat = JSON.stringify(jsonValues);
 
     fetch("http://localhost/ChristieMeta/index.php/api/actualizar_comentario/?q=" + jsonFormat)
 
-        .then(checkStatus)
-        .then(parseJSON)
 
     event.preventDefault();
-
 }
 
 
@@ -1223,3 +1324,24 @@ function addObject() {
     event.preventDefault();
 }
 
+
+
+function addComment() {
+    let fields = document.querySelectorAll(".inputModal");
+
+    let jsonValues = {
+        fecha: fields[0].value,
+        id_usuario: fields[1].value,
+        id_objeto: fields[2].value,
+        texto: fields[3].value,
+
+    }
+
+    let jsonFormat = JSON.stringify(jsonValues);
+
+    fetch("http://localhost/ChristieMeta/index.php/api/anadir_comentario/?comentario=" + jsonFormat)
+
+
+    event.preventDefault();
+
+}

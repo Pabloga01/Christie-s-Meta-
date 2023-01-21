@@ -24,18 +24,18 @@ class Conexion
     {
         try {
             $conexion = $this->getConexion();
-            $sql = "select * from usuario where correo='$user' and password='$password'";
+            $sql = "select * from usuario where correo='$user' and password=sha1('$password')";
             $registros = $conexion->query($sql);
             if ($registros->rowCount() > 0) {
                 // foreach ($registros as $registro){
                 //     $id=$registro["id_usuario"];
                 // }
                 $registros->closeCursor();
-                $db = null;
+                $conexion = null;
                 return true;
             } else {
                 $registros->closeCursor();
-                $db = null;
+                $conexion = null;
                 return false;
             }
         } catch (PDOException $ex) {
@@ -58,12 +58,12 @@ class Conexion
                 array_push($datos_lista, $registro);
             }
             $registros->closeCursor();
-            $db = null;
+            $conexion = null;
             return $datos_lista;
             // echo json_encode($datos_lista);
         } else {
             $registros->closeCursor();
-            $db = null;
+            $conexion = null;
             return false;
         }
     }
@@ -78,6 +78,9 @@ class Conexion
             $sql = "SELECT * FROM $itemName left outer join categoria on objeto.id_categoria=categoria.id_categoria limit $indice , $q";
         } else if ($itemName == "categoria") {
             $sql = "SELECT * FROM $itemName limit $indice , $q";
+        } else if (($itemName == "comentario")) {
+            // $sql = "SELECT * FROM $itemName left outer join usuario on objeto.id_categoria=categoria.id_categoria limit $indice , $q";
+            $sql = " SELECT * FROM comentario left outer join usuario on comentario.id_usuario=usuario.id_usuario left outer join objeto on comentario.id_objeto=objeto.id_objeto limit $indice , $q";
         } else {
             $sql = "select * from $itemName limit $indice , $q";
         }
@@ -89,12 +92,12 @@ class Conexion
                 array_push($datos_lista, $registro);
             }
             $registros->closeCursor();
-            $db = null;
+            $conexion = null;
             return $datos_lista;
             // echo json_encode($datos_lista);
         } else {
             $registros->closeCursor();
-            $db = null;
+            $conexion = null;
             return false;
         }
     }
@@ -119,10 +122,10 @@ class Conexion
                 //     $id=$registro["id_usuario"];
                 // }
                 $registros->closeCursor();
-                $db = null;
+                $conexion = null;
                 return true;
             } else {
-                $db = null;
+                $conexion = null;
                 return false;
             }
         } catch (PDOException $ex) {
@@ -145,10 +148,10 @@ class Conexion
             if ($registros) {
 
                 $registros->closeCursor();
-                $db = null;
+                $conexion = null;
                 return true;
             } else {
-                $db = null;
+                $conexion = null;
                 return false;
             }
         } catch (PDOException $ex) {
@@ -172,16 +175,46 @@ class Conexion
             if ($registros) {
 
                 $registros->closeCursor();
-                $db = null;
+                $conexion = null;
                 return true;
             } else {
-                $db = null;
+                $conexion = null;
                 return false;
             }
         } catch (PDOException $ex) {
             return false;
         }
     }
+
+    public function updateComment($arVal, $idUser, $idObject)
+    {
+        $paramsOnString = "";
+        foreach ($arVal as $element) {
+            $paramsOnString .= $element . ",";
+        }
+        $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
+        try {
+            $conexion = $this->getConexion();
+            $sql = "update comentario set $paramsOnString where id_objeto=$idObject and id_usuario=$idUser";
+            $registros = $conexion->query($sql);
+            if ($registros) {
+
+                $registros->closeCursor();
+                $conexion = null;
+                return true;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+
+
+
+
 
     public function deleteUser($userId)
     {
@@ -191,10 +224,10 @@ class Conexion
             $registros = $conexion->query($sql);
             if ($registros) {
                 $registros->closeCursor();
-                $db = null;
+                $conexion = null;
                 return true;
             } else {
-                $db = null;
+                $conexion = null;
                 return false;
             }
         } catch (PDOException $ex) {
@@ -210,10 +243,10 @@ class Conexion
             $registros = $conexion->query($sql);
             if ($registros) {
                 $registros->closeCursor();
-                $db = null;
+                $conexion = null;
                 return true;
             } else {
-                $db = null;
+                $conexion = null;
                 return false;
             }
         } catch (PDOException $ex) {
@@ -229,10 +262,29 @@ class Conexion
             $registros = $conexion->query($sql);
             if ($registros) {
                 $registros->closeCursor();
-                $db = null;
+                $conexion = null;
                 return true;
             } else {
-                $db = null;
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+    public function deleteComment($idUser, $idObject)
+    {
+        try {
+            $conexion = $this->getConexion();
+            $sql = "delete from comentario where id_usuario=$idUser and id_objeto=$idObject";
+            $registros = $conexion->query($sql);
+            if ($registros) {
+                $registros->closeCursor();
+                $conexion = null;
+                return true;
+            } else {
+                $conexion = null;
                 return false;
             }
         } catch (PDOException $ex) {
@@ -259,11 +311,15 @@ class Conexion
             $sql = "insert into categoria ($headersOnString) values ($paramsOnString)";
             $registros = $conexion->query($sql);
             if ($registros->rowCount() > 0) {
+                
+                 $idCat=$conexion->lastInsertId();
                 $registros->closeCursor();
-                $db = null;
+                $conexion = null;
+                $dataController=new DataController();
+                $dataController->createDirectoryCategory($idCat);
                 return true;
             } else {
-                $db = null;
+                $conexion = null;
                 return false;
             }
         } catch (PDOException $ex) {
@@ -290,12 +346,15 @@ class Conexion
             $conexion = $this->getConexion();
             $sql = "insert into objeto ($headersOnString) values ($paramsOnString)";
             $registros = $conexion->query($sql);
-            if ($registros) {
+            if ($registros->rowCount()>0) {
+                $idObject=$conexion->lastInsertId();
                 $registros->closeCursor();
-                $db = null;
+                $conexion = null;
+                $dataController=new DataController();
+                $dataController->createDirectoryObject($idObject);
                 return true;
             } else {
-                $db = null;
+                $conexion = null;
                 return false;
             }
         } catch (PDOException $ex) {
@@ -325,14 +384,93 @@ class Conexion
             $registros = $conexion->query($sql);
             if ($registros->rowCount() > 0) {
                 $registros->closeCursor();
-                $db = null;
+                $conexion = null;
                 return true;
             } else {
-                $db = null;
+                $conexion = null;
                 return false;
             }
         } catch (PDOException $ex) {
             return false;
         }
     }
+
+    public function addComment($arVal, $headers)
+    {
+        $paramsOnString = "";
+        $headersOnString = "";
+        foreach ($arVal as $element) {
+            $paramsOnString .= $element . ",";
+        }
+
+        foreach ($headers as $element) {
+            $headersOnString .= $element . ",";
+        }
+        //var_dump($arVal);
+        echo $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
+        echo "<br>";
+        echo $headersOnString = substr($headersOnString, 0, strlen($headersOnString) - 1);
+        try {
+            $conexion = $this->getConexion();
+            $sql = "insert into comentario ($headersOnString) values ($paramsOnString)";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                $registros->closeCursor();
+                $conexion = null;
+                return true;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+    public function getComment($user, $object)
+    {
+        try {
+            $arResul=[];
+            $conexion = $this->getConexion();
+            $sql = "SELECT * FROM comentario left outer join usuario on comentario.id_usuario=usuario.id_usuario left outer join objeto on comentario.id_objeto=objeto.id_objeto where usuario='$user' and objeto.nombre='$object'";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                foreach ($registros as $registro) {
+                    array_push($arResul, $registro);
+                }
+                $registros->closeCursor();
+                $conexion = null;
+                return $arResul;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+    public function getUser($user, $password)
+    {
+        try {
+            $conexion = $this->getConexion();
+            $sql = "SELECT * FROM usuario WHERE password=sha1($password) and correo='$user' ";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                foreach ($registros as $registro) {
+                    $user=new Usuario($registro["usuario"],$registro["password"],$registro["moneda"],$registro["nombre"],$registro["apellidos"],$registro["rol"],$registro["id_usuario"],$registro["correo"]);
+                }
+                $registros->closeCursor();
+                $conexion = null;
+                return $user;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+
 }

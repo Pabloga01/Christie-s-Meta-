@@ -32,7 +32,13 @@ class Controller
             $login = $db->loginBBDD($user, $password);
 
             if ($login) {
-                $_SESSION["loged_in"] = true;
+                $_SESSION["loged_in"] = $user;
+                $user = $db->getUser($user, $password);
+                if ($user != false) {
+                     $_SESSION["username"] = $user->getNombre();
+                }else{
+                    $_SESSION["username"]=$_POST["user"];
+                }
                 header("Location: /ChristieMeta/index.php/admin/home");
                 return true;
             } else {
@@ -63,41 +69,38 @@ class Controller
 
     function home()
     {
+        require_once("./model/sesiones.php");
         require("view/admin/index.php");
     }
 
     function recordar_password()
     {
-
     }
 
     function graficos()
     {
+        require_once("./model/sesiones.php");
         require("view/admin/chart.php");
     }
 
     function informes()
     {
+        require_once("./model/sesiones.php");
         require("view/admin/table.php");
     }
 
-    
-
-
-
     function mapa()
     {
+        require_once("./model/sesiones.php");
         require("view/admin/map.php");
     }
 
-
-
-    function paginacion()
+    function exit_session()
     {
-    }
-
-
-    function cargar_vista()
-    {
+        require_once("./model/sesiones.php");
+        session_destroy();
+        unset($_SESSION["loged_in"]);
+        unset($_SESSION["username"]);
+        header("Location: http://localhost/ChristieMeta/index.php/admin/login");
     }
 }

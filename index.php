@@ -4,6 +4,7 @@ require_once("./controller/Controller.php");
 require_once("./controller/DataController.php");
 require_once("./controller/FrontController.php");
 require_once("./model/db.php");
+require_once("./model/Usuario.php");
 //require_once("./model/Mailer.php");
 
 //$apiController = new ApiController;
@@ -41,12 +42,22 @@ if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) &&
     $dataController->removeObject();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "borrar_categoria") {
     $dataController->removeCategory();
-} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "anadir_usuario") {
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "borrar_comentario") {
+    $dataController->removeComment();
+}
+ else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "anadir_usuario") {
     $dataController->addUser();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "anadir_objeto") {
     $dataController->addObject();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "anadir_categoria") {
     $dataController->addCategory();
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "anadir_comentario") {
+    $dataController->addComment();
+
+
+//obtener pk de usuario e item a traves de nombres de comentario
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_comentario") {
+    $dataController->getComment();
 }
 
 
@@ -65,8 +76,11 @@ if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta[1]) 
     $controller->informes();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta[1]) && $array_ruta[1] == "mapa") {
     $controller->mapa();
+}else if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta[1]) && $array_ruta[1] == "cerrar_sesion") {
+    $controller->exit_session();
 }
 
+//redirecciones del programa al front end
 
 if (isset($array_ruta[0]) && $array_ruta[0] == "login" && !isset($array_ruta[1])) {
     $frontController->login();

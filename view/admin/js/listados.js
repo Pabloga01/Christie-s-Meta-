@@ -12,6 +12,7 @@ var jsonActual = [];
 var titleTable = document.querySelector(".titulo_tabla");
 var columnas;
 var selectSelected;
+var previousSection="Productos";
 
 addEventListener("load", () => {
 
@@ -186,8 +187,8 @@ function getCategoriesPagedList(nIndex) {
         actualIndex = nIndex;
     }
 
-    let arrCategoriesHeaders = ["nombre", "descripcion", "puntuacion", "categoria padre"]
-    let arrCategoriesHeaders2 = [1, 3, "puntuacion", "cod_categoria_padre"]
+    let arrCategoriesHeaders = ["nombre", "descripcion", "puntuacion", "categoria padre","fotografia"];
+    let arrCategoriesHeaders2 = [1, 3, "puntuacion", "cod_categoria_padre","fotografia"];
     createHeadBoard(arrCategoriesHeaders);
 
     fetch("http://localhost/ChristieMeta/index.php/api/listado_categorias/?q=" + nVisualizedRows + "&indice=" + actualIndex)
@@ -288,6 +289,7 @@ beforeBtn.addEventListener("click", () => {
 });
 
 function next() {
+
     let valueSelect = parseInt(selectPags.options[selectPags.selectedIndex].value);
 
     if (totalObjectsLength == (valueSelect * cursorNavigator) + valueSelect) {
@@ -295,7 +297,20 @@ function next() {
         enableButton("before");
         cursorNavigator++;
         let valor = (valueSelect * cursorNavigator) - valueSelect;
-        getProductPagedList(valor);
+        switch (titleTable.innerHTML) {
+            case "Productos":
+                getProductPagedList(valor);
+                break;
+            case "Categorías":
+                getCategoriesPagedList(valor);
+                break;
+            case "Usuarios":
+                getUsersPagedList(valor);
+                break;
+            case "Comentarios":
+                getCommentsPagedList(valor);
+                break;
+        }
         disableButton("next");
     } else if (totalObjectsLength < (valueSelect * cursorNavigator) + valueSelect) {
         disableButton("next");
@@ -304,7 +319,20 @@ function next() {
         enableButton("before");
         cursorNavigator++;
         let valor = (valueSelect * cursorNavigator) - valueSelect;
-        getProductPagedList(valor);
+        switch (titleTable.innerHTML) {
+            case "Productos":
+                getProductPagedList(valor);
+                break;
+            case "Categorías":
+                getCategoriesPagedList(valor);
+                break;
+            case "Usuarios":
+                getUsersPagedList(valor);
+                break;
+            case "Comentarios":
+                getCommentsPagedList(valor);
+                break;
+        }
     }
 }
 
@@ -318,7 +346,20 @@ function before() {
     } else {
         let valor = (valueSelect * cursorNavigator) - valueSelect;
         cleanTable();
-        getProductPagedList(valor);
+        switch (titleTable.innerHTML) {
+            case "Productos":
+                getProductPagedList(valor);
+                break;
+            case "Categorías":
+                getCategoriesPagedList(valor);
+                break;
+            case "Usuarios":
+                getUsersPagedList(valor);
+                break;
+            case "Comentarios":
+                getCommentsPagedList(valor);
+                break;
+        }
         if (cursorNavigator == 1) {
             disableButton("before");
         }
@@ -474,7 +515,9 @@ function checkStatus(response) {
 function parseJSON(response) {
     return response.json();
 }
-
+function parseText(response) {
+    return response.text();
+}
 
 // function addClickerRows() {
 
@@ -498,7 +541,7 @@ function deployModalWindow(titleTable) {
             arFieldsCard = ["Nombre", "Precio", "Puntuación", "Latitud", "Longitud", "Categoría", "Imagen 1", "Imagen 2", "Imagen 3", "Descripción"];
             break;
         case "Categorías":
-            arFieldsCard = ["Nombre", "Puntuación", "Cat. Padre","Imagen" ,"Descripción"];
+            arFieldsCard = ["Nombre", "Puntuación", "Cat. Padre", "Imagen", "Descripción"];
             break;
         case "Usuarios":
             arFieldsCard = ["Tag. Usuario", "Nombre", "Apellidos", "Rol", "Monedas", "Correo", "Contraseña"];
@@ -937,6 +980,7 @@ function updateObject() {
         i++;
     });
 
+
     let jsonValues = {
         id_objeto: fields[0].id,
         nombre: fields[0].value,
@@ -945,9 +989,9 @@ function updateObject() {
         latitud: parseFloat(fields[3].value),
         longitud: parseFloat(fields[4].value),
         id_categoria: parseInt(fields[5].value),
-         fotografia1: inputsFileChecked[0],
-         fotografia2: inputsFileChecked[1],
-         fotografia3: inputsFileChecked[2],
+        fotografia1: inputsFileChecked[0],
+        fotografia2: inputsFileChecked[1],
+        fotografia3: inputsFileChecked[2],
         descripcion: fields[6].value,
     }
     let jsonFormat = JSON.stringify(jsonValues);
@@ -960,22 +1004,10 @@ function updateObject() {
         },
         body: jsonFormat
     })
-        // .then((response) => response.text())
-        // .then((responseText) => {
-        //     alert(responseText);
-        // })
         .catch((error) => {
             console.error(error);
         });
 
-    // inputsFile.forEach(element => {
-    //     if (element.files[0] != undefined) {
-    //         inputsFileChecked[i] = element.files[0].name;
-    //     } else {
-    //         inputsFileChecked[i] = "";
-    //     }
-    //     i++;
-    // });
 
     var fotos = ["fotografia1", "fotografia2", "fotografia3"];
     const formData = new FormData();
@@ -988,9 +1020,6 @@ function updateObject() {
         }
     }
     formData.append("id", fields[0].id);
-
-
-
 
     fetch("http://localhost/ChristieMeta/index.php/api/actualizar_objeto", {
         method: 'POST',
@@ -1007,6 +1036,14 @@ function updateObject() {
 
 function updateCategory() {
     let fields = document.querySelectorAll(".inputModal");
+    var inputFile = document.querySelector(".file");
+    var inputFileChecked;
+
+    if (inputFile.files[0] != undefined) {
+        inputFileChecked = inputFile.files[0].name;
+    } else {
+        inputFileChecked = "";
+    }
 
     let jsonValues = {
         nombre: fields[0].value,
@@ -1015,6 +1052,8 @@ function updateCategory() {
         puntuacion: parseInt(fields[1].value),
         cod_categoria_padre: parseInt(fields[2].value),
         descripcion: fields[3].value,
+        fotografia: inputFileChecked,
+
     }
     let jsonFormat = JSON.stringify(jsonValues);
 
@@ -1026,10 +1065,29 @@ function updateCategory() {
         },
         body: jsonFormat
     })
-
         .catch((error) => {
             console.error(error);
         });
+
+
+    const formData = new FormData();
+    let file = inputFile.files[0];
+    if (file != undefined) {
+        formData.append("fotografia", file);
+    }
+    formData.append("id", fields[0].id);
+
+    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_categoria", {
+        method: 'POST',
+        // headers: {
+        //     "Content-Type": "application/x-www-form-urlencoded",
+        //     // "Content-Type": "multipart/form-data",
+        // },
+        body: formData,
+    }).then((response) => {
+        console.log(response)
+    })
+
 }
 
 function updateComment() {
@@ -1137,13 +1195,12 @@ function removeComment() {
 
 function loadFileDataProducts(idJson) {
     var inputsModal = document.querySelectorAll(".inputModal");
-    var inputsFile = document.querySelectorAll(".file");
-
+    
     let fileProductList = [1, 2, 5, 3, 4, 14, 11];
     let fileFiles = ["fotografia1", "fotografia2", "fotografia3"];
     let idProduct;
     let emptyMark = false;
-
+    
     let i = 0;
     jsonActual.forEach(element => {
         if (element[0] == idJson) {
@@ -1156,11 +1213,12 @@ function loadFileDataProducts(idJson) {
                 element1.value = element[fileProductList[i]];
                 i++;
             });
-
+            
         }
     });
-
-
+    
+    
+    var inputsFile = document.querySelectorAll(".file");
     let x = 0;
     jsonActual.forEach(element => {
         var myFile;
@@ -1174,15 +1232,6 @@ function loadFileDataProducts(idJson) {
                         type: 'text/plain',
                         lastModified: new Date(),
                     });
-
-
-                    //else {
-                    //     myFile = new File(['Hello World!'], 'myFile.txt', {
-                    //         type: 'text/plain',
-                    //         lastModified: new Date(),
-                    //     });
-                    // }
-
                     const dataTransfer = new DataTransfer();
                     dataTransfer.items.add(myFile);
                     element1.files = dataTransfer.files;
@@ -1191,7 +1240,6 @@ function loadFileDataProducts(idJson) {
             });
         }
     });
-
     if (emptyMark) {
         return true;
     } else {
@@ -1202,7 +1250,7 @@ function loadFileDataProducts(idJson) {
 
 function loadFileDataCategories(idJson) {
     var inputsModal = document.querySelectorAll(".inputModal");
-    let fileProductList = [1, "puntuacion", "cod_categoria_padre", 3];
+    let fileProductList = [1, "puntuacion", "cod_categoria_padre", 3,"fotografia"];
     let i = 0;
     let emptyMark = false;
 
@@ -1215,6 +1263,30 @@ function loadFileDataCategories(idJson) {
                 emptyMark = true;
             });
             return;
+        }
+    });
+
+    let fileFiles = ["fotografia"];
+    var inputsFile = document.querySelectorAll(".file");
+    let x = 0;
+    jsonActual.forEach(element => {
+        var myFile;
+        if (element[0] == idJson) {
+            inputsFile.forEach(element1 => {
+
+                if (fileFiles[x] != undefined && element[fileFiles[x]] != "" && element[fileFiles[x]] != null) {
+                    emptyMark = true;
+
+                    myFile = new File(['Hello World!'], '/' + element[fileFiles[x]], {
+                        type: 'text/plain',
+                        lastModified: new Date(),
+                    });
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(myFile);
+                    element1.files = dataTransfer.files;
+                    x++;
+                }
+            });
         }
     });
     if (emptyMark) {
@@ -1242,6 +1314,8 @@ function loadFileDataUsers(idJson) {
             return;
         }
     });
+
+
     if (emptyMark) {
         return true;
     } else {
@@ -1298,30 +1372,47 @@ function addUser() {
         },
         body: jsonFormat
     })
-        .catch((error) => {
-            console.error(error);
-        });
+
 }
 
 function addCategory() {
     let fields = document.querySelectorAll(".inputModal");
+    var inputFile = document.querySelector(".file");
 
     let jsonValues = {
         nombre: fields[0].value,
         puntuacion: parseInt(fields[1].value),
         cod_categoria_padre: parseInt(fields[2].value),
+        fotografia: parseInt(fields[2].value),
         descripcion: fields[3].value,
     }
     let jsonFormat = JSON.stringify(jsonValues);
-
+    var idCategory = "";
     fetch("http://localhost/ChristieMeta/index.php/api/anadir_categoria", {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
-        body: jsonFormat
+        body: jsonFormat,
     })
+        .then(parseText)
+        .then(function (data) {
+            idCategory = data;
+            const formData = new FormData();
+            let file = inputFile.files[0];
+            if (file != undefined) {
+                formData.append("fotografia", file);
+                formData.append("id", idCategory);
+            }
+
+            fetch("http://localhost/ChristieMeta/index.php/api/anadir_categoria", {
+                method: 'POST',
+                body: formData,
+            }).then((response) => {
+                console.log(response)
+            })
+        })
         .catch((error) => {
             console.error(error);
         });
@@ -1355,17 +1446,41 @@ function addObject() {
         descripcion: fields[6].value,
     }
     let jsonFormat = JSON.stringify(jsonValues);
+    var idObject = "";
     fetch("http://localhost/ChristieMeta/index.php/api/anadir_objeto", {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         },
-        body: jsonFormat
+        body: jsonFormat,
     })
+        .then(parseText)
+        .then(function (data) {
+            idObject = data;
+            var fotos = ["fotografia1", "fotografia2", "fotografia3"];
+            const formData = new FormData();
+            for (let i = 0; i < inputsFile.length; i++) {
+                let file = inputsFile[i].files[0];
+                if (file != undefined) {
+                    formData.append(fotos[i], file);
+                }
+
+            }
+            formData.append("id", idObject);
+            fetch("http://localhost/ChristieMeta/index.php/api/anadir_objeto", {
+                method: 'POST',
+                body: formData,
+            }).then((response) => {
+                console.log(response)
+            })
+        })
         .catch((error) => {
             console.error(error);
         });
+
+
+
 }
 
 

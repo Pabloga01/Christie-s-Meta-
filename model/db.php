@@ -166,7 +166,7 @@ class Conexion
             $paramsOnString .= $element . ",";
         }
         //var_dump($arVal);
-        echo $paramsOnString;
+         $paramsOnString;
         $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
         try {
             $conexion = $this->getConexion();
@@ -304,20 +304,20 @@ class Conexion
             $headersOnString .= $element . ",";
         }
 
-        echo $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
-        echo $headersOnString = substr($headersOnString, 0, strlen($headersOnString) - 1);
+         $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
+         $headersOnString = substr($headersOnString, 0, strlen($headersOnString) - 1);
         try {
             $conexion = $this->getConexion();
             $sql = "insert into categoria ($headersOnString) values ($paramsOnString)";
             $registros = $conexion->query($sql);
             if ($registros->rowCount() > 0) {
                 
-                 $idCat=$conexion->lastInsertId();
+                $idCat=$conexion->lastInsertId();
                 $registros->closeCursor();
                 $conexion = null;
                 $dataController=new DataController();
                 $dataController->createDirectoryCategory($idCat);
-                return true;
+                return $idCat;
             } else {
                 $conexion = null;
                 return false;
@@ -339,7 +339,7 @@ class Conexion
             $headersOnString .= $element . ",";
         }
         //var_dump($arVal);
-        echo $paramsOnString;
+         $paramsOnString;
         $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
         $headersOnString = substr($headersOnString, 0, strlen($headersOnString) - 1);
         try {
@@ -352,7 +352,7 @@ class Conexion
                 $conexion = null;
                 $dataController=new DataController();
                 $dataController->createDirectoryObject($idObject);
-                return true;
+                return $idObject;
             } else {
                 $conexion = null;
                 return false;

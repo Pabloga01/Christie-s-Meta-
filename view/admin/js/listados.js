@@ -498,7 +498,7 @@ function deployModalWindow(titleTable) {
             arFieldsCard = ["Nombre", "Precio", "Puntuación", "Latitud", "Longitud", "Categoría", "Imagen 1", "Imagen 2", "Imagen 3", "Descripción"];
             break;
         case "Categorías":
-            arFieldsCard = ["Nombre", "Puntuación", "Cat. Padre", "Descripción"];
+            arFieldsCard = ["Nombre", "Puntuación", "Cat. Padre","Imagen" ,"Descripción"];
             break;
         case "Usuarios":
             arFieldsCard = ["Tag. Usuario", "Nombre", "Apellidos", "Rol", "Monedas", "Correo", "Contraseña"];
@@ -562,12 +562,20 @@ function deployModalWindow(titleTable) {
     document.body.appendChild(divFather);
     divFather.appendChild(div);
     div.appendChild(span);
-    div.appendChild(innerDiv);
+
+    let form = document.createElement("form");
+    form.enctype = "multipart/form-data";
+    form.method = "post";
+
+    div.appendChild(form);
+    form.appendChild(innerDiv);
 
 
     for (let i = 0; i < arFieldsCard.length; i++) {
         let innerDivleft = document.createElement("div");
         let contentDiv = document.createElement("div");
+
+
 
 
         let lbl = document.createElement("label");
@@ -605,7 +613,7 @@ function deployModalWindow(titleTable) {
 
         if (arFieldsCard[i] == "Fecha") {
             input.type = "date";
-        }else if (arFieldsCard[i] == "Contraseña") {
+        } else if (arFieldsCard[i] == "Contraseña") {
             input.type = "password";
         }
         if (arFieldsCard[i] == "Usuario") {
@@ -758,13 +766,13 @@ function deployModalWindow(titleTable) {
                 addComment();
                 reloadPostOperation();
             });
-            
+
             btnDelete.addEventListener("click", () => {
                 removeComment();
                 reloadPostOperation();
             });
         }
-        
+
     }
 
 
@@ -894,45 +902,32 @@ function updateUser() {
     }
     let jsonFormat = JSON.stringify(jsonValues);
 
-    let index = "aaa";
-    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_usuario/?q=" + jsonFormat)
 
-        .then(checkStatus)
-        .then(parseJSON)
-        .then(function (data) {
-
-
-
-        }).catch(function (error) {
-            console.log("error request", error);
+    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_usuario", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: jsonFormat
+    })
+        // .then((response) => response.text())
+        // .then((responseText) => {
+        //     alert(responseText);
+        // })
+        .catch((error) => {
+            console.error(error);
         });
-    event.preventDefault();
-
-
-    // fetch("http://localhost/ChristieMeta/index.php/api/actualizar_usuario", {
-    //     method: 'POST',
-    //     headers: {
-    //         'Accept': 'application/json',
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(jsonValues)
-    // })
-    //     .then((response) => response.text())
-    //     // .then((responseText) => {
-    //     //     alert(responseText);
-    //     // })
-    //     .catch((error) => {
-    //         console.error(error);
-    //     });
 }
 
 
 
 function updateObject() {
     let fields = document.querySelectorAll(".inputModal");
-    var inputsFile = document.querySelectorAll(".file");
     var inputsFileChecked = [];
     let i = 0;
+    var inputsFile = document.querySelectorAll(".file");
+
     inputsFile.forEach(element => {
         if (element.files[0] != undefined) {
             inputsFileChecked[i] = element.files[0].name;
@@ -950,25 +945,64 @@ function updateObject() {
         latitud: parseFloat(fields[3].value),
         longitud: parseFloat(fields[4].value),
         id_categoria: parseInt(fields[5].value),
-        fotografia1: inputsFileChecked[0],
-        fotografia2: inputsFileChecked[1],
-        fotografia3: inputsFileChecked[2],
+         fotografia1: inputsFileChecked[0],
+         fotografia2: inputsFileChecked[1],
+         fotografia3: inputsFileChecked[2],
         descripcion: fields[6].value,
     }
     let jsonFormat = JSON.stringify(jsonValues);
 
-    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_objeto/?q=" + jsonFormat)
-
-        .then(checkStatus)
-        .then(parseJSON)
-        .then(function (data) {
-
-
-
-        }).catch(function (error) {
-            console.log("error request", error);
+    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_objeto", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: jsonFormat
+    })
+        // .then((response) => response.text())
+        // .then((responseText) => {
+        //     alert(responseText);
+        // })
+        .catch((error) => {
+            console.error(error);
         });
-    event.preventDefault();
+
+    // inputsFile.forEach(element => {
+    //     if (element.files[0] != undefined) {
+    //         inputsFileChecked[i] = element.files[0].name;
+    //     } else {
+    //         inputsFileChecked[i] = "";
+    //     }
+    //     i++;
+    // });
+
+    var fotos = ["fotografia1", "fotografia2", "fotografia3"];
+    const formData = new FormData();
+    for (let i = 0; i < inputsFile.length; i++) {
+
+        let file = inputsFile[i].files[0];
+        if (file != undefined) {
+            file.id = fields[0].id;
+            formData.append(fotos[i], file);
+        }
+    }
+    formData.append("id", fields[0].id);
+
+
+
+
+    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_objeto", {
+        method: 'POST',
+        // headers: {
+        //     "Content-Type": "application/x-www-form-urlencoded",
+        //     // "Content-Type": "multipart/form-data",
+        // },
+        body: formData,
+    }).then((response) => {
+        console.log(response)
+    })
+
 }
 
 function updateCategory() {
@@ -984,19 +1018,47 @@ function updateCategory() {
     }
     let jsonFormat = JSON.stringify(jsonValues);
 
-    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_categoria/?categoria=" + jsonFormat)
+    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_categoria", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: jsonFormat
+    })
 
-        .then(checkStatus)
-        .then(parseJSON)
-        .then(function (data) {
-
-
-
-        }).catch(function (error) {
-            console.log("error request", error);
+        .catch((error) => {
+            console.error(error);
         });
-    event.preventDefault();
 }
+
+function updateComment() {
+    let fields = document.querySelectorAll(".inputModal");
+
+    let jsonValues = {
+        fecha: fields[0].value,
+        id_usuario: fields[1].value,
+        id_objeto: fields[2].value,
+        texto: fields[3].value,
+        id_usuario_anterior: fields[1].id,
+        id_objeto_anterior: fields[2].id,
+    }
+
+    let jsonFormat = JSON.stringify(jsonValues);
+
+    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_comentario", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: jsonFormat
+    })
+        .catch((error) => {
+            console.error(error);
+        });
+}
+
 
 
 function removeUser() {
@@ -1108,7 +1170,7 @@ function loadFileDataProducts(idJson) {
                 if (fileFiles[x] != undefined && element[fileFiles[x]] != "" && element[fileFiles[x]] != null) {
                     emptyMark = true;
 
-                    myFile = new File(['Hello World!'], '../images/' + element[fileFiles[x]], {
+                    myFile = new File(['Hello World!'], '/' + element[fileFiles[x]], {
                         type: 'text/plain',
                         lastModified: new Date(),
                     });
@@ -1212,47 +1274,6 @@ function loadFileDataComments(idUser, idObject) {
     }
 }
 
-var btnAddItem = document.querySelector("#añadirItem");
-btnAddItem.addEventListener("click", () => {
-
-    deployModalWindow(titleTable.innerHTML);
-
-    // switch (titleTable) {
-    //     case "Categorías":
-    //         addCategory();
-    //         break;
-    //     case "Productos":
-    //         addObject();
-    //         break;
-    //     case "Comentarios":
-    //         // addComment();
-    //         break;
-    //     case "Usuarios":
-    //         addUser();
-    //         break;
-    // }
-});
-
-
-function updateComment() {
-    let fields = document.querySelectorAll(".inputModal");
-
-    let jsonValues = {
-        fecha: fields[0].value,
-        id_usuario: fields[1].value,
-        id_objeto: fields[2].value,
-        texto: fields[3].value,
-        id_usuario_anterior: fields[1].id,
-        id_objeto_anterior: fields[2].id,
-    }
-
-    let jsonFormat = JSON.stringify(jsonValues);
-
-    fetch("http://localhost/ChristieMeta/index.php/api/actualizar_comentario/?q=" + jsonFormat)
-
-
-    event.preventDefault();
-}
 
 
 function addUser() {
@@ -1269,9 +1290,17 @@ function addUser() {
     }
     let jsonFormat = JSON.stringify(jsonValues);
 
-    fetch('http://localhost/ChristieMeta/index.php/api/anadir_usuario/?usuario=' + jsonFormat)
-        .then(checkStatus)
-    event.preventDefault();
+    fetch("http://localhost/ChristieMeta/index.php/api/anadir_usuario", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: jsonFormat
+    })
+        .catch((error) => {
+            console.error(error);
+        });
 }
 
 function addCategory() {
@@ -1285,9 +1314,17 @@ function addCategory() {
     }
     let jsonFormat = JSON.stringify(jsonValues);
 
-    fetch('http://localhost/ChristieMeta/index.php/api/anadir_categoria/?categoria=' + jsonFormat)
-        .then(checkStatus)
-    event.preventDefault();
+    fetch("http://localhost/ChristieMeta/index.php/api/anadir_categoria", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: jsonFormat
+    })
+        .catch((error) => {
+            console.error(error);
+        });
 }
 
 function addObject() {
@@ -1318,10 +1355,17 @@ function addObject() {
         descripcion: fields[6].value,
     }
     let jsonFormat = JSON.stringify(jsonValues);
-    fetch('http://localhost/ChristieMeta/index.php/api/anadir_objeto/?objeto=' + jsonFormat)
-        .then(checkStatus)
-
-    event.preventDefault();
+    fetch("http://localhost/ChristieMeta/index.php/api/anadir_objeto", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: jsonFormat
+    })
+        .catch((error) => {
+            console.error(error);
+        });
 }
 
 
@@ -1334,14 +1378,27 @@ function addComment() {
         id_usuario: fields[1].value,
         id_objeto: fields[2].value,
         texto: fields[3].value,
-
     }
 
     let jsonFormat = JSON.stringify(jsonValues);
 
-    fetch("http://localhost/ChristieMeta/index.php/api/anadir_comentario/?comentario=" + jsonFormat)
-
-
-    event.preventDefault();
+    fetch("http://localhost/ChristieMeta/index.php/api/anadir_comentario", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: jsonFormat
+    })
+        .catch((error) => {
+            console.error(error);
+        });
 
 }
+
+
+var btnAddItem = document.querySelector("#añadirItem");
+btnAddItem.addEventListener("click", () => {
+    deployModalWindow(titleTable.innerHTML);
+
+});

@@ -113,54 +113,54 @@ class DataController
 
     function updateUser()
     {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            if (isset($_POST)) {
+                $foo = file_get_contents("php://input");
+                $jsonParams = json_decode($foo, true);
+                $arVar = [];
 
-        if (isset($_GET["q"])) {
+                if (isset($jsonParams['usuario'])) {
+                    $usuario = "usuario='" . $jsonParams['usuario'] . "'";
+                    array_push($arVar, $usuario);
+                }
+                if (isset($jsonParams['nombre'])) {
+                    $nombre = "nombre='" . $jsonParams['nombre'] . "'";
+                    array_push($arVar, $nombre);
+                }
+                if (isset($jsonParams['apellidos'])) {
+                    $apellidos = "apellidos='" . $jsonParams['apellidos'] . "'";
+                    array_push($arVar, $apellidos);
+                }
+                if (isset($jsonParams['rol'])) {
+                    $rol = "rol='" . $jsonParams['rol'] . "'";
+                    array_push($arVar, $rol);
+                }
+                if (isset($jsonParams['moneda'])) {
+                    $moneda = "moneda=" . $jsonParams['moneda'];
+                    array_push($arVar, $moneda);
+                }
+                if (isset($jsonParams['correo'])) {
+                    $correo = "correo='" . $jsonParams['correo'] . "'";
+                    array_push($arVar, $correo);
+                }
+                if (isset($jsonParams['password'])) {
+                    $password = "password='" . sha1(
+                        $jsonParams['password']
+                    ) . "'";
+                    array_push($arVar, $password);
+                }
 
-            $jsonParams = json_decode($_GET["q"], true);
-            json_decode($_GET["q"], true);
-            $arVar = [];
-
-            if (isset($jsonParams['usuario'])) {
-                $usuario = "usuario='" . $jsonParams['usuario'] . "'";
-                array_push($arVar, $usuario);
-            }
-            if (isset($jsonParams['nombre'])) {
-                $nombre = "nombre='" . $jsonParams['nombre'] . "'";
-                array_push($arVar, $nombre);
-            }
-            if (isset($jsonParams['apellidos'])) {
-                $apellidos = "apellidos='" . $jsonParams['apellidos'] . "'";
-                array_push($arVar, $apellidos);
-            }
-            if (isset($jsonParams['rol'])) {
-                $rol = "rol='" . $jsonParams['rol'] . "'";
-                array_push($arVar, $rol);
-            }
-            if (isset($jsonParams['moneda'])) {
-                $moneda = "moneda=" . $jsonParams['moneda'];
-                array_push($arVar, $moneda);
-            }
-            if (isset($jsonParams['correo'])) {
-                $correo = "correo='" . $jsonParams['correo'] . "'";
-                array_push($arVar, $correo);
-            }
-            if (isset($jsonParams['password'])) {
-                $password = "password='" . sha1(
-                    $jsonParams['password']
-                ) . "'";
-                array_push($arVar, $password);
-            }
-
-            if (count($arVar) > 0) {
-                $db = new Conexion();
-                $datos = $db->updateUser($arVar, $jsonParams['id_usuario']);
-                if (isset($datos)) {
-                    if ($datos) {
-                        echo "true";
-                        return true;
-                    } else {
-                        echo "FALSE";
-                        return false;
+                if (count($arVar) > 0) {
+                    $db = new Conexion();
+                    $datos = $db->updateUser($arVar, $jsonParams['id_usuario']);
+                    if (isset($datos)) {
+                        if ($datos) {
+                            echo "true";
+                            return true;
+                        } else {
+                            echo "FALSE";
+                            return false;
+                        }
                     }
                 }
             }
@@ -171,112 +171,141 @@ class DataController
 
     function updateObject()
     {
-
-        if (isset($_GET["q"])) {
-
-            $jsonParams = json_decode($_GET["q"], true);
-            var_dump(json_decode($_GET["q"], true));
-            $arVar = [];
-
-            if (isset($jsonParams['nombre'])) {
-                $nombre = "nombre='" . $jsonParams['nombre'] . "'";
-                array_push($arVar, $nombre);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $idObj = 0;
+            if (isset($_POST['id'])) {
+                $idObj = $_POST['id'];
             }
-            if (isset($jsonParams['precio'])) {
-                $precio = "precio=" . $jsonParams['precio'];
-                array_push($arVar, $precio);
-            }
-            if (isset($jsonParams['puntuacion_total'])) {
-                $puntuacion_total = "puntuacion_total=" . $jsonParams['puntuacion_total'];
-                array_push($arVar, $puntuacion_total);
-            }
-            if (isset($jsonParams['latitud'])) {
-                $latitud = "latitud=" . $jsonParams['latitud'];
-                array_push($arVar, $latitud);
-            }
-            if (isset($jsonParams['longitud'])) {
-                $longitud = "longitud=" . $jsonParams['longitud'];
-                array_push($arVar, $longitud);
-            }
-            if (isset($jsonParams['id_categoria'])) {
-                $categoria = "id_categoria=" . $jsonParams['id_categoria'];
-                array_push($arVar, $categoria);
-            }
-            if (isset($jsonParams['fotografia1'])) {
-                $fotografia1 = "fotografia1='" . $jsonParams['fotografia1'] . "'";
-                array_push($arVar, $fotografia1);
-            }
-            if (isset($jsonParams['fotografia2'])) {
-                $fotografia2 = "fotografia2='" . $jsonParams['fotografia2'] . "'";
-                array_push($arVar, $fotografia2);
-            }
-            if (isset($jsonParams['fotografia3'])) {
-                $fotografia3 = "fotografia3='" . $jsonParams['fotografia3'] . "'";
-                array_push($arVar, $fotografia3);
-            }
-            if (isset($jsonParams['descripcion'])) {
-                $descripcion = "descripcion='" . $jsonParams['descripcion'] . "'";
-                array_push($arVar, $descripcion);
-            }
-
-
-            echo  $jsonParams["id_categoria"];
-            if (count($arVar) > 0) {
-                $db = new Conexion();
-                $datos = $db->updateObject($arVar, $jsonParams['id_objeto']);
-                if (isset($datos)) {
-                    if ($datos) {
-                        echo "true";
-                        return true;
-                    } else {
-                        echo "FALSE";
-                        return false;
+            if (isset($_FILES)) {
+                $fotos = [];
+                if (isset($_FILES['fotografia1'])) {
+                    $foto = $_FILES['fotografia1'];
+                    array_push($fotos, $foto);
+                }
+                if (isset($_FILES['fotografia2'])) {
+                    $foto = $_FILES['fotografia2'];
+                    array_push($fotos, $foto);
+                }
+                if (isset($_FILES['fotografia3'])) {
+                    $foto = $_FILES['fotografia3'];
+                    array_push($fotos, $foto);
+                }
+                $i=0;
+                foreach ($fotos as $foto) {
+                    $path = $foto["full_path"];
+                    $name = $foto["name"];
+                    $temp_name = $foto['tmp_name'];
+                    $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\$name";
+                    if (!file_exists($file)) {
+                        move_uploaded_file($temp_name, $file);
                     }
                 }
             }
+
+            if (isset($_POST)) {
+                $foo = file_get_contents("php://input");
+                $jsonParams = json_decode($foo, true);
+
+                $arVar = [];
+
+                if (isset($jsonParams['nombre'])) {
+                    $nombre = "nombre='" . $jsonParams['nombre'] . "'";
+                    array_push($arVar, $nombre);
+                }
+                if (isset($jsonParams['precio'])) {
+                    $precio = "precio=" . $jsonParams['precio'];
+                    array_push($arVar, $precio);
+                }
+                if (isset($jsonParams['puntuacion_total'])) {
+                    $puntuacion_total = "puntuacion_total=" . $jsonParams['puntuacion_total'];
+                    array_push($arVar, $puntuacion_total);
+                }
+                if (isset($jsonParams['latitud'])) {
+                    $latitud = "latitud=" . $jsonParams['latitud'];
+                    array_push($arVar, $latitud);
+                }
+                if (isset($jsonParams['longitud'])) {
+                    $longitud = "longitud=" . $jsonParams['longitud'];
+                    array_push($arVar, $longitud);
+                }
+                if (isset($jsonParams['id_categoria'])) {
+                    $categoria = "id_categoria=" . $jsonParams['id_categoria'];
+                    array_push($arVar, $categoria);
+                }
+                if (isset($jsonParams['fotografia1'])) {
+                    $fotografia1 = "fotografia1='" . $jsonParams['fotografia1'] . "'";
+                    array_push($arVar, $fotografia1);
+                }
+                if (isset($jsonParams['fotografia2'])) {
+                    $fotografia2 = "fotografia2='" . $jsonParams['fotografia2'] . "'";
+                    array_push($arVar, $fotografia2);
+                }
+                if (isset($jsonParams['fotografia3'])) {
+                    $fotografia3 = "fotografia3='" . $jsonParams['fotografia3'] . "'";
+                    array_push($arVar, $fotografia3);
+                }
+                if (isset($jsonParams['descripcion'])) {
+                    $descripcion = "descripcion='" . $jsonParams['descripcion'] . "'";
+                    array_push($arVar, $descripcion);
+                }
+
+                if (count($arVar) > 0) {
+                    $db = new Conexion();
+                    $datos = $db->updateObject($arVar, $jsonParams['id_objeto']);
+                    if (isset($datos)) {
+                        if ($datos) {
+                            echo "true";
+                            return true;
+                        } else {
+                            echo "FALSE";
+                            return false;
+                        }
+                    }
+                }
+            }
+            return false;
         }
-        return false;
     }
 
 
     function updateCategory()
     {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            if (isset($_POST)) {
 
-        if (isset($_GET["categoria"])) {
+                $foo = file_get_contents("php://input");
+                $jsonParams = json_decode($foo, true);
+                $arVar = [];
 
-            $jsonParams = json_decode($_GET["categoria"], true);
-            //var_dump(json_decode($_GET["categoria"], true));
-            $arVar = [];
-            if (isset($jsonParams['nombre'])) {
-                $nombre = "nombre='" . $jsonParams['nombre'] . "'";
-                array_push($arVar, $nombre);
-            }
+                if (isset($jsonParams['nombre'])) {
+                    $nombre = "nombre='" . $jsonParams['nombre'] . "'";
+                    array_push($arVar, $nombre);
+                }
 
-            if (isset($jsonParams['puntuacion'])) {
-                $puntuacion = "puntuacion=" . $jsonParams['puntuacion'];
-                array_push($arVar, $puntuacion);
-            }
+                if (isset($jsonParams['puntuacion'])) {
+                    $puntuacion = "puntuacion=" . $jsonParams['puntuacion'];
+                    array_push($arVar, $puntuacion);
+                }
 
-            if (isset($jsonParams['cod_categoria_padre'])) {
-                $cod_categoria_padre = "cod_categoria_padre=" . $jsonParams['cod_categoria_padre'];
-                array_push($arVar, $cod_categoria_padre);
-            }
+                if (isset($jsonParams['cod_categoria_padre'])) {
+                    $cod_categoria_padre = "cod_categoria_padre=" . $jsonParams['cod_categoria_padre'];
+                    array_push($arVar, $cod_categoria_padre);
+                }
 
-            if (isset($jsonParams['descripcion'])) {
-                $descripcion = "descripcion='" . $jsonParams['descripcion'] . "'";
-                array_push($arVar, $descripcion);
-            }
+                if (isset($jsonParams['descripcion'])) {
+                    $descripcion = "descripcion='" . $jsonParams['descripcion'] . "'";
+                    array_push($arVar, $descripcion);
+                }
 
-            if (count($arVar) > 0) {
-                $db = new Conexion();
-                $datos = $db->updateCategory($arVar, $jsonParams["id_categoria"]);
-                if (isset($datos)) {
-                    if ($datos) {
-                        //   echo "true";
-                        return true;
-                    } else {
-                        //  echo "FALSE";
-                        return false;
+                if (count($arVar) > 0) {
+                    $db = new Conexion();
+                    $datos = $db->updateCategory($arVar, $jsonParams["id_categoria"]);
+                    if (isset($datos)) {
+                        if ($datos) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                     }
                 }
             }
@@ -287,47 +316,49 @@ class DataController
     function updateComment()
     {
 
-        if (isset($_GET["q"])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST)) {
 
-            $jsonParams = json_decode($_GET["q"], true);
-            //var_dump(json_decode($_GET["categoria"], true));
-            $arVar = [];
-            if (isset($jsonParams['fecha'])) {
-                $fecha = "fecha='" . $jsonParams['fecha'] . "'";
-                array_push($arVar, $fecha);
-            }
+                $foo = file_get_contents("php://input");
+                $jsonParams = json_decode($foo, true);
+                //var_dump(json_decode($_GET["categoria"], true));
+                $arVar = [];
+                if (isset($jsonParams['fecha'])) {
+                    $fecha = "fecha='" . $jsonParams['fecha'] . "'";
+                    array_push($arVar, $fecha);
+                }
 
-            if (isset($jsonParams['id_usuario'])) {
-                $id_usuario = "id_usuario=" . $jsonParams['id_usuario'];
-                array_push($arVar, $id_usuario);
-            }
+                if (isset($jsonParams['id_usuario'])) {
+                    $id_usuario = "id_usuario=" . $jsonParams['id_usuario'];
+                    array_push($arVar, $id_usuario);
+                }
 
-            if (isset($jsonParams['id_objeto'])) {
-                $id_objeto = "id_objeto=" . $jsonParams['id_objeto'];
-                array_push($arVar, $id_objeto);
-            }
+                if (isset($jsonParams['id_objeto'])) {
+                    $id_objeto = "id_objeto=" . $jsonParams['id_objeto'];
+                    array_push($arVar, $id_objeto);
+                }
 
-            if (isset($jsonParams['texto'])) {
-                $texto = "texto='" . $jsonParams['texto'] . "'";
-                array_push($arVar, $texto);
-            }
+                if (isset($jsonParams['texto'])) {
+                    $texto = "texto='" . $jsonParams['texto'] . "'";
+                    array_push($arVar, $texto);
+                }
 
-            if (count($arVar) > 0) {
-                $db = new Conexion();
-                $datos = $db->updateComment($arVar, $jsonParams["id_usuario_anterior"], $jsonParams["id_objeto_anterior"]);
-                if (isset($datos)) {
-                    if ($datos) {
-                        //   echo "true";
-                        return true;
-                    } else {
-                        //  echo "FALSE";
-                        return false;
+                if (count($arVar) > 0) {
+                    $db = new Conexion();
+                    $datos = $db->updateComment($arVar, $jsonParams["id_usuario_anterior"], $jsonParams["id_objeto_anterior"]);
+                    if (isset($datos)) {
+                        if ($datos) {
+                            //   echo "true";
+                            return true;
+                        } else {
+                            //  echo "FALSE";
+                            return false;
+                        }
                     }
                 }
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
 
@@ -392,137 +423,144 @@ class DataController
 
     function addUser()
     {
-        if (isset($_GET["usuario"])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST)) {
 
-            $jsonParams = json_decode($_GET["usuario"], true);
-            json_decode($_GET["usuario"], true);
-            $arVar = [];
-            $paramsHeaders = [];
+                $foo = file_get_contents("php://input");
+                $jsonParams = json_decode($foo, true);
 
-            if (isset($jsonParams['usuario']) && $jsonParams['usuario'] != "") {
-                $usuario = "'" . $jsonParams['usuario'] . "'";
-                array_push($arVar, $usuario);
-                array_push($paramsHeaders, "usuario");
-            }
+                $arVar = [];
+                $paramsHeaders = [];
 
-            if (isset($jsonParams['nombre']) && $jsonParams['nombre'] != "") {
-                $nombre = "'" . $jsonParams['nombre'] . "'";
-                array_push($arVar, $nombre);
-                array_push($paramsHeaders, "nombre");
-            }
+                if (isset($jsonParams['usuario']) && $jsonParams['usuario'] != "") {
+                    $usuario = "'" . $jsonParams['usuario'] . "'";
+                    array_push($arVar, $usuario);
+                    array_push($paramsHeaders, "usuario");
+                }
 
-            if (isset($jsonParams['apellidos']) && $jsonParams['apellidos'] != "") {
-                $apellidos = "'" . $jsonParams['apellidos'] . "'";
-                array_push($arVar, $apellidos);
-                array_push($paramsHeaders, "apellidos");
-            }
+                if (isset($jsonParams['nombre']) && $jsonParams['nombre'] != "") {
+                    $nombre = "'" . $jsonParams['nombre'] . "'";
+                    array_push($arVar, $nombre);
+                    array_push($paramsHeaders, "nombre");
+                }
 
-            if (isset($jsonParams['rol']) && $jsonParams['rol'] != "") {
-                $rol = "'" . $jsonParams['rol'] . "'";
-                array_push($arVar, $rol);
-                array_push($paramsHeaders, "rol");
-            }
+                if (isset($jsonParams['apellidos']) && $jsonParams['apellidos'] != "") {
+                    $apellidos = "'" . $jsonParams['apellidos'] . "'";
+                    array_push($arVar, $apellidos);
+                    array_push($paramsHeaders, "apellidos");
+                }
 
-            if (isset($jsonParams['moneda'])) {
-                $moneda = $jsonParams['moneda'];
-                array_push($arVar, $moneda);
-                array_push($paramsHeaders, "moneda");
-            }
-            if (isset($jsonParams['correo']) && $jsonParams['correo'] != "") {
-                $correo = "'" . $jsonParams['correo'] . "'";
-                array_push($arVar, $correo);
-                array_push($paramsHeaders, "correo");
-            }
-            if (isset($jsonParams['password']) && $jsonParams['correo'] != "") {
-                $password = "'" . sha1($jsonParams['password']) . "'";
-                array_push($arVar, $password);
-                array_push($paramsHeaders, "password");
-            }
-            //var_dump($paramsHeaders);
-            if (count($arVar) > 0) {
-                $db = new Conexion();
-                $datos = $db->addUser($arVar, $paramsHeaders);
-                if (isset($datos)) {
-                    if ($datos) {
-                        return true;
-                    } else {
-                        return false;
+                if (isset($jsonParams['rol']) && $jsonParams['rol'] != "") {
+                    $rol = "'" . $jsonParams['rol'] . "'";
+                    array_push($arVar, $rol);
+                    array_push($paramsHeaders, "rol");
+                }
+
+                if (isset($jsonParams['moneda'])) {
+                    $moneda = $jsonParams['moneda'];
+                    array_push($arVar, $moneda);
+                    array_push($paramsHeaders, "moneda");
+                }
+                if (isset($jsonParams['correo']) && $jsonParams['correo'] != "") {
+                    $correo = "'" . $jsonParams['correo'] . "'";
+                    array_push($arVar, $correo);
+                    array_push($paramsHeaders, "correo");
+                }
+                if (isset($jsonParams['password']) && $jsonParams['correo'] != "") {
+                    $password = "'" . sha1($jsonParams['password']) . "'";
+                    array_push($arVar, $password);
+                    array_push($paramsHeaders, "password");
+                }
+                //var_dump($paramsHeaders);
+                if (count($arVar) > 0) {
+                    $db = new Conexion();
+                    $datos = $db->addUser($arVar, $paramsHeaders);
+                    if (isset($datos)) {
+                        if ($datos) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                     }
                 }
             }
         }
+        return false;
     }
 
     function addObject()
     {
-        if (isset($_GET["objeto"])) {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            if (isset($_POST)) {
 
-            $jsonParams = json_decode($_GET["objeto"], true);
-            $arVar = [];
-            $paramsHeaders = [];
+                $foo = file_get_contents("php://input");
+                $jsonParams = json_decode($foo, true);
 
-            if (isset($jsonParams['nombre'])) {
-                $nombre = "'" . $jsonParams['nombre'] . "'";
-                array_push($arVar, $nombre);
-                array_push($paramsHeaders, "nombre");
-            }
-            if (isset($jsonParams['precio'])) {
-                $precio =  $jsonParams['precio'];
-                array_push($arVar, $precio);
-                array_push($paramsHeaders, "precio");
-            }
-            if (isset($jsonParams['puntuacion_total'])) {
-                $puntuacion_total =  $jsonParams['puntuacion_total'];
-                array_push($arVar, $puntuacion_total);
-                array_push($paramsHeaders, "puntuacion_total");
-            }
-            if (isset($jsonParams['latitud'])) {
-                $latitud =  $jsonParams['latitud'];
-                array_push($arVar, $latitud);
-                array_push($paramsHeaders, "latitud");
-            }
-            if (isset($jsonParams['longitud'])) {
-                $longitud =   $jsonParams['longitud'];
-                array_push($arVar, $longitud);
-                array_push($paramsHeaders, "longitud");
-            }
-            if (isset($jsonParams['id_categoria'])) {
-                $categoria =   $jsonParams['id_categoria'];
-                array_push($arVar, $categoria);
-                array_push($paramsHeaders, "id_categoria");
-            }
-            if (isset($jsonParams['fotografia1'])) {
-                $fotografia1 = "'" . $jsonParams['fotografia1'] . "'";
-                array_push($arVar, $fotografia1);
-                array_push($paramsHeaders, "fotografia1");
-            }
-            if (isset($jsonParams['fotografia2'])) {
-                $fotografia2 = "'" . $jsonParams['fotografia2'] . "'";
-                array_push($arVar, $fotografia2);
-                array_push($paramsHeaders, "fotografia2");
-            }
-            if (isset($jsonParams['fotografia3'])) {
-                $fotografia3 = "'" . $jsonParams['fotografia3'] . "'";
-                array_push($arVar, $fotografia3);
-                array_push($paramsHeaders, "fotografia3");
-            }
-            if (isset($jsonParams['descripcion'])) {
-                $descripcion = "'" . $jsonParams['descripcion'] . "'";
-                array_push($arVar, $descripcion);
-                array_push($paramsHeaders, "descripcion");
-            }
+                $arVar = [];
+                $paramsHeaders = [];
 
-            var_dump($arVar);
-            if (count($arVar) > 0) {
-                $db = new Conexion();
-                $datos = $db->addObject($arVar, $paramsHeaders);
-                if (isset($datos)) {
-                    if ($datos) {
-                        echo "true";
-                        return true;
-                    } else {
-                        echo "FALSE";
-                        return false;
+                if (isset($jsonParams['nombre'])) {
+                    $nombre = "'" . $jsonParams['nombre'] . "'";
+                    array_push($arVar, $nombre);
+                    array_push($paramsHeaders, "nombre");
+                }
+                if (isset($jsonParams['precio'])) {
+                    $precio =  $jsonParams['precio'];
+                    array_push($arVar, $precio);
+                    array_push($paramsHeaders, "precio");
+                }
+                if (isset($jsonParams['puntuacion_total'])) {
+                    $puntuacion_total =  $jsonParams['puntuacion_total'];
+                    array_push($arVar, $puntuacion_total);
+                    array_push($paramsHeaders, "puntuacion_total");
+                }
+                if (isset($jsonParams['latitud'])) {
+                    $latitud =  $jsonParams['latitud'];
+                    array_push($arVar, $latitud);
+                    array_push($paramsHeaders, "latitud");
+                }
+                if (isset($jsonParams['longitud'])) {
+                    $longitud =   $jsonParams['longitud'];
+                    array_push($arVar, $longitud);
+                    array_push($paramsHeaders, "longitud");
+                }
+                if (isset($jsonParams['id_categoria'])) {
+                    $categoria =   $jsonParams['id_categoria'];
+                    array_push($arVar, $categoria);
+                    array_push($paramsHeaders, "id_categoria");
+                }
+                if (isset($jsonParams['fotografia1'])) {
+                    $fotografia1 = "'" . $jsonParams['fotografia1'] . "'";
+                    array_push($arVar, $fotografia1);
+                    array_push($paramsHeaders, "fotografia1");
+                }
+                if (isset($jsonParams['fotografia2'])) {
+                    $fotografia2 = "'" . $jsonParams['fotografia2'] . "'";
+                    array_push($arVar, $fotografia2);
+                    array_push($paramsHeaders, "fotografia2");
+                }
+                if (isset($jsonParams['fotografia3'])) {
+                    $fotografia3 = "'" . $jsonParams['fotografia3'] . "'";
+                    array_push($arVar, $fotografia3);
+                    array_push($paramsHeaders, "fotografia3");
+                }
+                if (isset($jsonParams['descripcion'])) {
+                    $descripcion = "'" . $jsonParams['descripcion'] . "'";
+                    array_push($arVar, $descripcion);
+                    array_push($paramsHeaders, "descripcion");
+                }
+
+                if (count($arVar) > 0) {
+                    $db = new Conexion();
+                    $datos = $db->addObject($arVar, $paramsHeaders);
+                    if (isset($datos)) {
+                        if ($datos) {
+                            echo "true";
+                            return true;
+                        } else {
+                            echo "FALSE";
+                            return false;
+                        }
                     }
                 }
             }
@@ -531,41 +569,44 @@ class DataController
 
     function addCategory()
     {
-        if (isset($_GET["categoria"])) {
-            $paramsHeaders = [];
-            $jsonParams = json_decode($_GET["categoria"], true);
-            $arVar = [];
-            if (isset($jsonParams['nombre']) && $jsonParams['nombre'] != "") {
-                $nombre = "'" . $jsonParams['nombre'] . "'";
-                array_push($arVar, $nombre);
-                array_push($paramsHeaders, "nombre");
-            }
-            if (isset($jsonParams['puntuacion'])) {
-                $puntuacion = $jsonParams['puntuacion'];
-                array_push($arVar, $puntuacion);
-                array_push($paramsHeaders, "puntuacion");
-            }
-            if (isset($jsonParams['cod_categoria_padre'])) {
-                $cod_categoria_padre = $jsonParams['cod_categoria_padre'];
-                array_push($arVar, $cod_categoria_padre);
-                array_push($paramsHeaders, "cod_categoria_padre");
-            }
-            if (isset($jsonParams['descripcion']) && $jsonParams['descripcion'] != "") {
-                $descripcion = "'" . $jsonParams['descripcion'] . "'";
-                array_push($arVar, $descripcion);
-                array_push($paramsHeaders, "descripcion");
-            }
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            if (isset($_POST)) {
+                $paramsHeaders = [];
+                $foo = file_get_contents("php://input");
+                $jsonParams = json_decode($foo, true);
+                $arVar = [];
+                if (isset($jsonParams['nombre']) && $jsonParams['nombre'] != "") {
+                    $nombre = "'" . $jsonParams['nombre'] . "'";
+                    array_push($arVar, $nombre);
+                    array_push($paramsHeaders, "nombre");
+                }
+                if (isset($jsonParams['puntuacion'])) {
+                    $puntuacion = $jsonParams['puntuacion'];
+                    array_push($arVar, $puntuacion);
+                    array_push($paramsHeaders, "puntuacion");
+                }
+                if (isset($jsonParams['cod_categoria_padre'])) {
+                    $cod_categoria_padre = $jsonParams['cod_categoria_padre'];
+                    array_push($arVar, $cod_categoria_padre);
+                    array_push($paramsHeaders, "cod_categoria_padre");
+                }
+                if (isset($jsonParams['descripcion']) && $jsonParams['descripcion'] != "") {
+                    $descripcion = "'" . $jsonParams['descripcion'] . "'";
+                    array_push($arVar, $descripcion);
+                    array_push($paramsHeaders, "descripcion");
+                }
 
-            var_dump($paramsHeaders);
-            var_dump($arVar);
-            if (count($arVar) > 0) {
-                $db = new Conexion();
-                $datos = $db->addCategory($arVar, $paramsHeaders);
-                if (isset($datos)) {
-                    if ($datos) {
-                        return true;
-                    } else {
-                        return false;
+                var_dump($paramsHeaders);
+                var_dump($arVar);
+                if (count($arVar) > 0) {
+                    $db = new Conexion();
+                    $datos = $db->addCategory($arVar, $paramsHeaders);
+                    if (isset($datos)) {
+                        if ($datos) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                     }
                 }
             }
@@ -576,44 +617,47 @@ class DataController
 
     function addComment()
     {
-        if (isset($_GET["comentario"])) {
-            $paramsHeaders = [];
-            $jsonParams = json_decode($_GET["comentario"], true);
-            $arVar = [];
-            if (isset($jsonParams['fecha']) && $jsonParams['fecha'] != "") {
-                $fecha = "'" . $jsonParams['fecha'] . "'";
-                array_push($arVar, $fecha);
-                array_push($paramsHeaders, "fecha");
-            }
-            if (isset($jsonParams['id_objeto'])) {
-                $id_objeto = $jsonParams['id_objeto'];
-                array_push($arVar, $id_objeto);
-                array_push($paramsHeaders, "id_objeto");
-            }
-            if (isset($jsonParams['id_usuario'])) {
-                $id_usuario = $jsonParams['id_usuario'];
-                array_push($arVar, $id_usuario);
-                array_push($paramsHeaders, "id_usuario");
-            }
-            if (isset($jsonParams['texto']) && $jsonParams['texto'] != "") {
-                $texto = "'" . $jsonParams['texto'] . "'";
-                array_push($arVar, $texto);
-                array_push($paramsHeaders, "texto");
-            }
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            if (isset($_POST)) {
+                $paramsHeaders = [];
+                $foo = file_get_contents("php://input");
+                $jsonParams = json_decode($foo, true);
+                $arVar = [];
+                if (isset($jsonParams['fecha']) && $jsonParams['fecha'] != "") {
+                    $fecha = "'" . $jsonParams['fecha'] . "'";
+                    array_push($arVar, $fecha);
+                    array_push($paramsHeaders, "fecha");
+                }
+                if (isset($jsonParams['id_objeto'])) {
+                    $id_objeto = $jsonParams['id_objeto'];
+                    array_push($arVar, $id_objeto);
+                    array_push($paramsHeaders, "id_objeto");
+                }
+                if (isset($jsonParams['id_usuario'])) {
+                    $id_usuario = $jsonParams['id_usuario'];
+                    array_push($arVar, $id_usuario);
+                    array_push($paramsHeaders, "id_usuario");
+                }
+                if (isset($jsonParams['texto']) && $jsonParams['texto'] != "") {
+                    $texto = "'" . $jsonParams['texto'] . "'";
+                    array_push($arVar, $texto);
+                    array_push($paramsHeaders, "texto");
+                }
 
-            if (count($arVar) > 0) {
-                $db = new Conexion();
-                $datos = $db->addComment($arVar, $paramsHeaders);
-                if (isset($datos)) {
-                    if ($datos) {
-                        return true;
-                    } else {
-                        return false;
+                if (count($arVar) > 0) {
+                    $db = new Conexion();
+                    $datos = $db->addComment($arVar, $paramsHeaders);
+                    if (isset($datos)) {
+                        if ($datos) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                     }
                 }
             }
-            return false;
         }
+        return false;
     }
 
 
@@ -635,7 +679,7 @@ class DataController
 
     function createDirectoryCategory($idCat)
     {
-         //$file = "http:\\\\localhost\\ChristieMeta\\view\\admin\\dir_categorias\\$idCat";
+        //$file = "http:\\\\localhost\\ChristieMeta\\view\\admin\\dir_categorias\\$idCat";
         $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_categorias\\$idCat";
         if (!file_exists($file)) {
             mkdir($file, 0777, true);
@@ -645,7 +689,7 @@ class DataController
 
     function createDirectoryObject($idObj)
     {
-         //$file = "http:\\\\localhost\\ChristieMeta\\view\\admin\\dir_categorias\\$idCat";
+        //$file = "http:\\\\localhost\\ChristieMeta\\view\\admin\\dir_categorias\\$idCat";
         $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj";
         if (!file_exists($file)) {
             mkdir($file, 0777, true);

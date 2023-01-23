@@ -1,0 +1,146 @@
+.ico {
+    width: 25px;
+}
+
+.imgProfile {
+    width: 25px;
+}
+
+.responsive-font {}
+
+a {
+    text-decoration: none;
+}
+
+li {
+    margin: 2%;
+}
+
+.t_header {
+    text-align: center;
+}
+
+/* If the screen size is 1200px wide or more, set the font-size to 80px */
+@media (min-width: 1200px) {
+    .responsive-font {
+        font-size: 25px;
+    }
+    .resp-font {
+        font-size: 27px;
+    }
+}
+
+/* If the screen size is smaller than 1200px, set the font-size to 80px */
+@media (max-width: 1199.98px) {
+    .responsive-font {
+        font-size: 25px;
+    }
+    .resp-font {
+        font-size: 27px;
+    }
+}
+
+@media (max-width:1000px) {
+    .responsive-font {
+        font-size: 18px;
+    }
+    .resp-font {
+        font-size: 22px;
+    }
+}
+@media (max-width:900px) {
+    .responsive-font {
+        font-size: 16px;
+    }
+    .resp-font {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 800px) {
+    .responsive-font {
+        font-size: 15px;
+    }
+    .resp-font {
+        font-size: 15px;
+    }
+}
+
+.navbar {
+    background-color: #689FC2;
+    height: 80%;
+}
+
+.font_title {
+    color: white;
+}
+
+.sec {
+    /* background-color: beige; */
+}
+
+#welcome_message {
+    display: flex;
+    text-align: justify;
+     text-align: center; 
+    justify-content: center;
+    
+}
+
+body{
+    background-color:#B7D7EB ;
+}
+
+.art{
+    /* background-color: #505456; */
+    background-color: #c8c8c9;
+    border-radius:15px;
+    border: solid 1px black;
+    margin: 1%;
+}
+#articulos{
+    background-color: rgb(54, 53, 53); 
+    padding: 1%;
+     border-radius:10px; 
+
+}
+
+.slider_img{
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-top: 2%; 
+}
+
+.btnSlider{
+    /* width: 10%; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imgNavigation{
+    width: 55%;
+}
+
+#msjSlider{
+    color: white;
+    text-transform: capitalize;
+}
+
+#content{
+
+}
+
+#articulo1{
+
+}
+#articulo2{
+}
+#articulo3{
+    
+}
+
+#buscador{
+    /* width: 80%; */
+}

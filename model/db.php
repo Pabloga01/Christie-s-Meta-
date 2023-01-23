@@ -77,7 +77,8 @@ class Conexion
         if ($itemName == "objeto") {
             $sql = "SELECT * FROM $itemName left outer join categoria on objeto.id_categoria=categoria.id_categoria limit $indice , $q";
         } else if ($itemName == "categoria") {
-            $sql = "SELECT * FROM $itemName limit $indice , $q";
+            $sql = "SELECT * FROM categoria as cat left join categoria on cat.cod_categoria_padre=categoria.id_categoria limit $indice , $q";
+            // $sql = "SELECT * FROM $itemName limit $indice , $q";
         } else if (($itemName == "comentario")) {
             // $sql = "SELECT * FROM $itemName left outer join usuario on objeto.id_categoria=categoria.id_categoria limit $indice , $q";
             $sql = " SELECT * FROM comentario left outer join usuario on comentario.id_usuario=usuario.id_usuario left outer join objeto on comentario.id_objeto=objeto.id_objeto limit $indice , $q";
@@ -166,14 +167,15 @@ class Conexion
             $paramsOnString .= $element . ",";
         }
         //var_dump($arVal);
-         $paramsOnString;
-        $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
+        $paramsOnString;
+        echo $idCategory;
+        echo $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
         try {
             $conexion = $this->getConexion();
             $sql = "update categoria set $paramsOnString where id_categoria=$idCategory";
             $registros = $conexion->query($sql);
             if ($registros) {
-
+                echo "si";
                 $registros->closeCursor();
                 $conexion = null;
                 return true;
@@ -304,18 +306,18 @@ class Conexion
             $headersOnString .= $element . ",";
         }
 
-         $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
-         $headersOnString = substr($headersOnString, 0, strlen($headersOnString) - 1);
+        $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
+        $headersOnString = substr($headersOnString, 0, strlen($headersOnString) - 1);
         try {
             $conexion = $this->getConexion();
             $sql = "insert into categoria ($headersOnString) values ($paramsOnString)";
             $registros = $conexion->query($sql);
             if ($registros->rowCount() > 0) {
-                
-                $idCat=$conexion->lastInsertId();
+
+                $idCat = $conexion->lastInsertId();
                 $registros->closeCursor();
                 $conexion = null;
-                $dataController=new DataController();
+                $dataController = new DataController();
                 $dataController->createDirectoryCategory($idCat);
                 return $idCat;
             } else {
@@ -339,18 +341,18 @@ class Conexion
             $headersOnString .= $element . ",";
         }
         //var_dump($arVal);
-         $paramsOnString;
+        $paramsOnString;
         $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
         $headersOnString = substr($headersOnString, 0, strlen($headersOnString) - 1);
         try {
             $conexion = $this->getConexion();
             $sql = "insert into objeto ($headersOnString) values ($paramsOnString)";
             $registros = $conexion->query($sql);
-            if ($registros->rowCount()>0) {
-                $idObject=$conexion->lastInsertId();
+            if ($registros->rowCount() > 0) {
+                $idObject = $conexion->lastInsertId();
                 $registros->closeCursor();
                 $conexion = null;
-                $dataController=new DataController();
+                $dataController = new DataController();
                 $dataController->createDirectoryObject($idObject);
                 return $idObject;
             } else {
@@ -430,7 +432,7 @@ class Conexion
     public function getComment($user, $object)
     {
         try {
-            $arResul=[];
+            $arResul = [];
             $conexion = $this->getConexion();
             $sql = "SELECT * FROM comentario left outer join usuario on comentario.id_usuario=usuario.id_usuario left outer join objeto on comentario.id_objeto=objeto.id_objeto where usuario='$user' and objeto.nombre='$object'";
             $registros = $conexion->query($sql);
@@ -458,7 +460,7 @@ class Conexion
             $registros = $conexion->query($sql);
             if ($registros->rowCount() > 0) {
                 foreach ($registros as $registro) {
-                    $user=new Usuario($registro["usuario"],$registro["password"],$registro["moneda"],$registro["nombre"],$registro["apellidos"],$registro["rol"],$registro["id_usuario"],$registro["correo"]);
+                    $user = new Usuario($registro["usuario"], $registro["password"], $registro["moneda"], $registro["nombre"], $registro["apellidos"], $registro["rol"], $registro["id_usuario"], $registro["correo"]);
                 }
                 $registros->closeCursor();
                 $conexion = null;
@@ -472,5 +474,25 @@ class Conexion
         }
     }
 
-
+    public function getCategory($idCategory)
+    {
+        try {
+            $conexion = $this->getConexion();
+            $sql = "SELECT * FROM categoria WHERE id_categoria=$idCategory";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                foreach ($registros as $registro) {
+                    $cat = new Categoria($registro["id_categoria"], $registro["nombre"], $registro["puntuacion"], $registro["descripcion"]);
+                }
+                $registros->closeCursor();
+                $conexion = null;
+                return $cat;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
 }

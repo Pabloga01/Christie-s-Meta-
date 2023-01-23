@@ -291,20 +291,21 @@ class DataController
                 }
 
                 $i = 0;
-                foreach ($fotos as $foto) {
-                    $path = $foto["full_path"];
-                    $name = $foto["name"];
-                    $temp_name = $foto['tmp_name'];
-
-
-                    $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_categorias\\$idCat\\$name";
-                    if (!file_exists($file)) {
-                        $files = glob("C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_categorias\\$idCat\\*"); // get all file names
-                        foreach ($files as $file) {
-                            @unlink($file);
+                try {
+                    foreach ($fotos as $foto) {
+                        $path = $foto["full_path"];
+                        $name = $foto["name"];
+                        $temp_name = $foto['tmp_name'];
+                        $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_categorias\\$idCat\\$name";
+                        if (!file_exists($file)) {
+                            $files = glob("C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_categorias\\$idCat\\*"); // get all file names
+                            foreach ($files as $file) {
+                                @unlink($file);
+                            }
+                            move_uploaded_file($temp_name, $file);
                         }
-                        move_uploaded_file($temp_name, $file);
                     }
+                } catch (Exception $ex) {
                 }
             }
 
@@ -751,7 +752,20 @@ class DataController
         return false;
     }
 
+    function getIdCategory()
+    {
+        if (isset($_GET["id_categoria"])) {
+            $db = new Conexion();
+            $datos = $db->getCategory($_GET["id_categoria"]);
+            if ($datos != false) {
+                $category = $datos;
+                echo $category->getNombre();
 
+                //echo json_encode($datos);
+            }
+        }
+        return false;
+    }
 
 
     function createDirectoryCategory($idCat)

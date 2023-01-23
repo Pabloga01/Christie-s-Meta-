@@ -3,7 +3,8 @@
 class FrontController
 {
 
-    function login(){
+    function login()
+    {
         session_start();
         if (isset($_SESSION["mensaje_error"]) || !empty($_SESSION["mensaje_error"])) {
             $mensaje_error = $_SESSION["mensaje_error"];
@@ -15,8 +16,8 @@ class FrontController
     function login_check()
     {
         session_start();
-        if (isset($_POST["user"]) && $_POST["user"] != "" && isset($_POST["password"]) && $_POST["password"] != "") {
-            $user = $_POST["user"];
+        if (isset($_POST["correo"]) && $_POST["correo"] != "" && isset($_POST["password"]) && $_POST["password"] != "") {
+            $user = $_POST["correo"];
             $password = $_POST["password"];
 
             $db = new Conexion();
@@ -38,4 +39,15 @@ class FrontController
     }
 
 
+    function home()
+    {
+        session_start();
+        require("view/front/home.php");
+    }
+
+    function listado()
+    {
+        session_start();
+        require("view/front/listado.php");
+    }
 }

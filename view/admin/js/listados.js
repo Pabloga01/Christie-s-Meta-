@@ -12,7 +12,7 @@ var jsonActual = [];
 var titleTable = document.querySelector(".titulo_tabla");
 var columnas;
 var selectSelected;
-var previousSection="Productos";
+var previousSection = "Productos";
 
 addEventListener("load", () => {
 
@@ -187,8 +187,8 @@ function getCategoriesPagedList(nIndex) {
         actualIndex = nIndex;
     }
 
-    let arrCategoriesHeaders = ["nombre", "descripcion", "puntuacion", "categoria padre","fotografia"];
-    let arrCategoriesHeaders2 = [1, 3, "puntuacion", "cod_categoria_padre","fotografia"];
+    let arrCategoriesHeaders = ["nombre", "descripcion", "puntuacion", "categoria padre", "fotografia"];
+    let arrCategoriesHeaders2 = [1, 3, 2, 7, 5];
     createHeadBoard(arrCategoriesHeaders);
 
     fetch("http://localhost/ChristieMeta/index.php/api/listado_categorias/?q=" + nVisualizedRows + "&indice=" + actualIndex)
@@ -198,6 +198,7 @@ function getCategoriesPagedList(nIndex) {
             var json = data;
             productList = eval(json);
             jsonActual = productList;
+
             if (productList != undefined && productList.length != 0) {
                 fillTable(productList, arrCategoriesHeaders2);
 
@@ -478,8 +479,24 @@ function fillTable(arJson, arHeadersName) {
 
         for (let i = 0; i < arHeadersName.length; i++) {
             var td = document.createElement('td');
+
+            // if (arHeadersName[i] == "cod_categoria_padre") {
+            //     td.innerHTML = "";
+            //     td.classList.add("cat_padre");
+            //     tr.appendChild(td);
+            //     fetch("http://localhost/ChristieMeta/index.php/api/consultar_categoria/?id_categoria=" + element[arHeadersName[i]])
+            //         .then(parseText)
+            //         .then(function (data) {
+            //             var name = data;
+            //             td = name;
+            //         }).catch(function (error) {
+            //             console.log('error request', error);
+            //         });
+            // } else {
             td.innerHTML = element[arHeadersName[i]];
             tr.appendChild(td);
+            // }
+
         }
 
     });
@@ -544,7 +561,7 @@ function deployModalWindow(titleTable) {
             arFieldsCard = ["Nombre", "Puntuación", "Cat. Padre", "Imagen", "Descripción"];
             break;
         case "Usuarios":
-            arFieldsCard = ["Tag. Usuario", "Nombre", "Apellidos", "Rol", "Monedas", "Correo", "Contraseña"];
+            arFieldsCard = ["Usertag", "Nombre", "Apellidos", "Rol", "Monedas", "Correo", "Contraseña"];
             break;
         case "Comentarios":
             arFieldsCard = ["Fecha", "Usuario", "Item", "Descripción"];
@@ -650,6 +667,7 @@ function deployModalWindow(titleTable) {
 
         } else {
             input = document.createElement("input");
+            input = document.createElement("input");
             input.style.width = "50%";
             input.style.marginBottom = "5%";
         }
@@ -658,8 +676,47 @@ function deployModalWindow(titleTable) {
             input.type = "date";
         } else if (arFieldsCard[i] == "Contraseña") {
             input.type = "password";
-        }
-        if (arFieldsCard[i] == "Usuario") {
+        } else if (arFieldsCard[i] == "Rol") {
+            input = document.createElement("select");
+            let values = ["user", "admin"];
+            for (let i = 0; i < 2; i++) {
+                option = document.createElement("option");
+                option.text = values[i];
+                //option.value = i;
+                input.add(option);
+            }
+            input.style.width = "50%";
+            input.style.marginBottom = "5%";
+        } else if (arFieldsCard[i] == "Cat. Padre") {
+            input = document.createElement("select");
+            input.classList.add("selectFatherCats");
+
+            fetch("http://localhost/ChristieMeta/index.php/api/listado_categorias")
+                //  .then(checkStatus)
+                .then(parseJSON)
+                .then(function (data) {
+                    var json = data;
+                    productList = eval(json);
+                    if (productList != undefined && productList.length != 0) {
+
+                        input = document.querySelector(".selectFatherCats");
+                        var option;
+                        productList.forEach(element => {
+                            option = document.createElement("option");
+                            option.text = element["nombre"];
+                            option.value = element["id_categoria"];
+                            input.add(option);
+
+                        });
+                        input.value = selectSelected;
+                        input.style.width = "50%";
+                        input.style.marginBottom = "5%";
+                    }
+                }).catch(function (error) {
+                    console.log('error request', error);
+                });
+
+        } else if (arFieldsCard[i] == "Usuario") {
             input = document.createElement("select");
             input.classList.add("selectUsers");
 
@@ -686,10 +743,8 @@ function deployModalWindow(titleTable) {
                 }).catch(function (error) {
                     console.log('error request', error);
                 });
-        }
 
-
-        if (arFieldsCard[i] == "Item") {
+        } else if (arFieldsCard[i] == "Item") {
             input = document.createElement("select");
             input.classList.add("selectItems");
 
@@ -716,10 +771,8 @@ function deployModalWindow(titleTable) {
                 }).catch(function (error) {
                     console.log('error request', error);
                 });
-        }
 
-
-        if (arFieldsCard[i] == "Categoría") {
+        } else if (arFieldsCard[i] == "Categoría") {
             input = document.createElement("select");
             input.classList.add("selectCategories");
 
@@ -738,10 +791,7 @@ function deployModalWindow(titleTable) {
                             option.text = element["nombre"];
                             option.value = element["id_categoria"];
                             input.add(option);
-
-
                         });
-
                         input.value = selectSelected;
                         input.style.width = "50%";
                         input.style.marginBottom = "5%";
@@ -1047,7 +1097,7 @@ function updateCategory() {
 
     let jsonValues = {
         nombre: fields[0].value,
-        id_categoria: fields[0].id,
+        id_categoria:parseInt(fields[0].id),
         //nombre:  fields[0].options[fields[0].selectedIndex].text,
         puntuacion: parseInt(fields[1].value),
         cod_categoria_padre: parseInt(fields[2].value),
@@ -1065,18 +1115,12 @@ function updateCategory() {
         },
         body: jsonFormat
     })
-        .catch((error) => {
-            console.error(error);
-        });
-
-
     const formData = new FormData();
     let file = inputFile.files[0];
     if (file != undefined) {
         formData.append("fotografia", file);
     }
     formData.append("id", fields[0].id);
-
     fetch("http://localhost/ChristieMeta/index.php/api/actualizar_categoria", {
         method: 'POST',
         // headers: {
@@ -1087,6 +1131,13 @@ function updateCategory() {
     }).then((response) => {
         console.log(response)
     })
+        .catch((error) => {
+            console.error(error);
+        });
+
+
+
+
 
 }
 
@@ -1195,12 +1246,12 @@ function removeComment() {
 
 function loadFileDataProducts(idJson) {
     var inputsModal = document.querySelectorAll(".inputModal");
-    
+
     let fileProductList = [1, 2, 5, 3, 4, 14, 11];
     let fileFiles = ["fotografia1", "fotografia2", "fotografia3"];
     let idProduct;
     let emptyMark = false;
-    
+
     let i = 0;
     jsonActual.forEach(element => {
         if (element[0] == idJson) {
@@ -1213,11 +1264,11 @@ function loadFileDataProducts(idJson) {
                 element1.value = element[fileProductList[i]];
                 i++;
             });
-            
+
         }
     });
-    
-    
+
+
     var inputsFile = document.querySelectorAll(".file");
     let x = 0;
     jsonActual.forEach(element => {
@@ -1250,15 +1301,17 @@ function loadFileDataProducts(idJson) {
 
 function loadFileDataCategories(idJson) {
     var inputsModal = document.querySelectorAll(".inputModal");
-    let fileProductList = [1, "puntuacion", "cod_categoria_padre", 3,"fotografia"];
+    let fileProductList = [1, 2, 4, 3, 5];
     let i = 0;
     let emptyMark = false;
 
     jsonActual.forEach(element => {
         if (element[0] == idJson) {
             inputsModal.forEach(element1 => {
-                inputsModal[0].id = element["id_categoria"];
+                inputsModal[0].id = element[0];
                 element1.value = element[fileProductList[i]];
+                selectSelected = element[6];
+                inputsModal[2].value = element[6];
                 i++;
                 emptyMark = true;
             });
@@ -1266,7 +1319,7 @@ function loadFileDataCategories(idJson) {
         }
     });
 
-    let fileFiles = ["fotografia"];
+    let fileFiles = [5];
     var inputsFile = document.querySelectorAll(".file");
     let x = 0;
     jsonActual.forEach(element => {

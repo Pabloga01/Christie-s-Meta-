@@ -5,6 +5,7 @@ require_once("./controller/DataController.php");
 require_once("./controller/FrontController.php");
 require_once("./model/db.php");
 require_once("./model/Usuario.php");
+require_once("./model/Categoria.php");
 //require_once("./model/Mailer.php");
 
 //$apiController = new ApiController;
@@ -58,6 +59,8 @@ if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) &&
 //obtener pk de usuario e item a traves de nombres de comentario
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_comentario") {
     $dataController->getComment();
+}else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_categoria") {
+    $dataController->getIdCategory();
 }
 
 
@@ -86,4 +89,8 @@ if (isset($array_ruta[0]) && $array_ruta[0] == "login" && !isset($array_ruta[1])
     $frontController->login();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "loginprocess" && !isset($array_ruta[1])) {
     $frontController->login_check();
+}else if (isset($array_ruta[0]) && $array_ruta[0] == "home" && !isset($array_ruta[1])) {
+    $frontController->home();
+}else if (isset($array_ruta[0]) && $array_ruta[0] == "listado" && !isset($array_ruta[1])) {
+    $frontController->listado();
 }

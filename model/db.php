@@ -543,7 +543,7 @@ class Conexion
         }
     }
 
-    public function getFileredItems()
+    public function getFilteredItems()
     {
         try {
             $conexion = $this->getConexion();

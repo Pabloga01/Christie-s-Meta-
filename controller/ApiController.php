@@ -32,6 +32,7 @@ class ApiController
 
             }
         }
+        
         $db = new Conexion();
         $items = $db->getFilteredItems();
         if (isset($items)) {

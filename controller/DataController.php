@@ -299,9 +299,17 @@ class DataController
                         $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_categorias\\$idCat\\$name";
                         if (!file_exists($file)) {
                             $files = glob("C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_categorias\\$idCat\\*"); // get all file names
-                            foreach ($files as $file) {
-                                @unlink($file);
+                            // foreach ($files as $f) {
+                            //    if($f!))
+                            //     @unlink($f);
+                            // }
+                            if($files[0]==$foto){
+                                @unlink($files[1]);
+                            }else{
+                                @unlink($files[0]);
+
                             }
+
                             move_uploaded_file($temp_name, $file);
                         }
                     }
@@ -669,11 +677,12 @@ class DataController
                     array_push($paramsHeaders, "descripcion");
                 }
                 if (isset($jsonParams['fotografia'])) {
-                    $fotografia = $jsonParams['fotografia'];
+                    $fotografia ="'" . $jsonParams['fotografia']. "'";
                     array_push($arVar, $fotografia);
                     array_push($paramsHeaders, "fotografia");
                 }
-
+                // var_dump($paramsHeaders);
+                // var_dump($arVar);
                 if (count($arVar) > 0) {
                     $db = new Conexion();
                     $datos = $db->addCategory($arVar, $paramsHeaders);

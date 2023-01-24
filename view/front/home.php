@@ -47,131 +47,133 @@
 
 
             <section id="articulos" class="col-11  row mt-5 mb-5 d-flex justify-content-center ">
-                <div id="msjSlider" class="text-center responsive-font">
-                    <p>los artículos más valorados bla bla</p>
+                <div id="divMsjSlider" class="text-center responsive-font">
+                    <p id="msjSlider">los artículos más valorados bla bla</p>
                 </div>
                 <div class="col-12 mt-2 mb-5 d-flex justify-content-center">
                     <div class="btnSlider  col-1">
                         <img src="view/admin/images/before.png" class="imgNavigation">
                     </div>
-                    <article id="articulo1" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo1 art col-3 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
-                            <img src="view/admin/images/item.png" class="slider_img w-100">
+                            <img src="view/admin/images/item.png" class="imgArt1 slider_img w-100">
                         </div>
                         <div id="contenidoTexto">
                             <div class="d-flex justify-content-between mx-1 mt-1">
-                                <h2 class="nombre1 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
-                                <p class="precio1 responsive-font">40 C</p>
+                                <h2 class="nombre1 r-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio1 r-font ">40 C</p>
                             </div>
-                            <p class="categoria1 fst-italic display-7" style="color: #60645cb6">Categoría</p>
+                            <p class="r-font categoria1 fst-italic display-7" style="color: #60645cb6">Categoría</p>
                         </div>
                     </article>
-                    <article id="articulo2" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo2 art col-3 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
-                            <img src="view/admin/images/item.png" class="slider_img w-100">
+                            <img src="view/admin/images/item.png" class="imgArt2 slider_img w-100">
                         </div>
                         <div id="contenidoTexto">
                             <div class="d-flex justify-content-between mx-1 mt-1">
-                                <h2 class="nombre2 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
-                                <p class="precio2 responsive-font">40 C</p>
+                                <h2 class="nombre2 r-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio2 r-font ">40 C</p>
                             </div>
-                            <p class="categoria2 fst-italic display-7" style="color: #60645cb6">Categoría 2</p>
+                            <p class="r-font categoria2 fst-italic display-7" style="color: #60645cb6">Categoría 2</p>
                         </div>
                     </article>
-                    <article id="articulo3" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo3 art col-3 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
-                            <img src="view/admin/images/item.png" class="slider_img w-100">
+                            <img src="view/admin/images/item.png" class="imgArt3 slider_img w-100">
+                            <!-- <img src="view/admin/dir_objetos/19/2022074033326.jpg" class="slider_img w-100">  -->
+                            <!-- <img src="view/admin/dir_objetos/47/20220630155227.jpg" class="slider_img w-100"> -->
                         </div>
                         <div id="contenidoTexto">
                             <div class="d-flex justify-content-between mx-1 mt-1">
-                                <h2 class="nombre3 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
-                                <p class="precio3 responsive-font">40 C</p>
+                                <h2 class="nombre3 r-font  h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio3 r-font ">40 C</p>
                             </div>
-                            <p class="categoria3 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
+                            <p class="r-font categoria3 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="articulo4" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo4 art col-3 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
-                            <img src="view/admin/images/item.png" class="slider_img w-100">
+                            <img src="view/admin/images/item.png" class="imgArt4 slider_img w-100">
                         </div>
                         <div id="contenidoTexto">
                             <div class="d-flex justify-content-between mx-1 mt-1">
-                                <h2 class="nombre4 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
-                                <p class="precio4 responsive-font">40 C</p>
+                                <h2 class="nombre4 r-font  h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio4 r-font ">40 C</p>
                             </div>
-                            <p class="categoria4 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
+                            <p class="r-font categoria4 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="articulo5" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo5 art col-3 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
-                            <img src="view/admin/images/item.png" class="slider_img w-100">
+                            <img src="view/admin/images/item.png" class="imgArt5 slider_img w-100">
                         </div>
                         <div id="contenidoTexto">
                             <div class="d-flex justify-content-between mx-1 mt-1">
-                                <h2 class="nombre5 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
-                                <p class="precio5 responsive-font">40 C</p>
+                                <h2 class="nombre5 r-font  h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio5 r-font ">40 C</p>
                             </div>
-                            <p class="categoria5 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
+                            <p class="r-font categoria5 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="articulo6" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo6 art col-3 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
-                            <img src="view/admin/images/item.png" class="slider_img w-100">
+                            <img src="view/admin/images/item.png" class="imgArt6 slider_img w-100">
                         </div>
                         <div id="contenidoTexto">
                             <div class="d-flex justify-content-between mx-1 mt-1">
-                                <h2 class="nombre6 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
-                                <p class="precio6 responsive-font">40 C</p>
+                                <h2 class="nombre6 r-font  h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio6 r-font ">40 C</p>
                             </div>
-                            <p class="categoria6 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
+                            <p class="r-font categoria6 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="articulo7" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo7 art col-3 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
-                            <img src="view/admin/images/item.png" class="slider_img w-100">
+                            <img src="view/admin/images/item.png" class="imgArt7 slider_img w-100">
                         </div>
                         <div id="contenidoTexto">
                             <div class="d-flex justify-content-between mx-1 mt-1">
-                                <h2 class="nombre7 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
-                                <p class="precio7 responsive-font">40 C</p>
+                                <h2 class="nombre7 r-font  h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio7 r-font ">40 C</p>
                             </div>
-                            <p class="categoria7 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
+                            <p class="r-font categoria7 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="articulo8" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo8 art col-3 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
-                            <img src="view/admin/images/item.png" class="slider_img w-100">
+                            <img src="view/admin/images/item.png" class="imgArt8 slider_img w-100">
                         </div>
                         <div id="contenidoTexto">
                             <div class="d-flex justify-content-between mx-1 mt-1">
-                                <h2 class="nombre8 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
-                                <p class="precio8 responsive-font">40 C</p>
+                                <h2 class="nombre8 r-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio8 r-font ">40 C</p>
                             </div>
-                            <p class="categoria8 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
+                            <p class="r-font categoria8 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="articulo9" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo9 art col-3 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
-                            <img src="view/admin/images/item.png" class="slider_img w-100">
+                            <img src="view/admin/images/item.png" class="imgArt9 slider_img w-100">
                         </div>
                         <div id="contenidoTexto">
                             <div class="d-flex justify-content-between mx-1 mt-1">
-                                <h2 class="nombre9 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
-                                <p class="precio9 responsive-font">40 C</p>
+                                <h2 class="nombre9 r-font  h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio9 r-font ">40 C</p>
                             </div>
-                            <p class="categoria9 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
+                            <p class="r-font categoria9 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="articulo10" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo10 art col-3 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
-                            <img src="view/admin/images/item.png" class="slider_img w-100">
+                            <img src="view/admin/images/item.png" class="imgArt10 slider_img w-100">
                         </div>
                         <div id="contenidoTexto">
                             <div class="d-flex justify-content-between mx-1 mt-1">
-                                <h2 class="nombre10 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
-                                <p class="precio10 responsive-font">40 C</p>
+                                <h2 class="nombre10 r-font  h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio10 r-font ">40 C</p>
                             </div>
-                            <p class="categoria10 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
+                            <p class="r-font categoria10 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
                     <div class="btnSlider col-1">
@@ -180,22 +182,24 @@
 
                 </div>
             </section>
+            <article id="div_buscador" class=" mb-5">
+                <!-- <form class="w-90 d-flex justify-content-center" action="#" method="post" target="_blank"> -->
+                <div class=" d-flex justify-content-center">
+                    <input id="buscador" class="w-75" type="search" placeholder="🔎 Filtrar por categorías" name="busquedamodelos" list="listaCategorias">
+                    <button id="submitBuscador" type="submit" value="Buscar">Buscar</button>
+                </div>
+                <!-- </form> -->
+
+                <datalist id="listaCategorias">
+                    <!-- <option value="Camaro">
+                    <option value="Corvette">
+                    <option value="Impala">
+                    <option value="Colorado"> -->
+                </datalist>
+
+            </article>
             <section id="categorias" class="col-11">
-                <article id="div_buscador" class=" mb-5">
-                    <form class="w-90 d-flex justify-content-center" action="#" method="post" target="_blank">
-                        <input id="buscador" class="w-75" type="search" placeholder="🔎 Filtrar por categorías" name="busquedamodelos" list="listamodelos">
-                        <input type="submit" value="Buscar">
-                    </form>
-
-                    <datalist id="listaCategorias">
-                        <option value="Camaro">
-                        <option value="Corvette">
-                        <option value="Impala">
-                        <option value="Colorado">
-                    </datalist>
-
-                </article>
-                <article id="art1" class="  article mt col-xs-12 col-sm-12 col-md-12 mx-12 mb-3 ">
+                <!-- <article id="art1" class="  article mt col-xs-12 col-sm-12 col-md-12 mx-12 mb-3 ">
                     <div id="cab_articulo" class="mx-2 mt-2">
                         <div id="cab_img" class="m-2 col-5 col-sm-5 col-md-4 ">
                             <img src="view/admin/images/buda.jpg" class=" img w-75 border border-3 grey rounded ">
@@ -224,7 +228,7 @@
                             </div>
                         </div>
                     </div>
-                </article>
+                </article> -->
             </section>
         </div>
     </div>

@@ -1097,7 +1097,7 @@ function updateCategory() {
 
     let jsonValues = {
         nombre: fields[0].value,
-        id_categoria:parseInt(fields[0].id),
+        id_categoria: parseInt(fields[0].id),
         //nombre:  fields[0].options[fields[0].selectedIndex].text,
         puntuacion: parseInt(fields[1].value),
         cod_categoria_padre: parseInt(fields[2].value),
@@ -1431,12 +1431,20 @@ function addUser() {
 function addCategory() {
     let fields = document.querySelectorAll(".inputModal");
     var inputFile = document.querySelector(".file");
+    let inputFileChecked = "";
+    try {
+        if (inputFile != undefined) {
+            inputFileChecked = inputFile.files[0].name;
+        }
+    } catch (e) {
+    }
+
 
     let jsonValues = {
         nombre: fields[0].value,
         puntuacion: parseInt(fields[1].value),
         cod_categoria_padre: parseInt(fields[2].value),
-        fotografia: parseInt(fields[2].value),
+        fotografia: inputFileChecked,
         descripcion: fields[3].value,
     }
     let jsonFormat = JSON.stringify(jsonValues);

@@ -190,7 +190,7 @@ function loadCategories() {
                     option.id = element["id_categoria"];
 
                     inputCategories.appendChild(option);
-                    fillArticlesCategories(element["id_categoria"], element["nombre"], element["descripcion"],element["puntuacion"], element["fotografia"]);
+                    fillArticlesCategories(element["id_categoria"], element["nombre"], element["descripcion"], element["puntuacion"], element["fotografia"]);
                 });
             }
         })
@@ -201,7 +201,7 @@ function loadCategories() {
 }
 
 
-function fillArticlesCategories(idCat, name, description, points,image) {
+function fillArticlesCategories(idCat, name, description, points, image) {
     let inputCategories = document.querySelector("#categorias");
 
     var article = document.createElement('article');
@@ -215,11 +215,11 @@ function fillArticlesCategories(idCat, name, description, points,image) {
 
     var divImg = document.createElement('div');
     divImg.id = "cab_img";
-    divImg.classList.add("m-2", "col-5", "col-sm-5", "col-md-4");
+    divImg.classList.add("m-2", "col-6", "col-sm-4", "col-md-3","d-flex","align-middle");
     divArt.appendChild(divImg);
 
     var img = document.createElement('img');
-    img.classList.add("img", "w-75", "border", "border-3", "grey", "rounded");
+    img.classList.add("img", "w-100", "border", "border-3", "grey", "rounded");
     let baseImg = "http://localhost/ChristieMeta/view/admin/dir_categorias/" + idCat + "/" + image;
     img.src = baseImg;
     divImg.appendChild(img);
@@ -241,14 +241,19 @@ function fillArticlesCategories(idCat, name, description, points,image) {
     divContenido.appendChild(divSubtituloCont);
     var p = document.createElement('p');
     p.innerHTML = description;
+    p.id = "descripcion";
     p.classList.add("responsive-font", "subtitulo");
     divSubtituloCont.appendChild(p);
 
     var p2 = document.createElement('p');
-    p2.innerHTML ="Puntos de categoría: "+ points;
+    p2.innerHTML = "Puntos de categoría: ";
     p2.classList.add("responsive-font", "subtitulo");
-    p2.style.color="#d4d4d8";
+    p2.style.color = "#d4d4d8";
     divSubtituloCont.appendChild(p2);
+    var span = document.createElement('span');
+    span.innerHTML = points;
+    span.id = "puntuacion";
+    p2.appendChild(span);
 
     var div = document.createElement('div');
     var div = document.createElement('div');
@@ -262,20 +267,51 @@ function fillArticlesCategories(idCat, name, description, points,image) {
 
 
 function enableSearcher() {
+    var selectCriteria = document.querySelector("#criterioBuscador");
     var searcher = document.querySelector("#buscador");
     let searcherButton = document.querySelector("#submitBuscador");
 
-
     searcher.addEventListener("keyup", () => {
-        enableSearch();
+        var value = selectCriteria.value;
+        var text = selectCriteria.options[selectCriteria.selectedIndex].text;
+        switch (text) {
+            case "Por nombre":
+                enableSearchByTitles();
+                break;
+            case "Por descripción":
+                enableSearchByDescripction();
+                break;
+            case "Puntuación mayor de":
+                enableSearchHigherThan();
+                break;
+            case "Puntuación menor de":
+                enableSearchLowerThan();
+                break;
+        }
+
     });
-    
+
     searcherButton.addEventListener("click", () => {
-        enableSearch();
+        var value = selectCriteria.value;
+        var text = selectCriteria.options[selectCriteria.selectedIndex].text;
+        switch (text) {
+            case "Por nombre":
+                enableSearchByTitles();
+                break;
+            case "Por descripción":
+                enableSearchByDescripction();
+                break;
+
+            case "Puntuación mayor de":
+                enableSearchHigherThan();
+                break;
+            case "Puntuación menor de":
+                enableSearchLowerThan();
+                break;
+        }
     });
 
-
-    function enableSearch() {
+    function enableSearchByTitles() {
         let arts = document.querySelectorAll(".article");
         let idCatsList = [];
         let valueSearcher = searcher.value;
@@ -288,8 +324,7 @@ function enableSearcher() {
                 }
             }
 
-            if (idCatsList.length > 0)
-                loadFilteredCategories(idCatsList);
+            loadFilteredCategories(idCatsList);
         } else {
             arts.forEach(element => {
                 element.style.display = "block";
@@ -298,9 +333,100 @@ function enableSearcher() {
     }
 
 
+    function enableSearchByDescripction() {
+        let arts = document.querySelectorAll(".article");
+        let desc = document.querySelectorAll("#descripcion");
+        let idCatsList = [];
+        let valueSearcher = searcher.value;
+        //let options = inputCategories.children;
+
+        if (valueSearcher != undefined && valueSearcher != "") {
+            for (let i = 0; i < desc.length; i++) {
+                if (desc[i].innerHTML.toLowerCase().includes(valueSearcher.toLowerCase())) {
+                    idCatsList.push(desc[i].parentNode.parentNode.parentNode.parentNode.id);
+                }
+            }
+
+            loadFilteredCategories(idCatsList);
+        } else {
+            arts.forEach(element => {
+                element.style.display = "block";
+            });
+        }
+    }
+
+
+    function enableSearchLowerThan() {
+        let arts = document.querySelectorAll(".article");
+        let desc = document.querySelectorAll("#puntuacion");
+        let idCatsList = [];
+        let valueSearcher = searcher.value;
+
+        try {
+            valueSearcher = parseFloat(Math.floor(valueSearcher));
+
+            if (typeof valueSearcher == 'number') {
+                if (valueSearcher == 0)
+                    valueSearcher = 1;
+                //valueSearcher = parseFloat(Math.floor(valueSearcher));
+                //let options = inputCategories.children;
+
+                if (valueSearcher != undefined && valueSearcher != "") {
+                    for (let i = 0; i < desc.length; i++) {
+                        if (desc[i].innerHTML < valueSearcher) {
+                            idCatsList.push(desc[i].parentNode.parentNode.parentNode.parentNode.parentNode.id);
+                        }
+                    }
+
+                    loadFilteredCategories(idCatsList);
+                } else {
+                    arts.forEach(element => {
+                        element.style.display = "block";
+                    });
+                }
+            }
+        } catch (ex) {
+
+        }
+    }
+
+
+    function enableSearchHigherThan() {
+        let arts = document.querySelectorAll(".article");
+        let desc = document.querySelectorAll("#puntuacion");
+        let idCatsList = [];
+        let valueSearcher = searcher.value;
+
+        try {
+            valueSearcher = parseFloat(Math.floor(valueSearcher));
+
+            if (typeof valueSearcher == 'number') {
+                if (valueSearcher == 0)
+                    valueSearcher = 1;
+                //valueSearcher = parseFloat(Math.floor(valueSearcher));
+                //let options = inputCategories.children;
+
+                if (valueSearcher != undefined && valueSearcher != "") {
+                    for (let i = 0; i < desc.length; i++) {
+                        if (desc[i].innerHTML > valueSearcher) {
+                            idCatsList.push(desc[i].parentNode.parentNode.parentNode.parentNode.parentNode.id);
+                        }
+                    }
+
+                    loadFilteredCategories(idCatsList);
+
+                } else {
+                    arts.forEach(element => {
+                        element.style.display = "block";
+                    });
+                }
+            }
+        } catch (ex) {
+
+        }
+    }
+
 }
-
-
 
 
 function loadFilteredCategories(idCatsList) {

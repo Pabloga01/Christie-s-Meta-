@@ -104,4 +104,6 @@ else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1
     $apiController->getLastCommentedItems();
 }else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "slider_notlogin") {
     $apiController->getMostValuableItems();
+}else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "filtrar_items") {
+    $apiController->getFilteredItems();
 }

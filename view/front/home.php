@@ -185,7 +185,13 @@
             <article id="div_buscador" class=" mb-5">
                 <!-- <form class="w-90 d-flex justify-content-center" action="#" method="post" target="_blank"> -->
                 <div class=" d-flex justify-content-center">
-                    <input id="buscador" class="w-75" type="search" placeholder="🔎 Filtrar por categorías" name="busquedamodelos" list="listaCategorias">
+                    <select id="criterioBuscador" class="mx-2">
+                        <option value="nombre"selected> Por nombre</option>
+                        <option value="descripcion">Por descripción</option>
+                        <option value="ordenMayor">Puntuación mayor de</option>
+                        <option value="ordenMenor">Puntuación menor de</option>
+                    </select>
+                    <input id="buscador" class="w-75" type="search" placeholder="🔎 Filtrar categorías" name="busquedamodelos" list="listaCategorias">
                     <button id="submitBuscador" type="submit" value="Buscar">Buscar</button>
                 </div>
                 <!-- </form> -->

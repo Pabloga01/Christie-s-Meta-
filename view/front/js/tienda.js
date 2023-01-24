@@ -2,7 +2,17 @@
 addEventListener("load", () => {
     loadSelectOptionsCategories();
     loadItems();
+    listenerSearcher();
 });
+
+var range = document.querySelector("#rangePrecio");
+range.addEventListener("change", () => {
+    var spanRange = document.querySelector("#spanRange");
+    spanRange.innerHTML = range.value + " C";
+
+})
+
+
 
 
 function loadSelectOptionsCategories() {
@@ -23,7 +33,7 @@ function loadSelectOptionsCategories() {
             if (catList != undefined && catList.length >= 0) {
                 catList.forEach(element => {
                     let option = document.createElement("option");
-                    option.value = element["nombre"];
+                    option.value = element["id_categoria"];
                     option.text = element["nombre"];
                     option.id = element["id_categoria"];
                     select.appendChild(option);
@@ -138,7 +148,42 @@ function fillArticles(arItem) {
 
 
 
+function listenerSearcher() {
+    var searcher = document.querySelector("#buscador");
+    searcher.addEventListener("keyup", () => {
+        let categoriesFilter = document.querySelector("#selectCategorias");
+        let commentPointsFilter = document.querySelector("#selectPuntuacionComentarios");
+        let salePointsFilter = document.querySelector("#selectPuntuacionCompras");
+        let salesValue = document.querySelector("#rangePrecio");
 
+        let idCategory = categoriesFilter.value;
+        let orderComments = commentPointsFilter.value;
+        let orderSales = salePointsFilter.value;
+        let precio = salesValue.value;
+
+        fetch("http://localhost/ChristieMeta/index.php/api/filtrar_items", {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(checkStatus)
+            .then(parseJSON)
+            .then(function (data) {
+                var json = data;
+                productList = eval(json);
+                if (productList != undefined && productList.length != 0) {
+                    let sliderText = document.querySelector("#msjSlider");
+                    sliderText.innerHTML = "Los últimos artículos comentados";
+                    fillSlider(productList);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    });
+}
 
 
 

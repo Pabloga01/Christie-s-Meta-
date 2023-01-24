@@ -542,4 +542,27 @@ class Conexion
             return false;
         }
     }
+
+    public function getFileredItems()
+    {
+        try {
+            $conexion = $this->getConexion();
+            $sql = "SELECT * FROM objeto inner join objeto on comentario.id_objeto=objeto.id_objeto inner join categoria on objeto.id_categoria=categoria.id_categoria group by comentario.id_objeto order by fecha desc limit 10;";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                $datos_lista = [];
+                foreach ($registros as $registro) {
+                    array_push($datos_lista, $registro);
+                }
+                $registros->closeCursor();
+                $conexion = null;
+                return $datos_lista;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
 }

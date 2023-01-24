@@ -23,4 +23,21 @@ class ApiController
             }
         }
     }
+
+    function getFilteredItems()
+    {
+
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            if(isset($_POST)){
+
+            }
+        }
+        $db = new Conexion();
+        $items = $db->getFilteredItems();
+        if (isset($items)) {
+            if ($items) {
+                echo json_encode($items);
+            }
+        }
+    }
 }

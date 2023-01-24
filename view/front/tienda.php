@@ -37,11 +37,11 @@
     </header>
     <div id="content" class="row container mx-auto justify-content-center">
 
-        <section id="filtros" class="col-11 mt-5 ">
+        <section id="filtros" class="col-11 mt-5 mb-5">
             <article id="div_buscador" class=" mb-4">
                 <!-- <form class="w-90 d-flex justify-content-center" action="#" method="post" target="_blank"> -->
                 <div class=" d-flex justify-content-center">
-                    <input id="buscador" class="w-75 h-125" type="search" placeholder="🔎 Filtrar por categorías" name="busquedamodelos" list="listaCategorias">
+                    <input id="buscador" class="w-75 h-125" type="search" placeholder="🔎 Filtrar por nombre de producto" name="busquedamodelos" list="listaCategorias">
                     <button id="submitBuscador" type="submit" value="Buscar">Buscar</button>
                 </div>
                 <!-- </form> -->
@@ -53,26 +53,32 @@
                 </datalist>
             </article>
             <article id="filtros" class="col-12 container d-flex justify-content-center">
-                <div class="row col-4 mx-2">
+                <div class="row col-3 mx-2">
                     <label for="selectCats">Categorías</label>
                     <select name="selectCats" id="selectCategorias" class="mx-2 ">
                     </select>
                 </div>
-                <div class="row col-4 mx-2">
-                    <label for="selectPuntuacionComents">Nº comentarios</label>
+                <div class="row col-3 mx-2">
+                    <label for="selectPuntuacionComents">Comentarios</label>
                     <select name="selectPuntuacionComents" id="selectPuntuacionComentarios" class="mx-2 ">
-                        <option value="value2"> De mayor a menor</option>
-                        <option value="value1">De menor a mayor</option>
-                        <option value="value3" selected>Sin filtrado</option>
+                        <option  value="0"> De mayor a menor</option>
+                        <option  value="1">De menor a mayor</option>
+                        <option value="" selected>Sin filtrado</option>
                     </select>
                 </div>
-                <div class="row col-4 mx-2">
-                    <label for="selectPuntuacionCompras">Nº compras</label>
+                <div class="row col-3 mx-2">
+                    <label for="selectPuntuacionCompras">Compras</label>
                     <select name="selectPuntuacionCompras" id="selectPuntuacionCompras" class="mx-2">
-                        <option value="value2"> De mayor a menor</option>
-                        <option value="value1">De menor a mayor</option>
-                        <option value="value3" selected>Sin filtrado</option>
+                        <option value="0"> De mayor a menor</option>
+                        <option value="1">De menor a mayor</option>
+                        <option value="" selected>Sin filtrado</option>
                     </select>
+                </div>
+                <div class="row col-3 mx-2">
+                    <label for="progressbar">Precio</label>
+                    <input id="rangePrecio" class="mt-2" type="range" min="0" max="2000" value="0" class="slider" id="myRange">
+                    <span id="spanRange" class="text-center">0 C</span>
+
                 </div>
             </article>
 

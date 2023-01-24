@@ -51,7 +51,7 @@
                     <p>los artículos más valorados bla bla</p>
                 </div>
                 <div class="col-12 mt-2 mb-5 d-flex justify-content-center">
-                    <div class="btnSlider col-1">
+                    <div class="btnSlider  col-1">
                         <img src="view/admin/images/before.png" class="imgNavigation">
                     </div>
                     <article id="articulo1" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
@@ -60,36 +60,118 @@
                         </div>
                         <div id="contenidoTexto">
                             <div class="d-flex justify-content-between mx-1 mt-1">
-                                <h2 class="responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
-                                <p class="responsive-font">40 C</p>
+                                <h2 class="nombre1 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio1 responsive-font">40 C</p>
                             </div>
-                            <p class="fst-italic display-7" style="color: #60645cb6">Categoría</p>
+                            <p class="categoria1 fst-italic display-7" style="color: #60645cb6">Categoría</p>
                         </div>
                     </article>
-
                     <article id="articulo2" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
-                        <div id="imagenArt">
-                            <img src="view/admin/images/item.png" class="slider_img w-100 ">
+                        <div id="imagenArt" class="">
+                            <img src="view/admin/images/item.png" class="slider_img w-100">
                         </div>
                         <div id="contenidoTexto">
                             <div class="d-flex justify-content-between mx-1 mt-1">
-                                <h2 class="responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 2</h2>
-                                <p class="responsive-font">40 C</p>
+                                <h2 class="nombre2 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio2 responsive-font">40 C</p>
                             </div>
-                            <p class="fst-italic display-7" style="color: #60645cb6">Categoría</p>
+                            <p class="categoria2 fst-italic display-7" style="color: #60645cb6">Categoría 2</p>
                         </div>
                     </article>
-
-                    <article id="articulo3" class="art col-3 col-sm-3 col-md-3 col-xl-3">
-                        <div id="imagenArt">
-                            <img src="view/admin/images/item.png" class="slider_img">
+                    <article id="articulo3" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                        <div id="imagenArt" class="">
+                            <img src="view/admin/images/item.png" class="slider_img w-100">
                         </div>
                         <div id="contenidoTexto">
                             <div class="d-flex justify-content-between mx-1 mt-1">
-                                <h2 class="responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 3</h2>
-                                <p class="responsive-font">40 C</p>
+                                <h2 class="nombre3 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio3 responsive-font">40 C</p>
                             </div>
-                            <p class="fst-italic display-7" style="color: #60645cb6">Categoría</p>
+                            <p class="categoria3 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
+                        </div>
+                    </article>
+                    <article id="articulo4" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                        <div id="imagenArt" class="">
+                            <img src="view/admin/images/item.png" class="slider_img w-100">
+                        </div>
+                        <div id="contenidoTexto">
+                            <div class="d-flex justify-content-between mx-1 mt-1">
+                                <h2 class="nombre4 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio4 responsive-font">40 C</p>
+                            </div>
+                            <p class="categoria4 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
+                        </div>
+                    </article>
+                    <article id="articulo5" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                        <div id="imagenArt" class="">
+                            <img src="view/admin/images/item.png" class="slider_img w-100">
+                        </div>
+                        <div id="contenidoTexto">
+                            <div class="d-flex justify-content-between mx-1 mt-1">
+                                <h2 class="nombre5 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio5 responsive-font">40 C</p>
+                            </div>
+                            <p class="categoria5 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
+                        </div>
+                    </article>
+                    <article id="articulo6" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                        <div id="imagenArt" class="">
+                            <img src="view/admin/images/item.png" class="slider_img w-100">
+                        </div>
+                        <div id="contenidoTexto">
+                            <div class="d-flex justify-content-between mx-1 mt-1">
+                                <h2 class="nombre6 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio6 responsive-font">40 C</p>
+                            </div>
+                            <p class="categoria6 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
+                        </div>
+                    </article>
+                    <article id="articulo7" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                        <div id="imagenArt" class="">
+                            <img src="view/admin/images/item.png" class="slider_img w-100">
+                        </div>
+                        <div id="contenidoTexto">
+                            <div class="d-flex justify-content-between mx-1 mt-1">
+                                <h2 class="nombre7 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio7 responsive-font">40 C</p>
+                            </div>
+                            <p class="categoria7 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
+                        </div>
+                    </article>
+                    <article id="articulo8" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                        <div id="imagenArt" class="">
+                            <img src="view/admin/images/item.png" class="slider_img w-100">
+                        </div>
+                        <div id="contenidoTexto">
+                            <div class="d-flex justify-content-between mx-1 mt-1">
+                                <h2 class="nombre8 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio8 responsive-font">40 C</p>
+                            </div>
+                            <p class="categoria8 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
+                        </div>
+                    </article>
+                    <article id="articulo9" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                        <div id="imagenArt" class="">
+                            <img src="view/admin/images/item.png" class="slider_img w-100">
+                        </div>
+                        <div id="contenidoTexto">
+                            <div class="d-flex justify-content-between mx-1 mt-1">
+                                <h2 class="nombre9 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio9 responsive-font">40 C</p>
+                            </div>
+                            <p class="categoria9 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
+                        </div>
+                    </article>
+                    <article id="articulo10" class="art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                        <div id="imagenArt" class="">
+                            <img src="view/admin/images/item.png" class="slider_img w-100">
+                        </div>
+                        <div id="contenidoTexto">
+                            <div class="d-flex justify-content-between mx-1 mt-1">
+                                <h2 class="nombre10 responsive-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                <p class="precio10 responsive-font">40 C</p>
+                            </div>
+                            <p class="categoria10 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
                     <div class="btnSlider col-1">
@@ -98,7 +180,7 @@
 
                 </div>
             </section>
-            <section id="categorias">
+            <section id="categorias" class="col-11">
                 <article id="div_buscador" class=" mb-5">
                     <form class="w-90 d-flex justify-content-center" action="#" method="post" target="_blank">
                         <input id="buscador" class="w-75" type="search" placeholder="🔎 Filtrar por categorías" name="busquedamodelos" list="listamodelos">
@@ -113,32 +195,40 @@
                     </datalist>
 
                 </article>
-                <article id="hobbie2" class="  art mt col-xs-12 col-sm-12 col-md-12 mx-12 mb-3 ">
+                <article id="art1" class="  article mt col-xs-12 col-sm-12 col-md-12 mx-12 mb-3 ">
                     <div id="cab_articulo" class="mx-2 mt-2">
-                        <div id="cab_img" class=" col-5 col-sm-5 col-md-4 ">
-                            <img src="./img/buda.jpg" class=" img w-75 border border-3 grey rounded ">
-
+                        <div id="cab_img" class="m-2 col-5 col-sm-5 col-md-4 ">
+                            <img src="view/admin/images/buda.jpg" class=" img w-75 border border-3 grey rounded ">
                         </div>
-                        <div id="cab_contenido">
+                        <div id="cab_contenido" class="m-2">
                             <div id="titulocont">
-                                <h3 class="titulocont">Viajar</h3>
+                                <h3 class="responsive-font titulocont">Categoría 1</h3>
                             </div>
                             <div id="subtitulo">
-                                <p class="subtitulo">Siempre que tenga la oportunidad de hacerlo viajaré. </p>
+                                <p class="responsive-font subtitulo">Descripción de categoría </p>
                             </div>
                         </div>
                     </div>
-
-                    <div id="texto" class="  col-12 col-sm-12 col-md-12">
-                        <p class="parrafoArticulo     mx-2 font-size-lg text-responsive" style="color : black ;  font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">
-                            Sea por España o fuera de sus fronteras, me encanta visitar nuevos sitios, ver como son las costumbres de las personas, comer diferente y sentir que en cada lugar hay siempre cosas nuevas que apreciar.
-                        </p>
+                </article>
+                <article id="art1" class="  article mt col-xs-12 col-sm-12 col-md-12 mx-12 mb-3 ">
+                    <div id="cab_articulo" class="mx-2 mt-2">
+                        <div id="cab_img" class="m-2 col-5 col-sm-5 col-md-4 ">
+                            <img src="view/admin/images/buda.jpg" class=" img w-75 border border-3 grey rounded ">
+                        </div>
+                        <div id="cab_contenido" class="m-2">
+                            <div id="titulocont">
+                                <h3 class="responsive-font titulocont">Categoría 1</h3>
+                            </div>
+                            <div id="subtitulo">
+                                <p class="responsive-font subtitulo">Descripción de categoría </p>
+                            </div>
+                        </div>
                     </div>
                 </article>
             </section>
         </div>
-
     </div>
+    <script src="view/front/js/home.js"></script>
 </body>
 
 </html>

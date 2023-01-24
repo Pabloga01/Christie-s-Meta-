@@ -495,4 +495,51 @@ class Conexion
             return false;
         }
     }
+
+
+    public function getMostValuableItems()
+    {
+        try {
+            $conexion = $this->getConexion();
+            $sql = "select * from objeto inner join categoria on objeto.id_categoria=categoria.id_categoria ORDER BY `objeto`.`puntuacion_total` desc limit 10";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                $datos_lista = [];
+                foreach ($registros as $registro) {
+                    array_push($datos_lista, $registro);
+                }
+                $registros->closeCursor();
+                $conexion = null;
+                return $datos_lista;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+    public function getLastCommentedItems()
+    {
+        try {
+            $conexion = $this->getConexion();
+            $sql = "SELECT * FROM `comentario` inner join objeto on comentario.id_objeto=objeto.id_objeto inner join categoria on objeto.id_categoria=categoria.id_categoria group by comentario.id_objeto order by fecha desc limit 10;";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                $datos_lista = [];
+                foreach ($registros as $registro) {
+                    array_push($datos_lista, $registro);
+                }
+                $registros->closeCursor();
+                $conexion = null;
+                return $datos_lista;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
 }

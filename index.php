@@ -2,6 +2,7 @@
 
 require_once("./controller/Controller.php");
 require_once("./controller/DataController.php");
+require_once("./controller/ApiController.php");
 require_once("./controller/FrontController.php");
 require_once("./model/db.php");
 require_once("./model/Usuario.php");
@@ -11,6 +12,7 @@ require_once("./model/Categoria.php");
 //$apiController = new ApiController;
 $controller = new Controller;
 $dataController = new DataController;
+$apiController = new ApiController;
 $frontController = new FrontController;
 
 $home = "/ChristieMeta/index.php/";
@@ -19,7 +21,7 @@ $ruta = str_replace($home, "", $_SERVER["REQUEST_URI"]);
 
 $array_ruta = array_filter(explode("/", $ruta));
 
-//acciones del api generando JSON
+//acciones del api generando JSON backend
 if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "listado_productos") {
     $dataController->loadProductPagedList();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "listado_categorias") {
@@ -65,7 +67,7 @@ if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) &&
 
 
 //redirecciones del programa al backend
-if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta[1]) && $array_ruta[1] == "login") {
+else if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta[1]) && $array_ruta[1] == "login") {
     $controller->login();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta[1]) && $array_ruta[1] == "loginprocess") {
     $controller->login_check();
@@ -85,7 +87,7 @@ if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta[1]) 
 
 //redirecciones del programa al front end
 
-if (isset($array_ruta[0]) && $array_ruta[0] == "login" && !isset($array_ruta[1])) {
+else if (isset($array_ruta[0]) && $array_ruta[0] == "login" && !isset($array_ruta[1])) {
     $frontController->login();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "loginprocess" && !isset($array_ruta[1])) {
     $frontController->login_check();
@@ -93,4 +95,13 @@ if (isset($array_ruta[0]) && $array_ruta[0] == "login" && !isset($array_ruta[1])
     $frontController->home();
 }else if (isset($array_ruta[0]) && $array_ruta[0] == "listado" && !isset($array_ruta[1])) {
     $frontController->listado();
+}
+
+
+
+//acciones del api generando JSON frontend
+else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "slider_login") {
+    $apiController->getLastCommentedItems();
+}else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "slider_notlogin") {
+    $apiController->getMostValuableItems();
 }

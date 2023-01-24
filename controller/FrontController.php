@@ -42,8 +42,32 @@ class FrontController
     function home()
     {
         session_start();
+        $_SESSION["logedInUser"] = false;
+        $items = false;
+        if (isset($_SESSION["logedInUser"])) {
+            if ($_SESSION["logedInUser"]) {
+                $db = new Conexion();
+                setcookie("logedInUser", 1);
+                // $items = $db->getLastCommentedItems();
+            } else {
+                setcookie("logedInUser", 2);
+            }
+        } else {
+            setcookie("logedInUser", 2);
+            //$db = new Conexion();
+            // $items = $db->getMostValuableItems();
+        }
+        // if (isset($items)) {
+        //     if ($items != false) {
+        //         echo json_encode($items);
+        //     }
+        // }
+
         require("view/front/home.php");
     }
+
+
+
 
     function listado()
     {

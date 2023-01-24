@@ -93,8 +93,8 @@ else if (isset($array_ruta[0]) && $array_ruta[0] == "login" && !isset($array_rut
     $frontController->login_check();
 }else if (isset($array_ruta[0]) && $array_ruta[0] == "home" && !isset($array_ruta[1])) {
     $frontController->home();
-}else if (isset($array_ruta[0]) && $array_ruta[0] == "listado" && !isset($array_ruta[1])) {
-    $frontController->listado();
+}else if (isset($array_ruta[0]) && $array_ruta[0] == "tienda" && !isset($array_ruta[1])) {
+    $frontController->tienda();
 }
 
 

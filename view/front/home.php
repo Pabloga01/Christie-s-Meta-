@@ -24,8 +24,8 @@
             </div>
             <nav id="menu" class="me-1 col-sm-6 col-md-5 col-xl-5  col-lg-4 col-6 row  navbar navbar-expand-lg  justify-content-end">
                 <ul class=" nav nav-pills justify-content-center text-light ">
-                    <li class="nav-item "><a class="responsive-font" style="color: white" class="nav-link" href="#">Home</a></li>
-                    <li class="nav-item "><a class="responsive-font" style="color: white" class="nav-link" href="#">Tienda</a></li>
+                    <li class="nav-item "><a class="responsive-font" style="color: white; border-bottom: 3px solid;" class="nav-link" href="index.php/home">Home</a></li>
+                    <li class="nav-item "><a class="responsive-font" style="color: white" class="nav-link" href="index.php/tienda">Tienda</a></li>
                     <li class="nav-item "><a class="responsive-font" style="color: white" class="nav-link" href="#">Mapa</a></li>
                     <li class="nav-item "><a class="responsive-font" style="color: white" class="nav-link" href="#">Perfil</a> </li>
                 </ul>

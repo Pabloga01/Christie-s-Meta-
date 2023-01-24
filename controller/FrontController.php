@@ -69,9 +69,9 @@ class FrontController
 
 
 
-    function listado()
+    function tienda()
     {
         session_start();
-        require("view/front/listado.php");
+        require("view/front/tienda.php");
     }
 }

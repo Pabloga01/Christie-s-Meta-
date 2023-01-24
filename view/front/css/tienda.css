@@ -1,0 +1,139 @@
+body{
+    background-color:#B7D7EB ;
+}
+
+
+
+
+a {
+    text-decoration: none;
+}
+.ico {
+    width: 25px;
+}
+li {
+    margin: 2%;
+}
+
+.t_header {
+    text-align: center;
+}
+.imgProfile {
+    width: 25px;
+}
+
+.font_title {
+    color: white;
+}
+.navbar {
+    background-color: #689FC2;
+    height: 80%;
+}
+
+#buscador{
+  
+    height: 2.5em;
+}
+
+
+
+.article {
+    background-color: #e1e6e9;
+    background: linear-gradient(45deg, #a0c7e7, #638cbb);
+    border-radius: 10px;
+    /*  border: 1px solid black;*/
+    /* background-color: rgb(77, 67, 67);  */
+
+}
+#cab_articulo {
+    display: flex;
+    flex-direction: row;
+}
+
+#imagenArt{
+    margin-top: -2%;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+/* If the screen size is 1200px wide or more, set the font-size to 80px */
+@media (min-width: 1200px) {
+    .responsive-font {
+        font-size: 25px;
+    }
+    .resp-font {
+        font-size: 27px;
+    }
+    .r-font {
+        font-size: 22px;
+    }
+}
+
+/* If the screen size is smaller than 1200px, set the font-size to 80px */
+@media (max-width: 1199.98px) {
+    .responsive-font {
+        font-size: 25px;
+    }
+    .resp-font {
+        font-size: 27px;
+    }
+    .r-font {
+        font-size: 20px;
+    }
+}
+
+@media (max-width:1000px) {
+    .responsive-font {
+        font-size: 18px;
+    }
+    .resp-font {
+        font-size: 22px;
+    }
+    .r-font {
+        font-size: 18px;
+    }
+}
+@media (max-width:900px) {
+    .responsive-font {
+        font-size: 16px;
+    }
+    .resp-font {
+        font-size: 22px;
+    }
+    .r-font {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 800px) {
+    .responsive-font {
+        font-size: 15px;
+    }
+    .resp-font {
+        font-size: 15px;
+    }
+    .r-font {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 600px) {
+    .responsive-font {
+        font-size: 14px;
+    }
+    .resp-font {
+        font-size: 14px;
+    }
+    .r-font {
+        font-size: 10px;
+    }
+}

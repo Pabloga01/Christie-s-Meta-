@@ -190,7 +190,7 @@ function loadCategories() {
                     option.id = element["id_categoria"];
 
                     inputCategories.appendChild(option);
-                    fillArticlesCategories(element["id_categoria"], element["nombre"], element["descripcion"], element["fotografia"]);
+                    fillArticlesCategories(element["id_categoria"], element["nombre"], element["descripcion"],element["puntuacion"], element["fotografia"]);
                 });
             }
         })
@@ -201,7 +201,7 @@ function loadCategories() {
 }
 
 
-function fillArticlesCategories(idCat, name, description, image) {
+function fillArticlesCategories(idCat, name, description, points,image) {
     let inputCategories = document.querySelector("#categorias");
 
     var article = document.createElement('article');
@@ -244,6 +244,11 @@ function fillArticlesCategories(idCat, name, description, image) {
     p.classList.add("responsive-font", "subtitulo");
     divSubtituloCont.appendChild(p);
 
+    var p2 = document.createElement('p');
+    p2.innerHTML ="Puntos de categoría: "+ points;
+    p2.classList.add("responsive-font", "subtitulo");
+    p2.style.color="#d4d4d8";
+    divSubtituloCont.appendChild(p2);
 
     var div = document.createElement('div');
     var div = document.createElement('div');
@@ -309,18 +314,7 @@ function loadFilteredCategories(idCatsList) {
             }
         });
     });
-    // fetch("http://localhost/ChristieMeta/index.php/api/consultar_categoria/?id_categoria=" + idCatsList)
-    //     .then(checkStatus)
-    //     .then(parseJSON)
-    //     .then(function (data) {
-    //         var json = eval(data);
-    //         if (json != undefined && json.length != 0) {
 
-    //         }
-
-    //     }).catch(function (error) {
-    //         console.log('error request', error);
-    //     });
 }
 
 

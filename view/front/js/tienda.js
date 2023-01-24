@@ -31,6 +31,12 @@ function loadSelectOptionsCategories() {
             var json = data;
             let catList = eval(json);
             if (catList != undefined && catList.length >= 0) {
+                let option = document.createElement("option");
+                option.value = "Sin filtrado";
+                option.text = "Sin filtrado";
+                option.id = "Sin filtrado";
+                select.appendChild(option);
+                select.value="Sin filtrado";
                 catList.forEach(element => {
                     let option = document.createElement("option");
                     option.value = element["id_categoria"];
@@ -47,7 +53,7 @@ function loadSelectOptionsCategories() {
 
 
 function loadItems() {
-    fetch("http://localhost/ChristieMeta/index.php/api/listado_productos", {
+    fetch("http://localhost/ChristieMeta/index.php/api/filtrar_items", {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -60,6 +66,7 @@ function loadItems() {
             var json = data;
             let prodList = eval(json);
             if (prodList != undefined && prodList.length >= 0) {
+                removeArticles();
                 prodList.forEach(element => {
                     fillArticles(element);
                 });
@@ -107,7 +114,7 @@ function fillArticles(arItem) {
 
     var img = document.createElement('img');
     img.classList.add("img", "w-75", "border", "border-3", "grey", "rounded");
-    let baseImg = "http://localhost/ChristieMeta/view/admin/dir_objetos/" + arItem["id_categoria"] + "/" + arItem["fotografia1"];
+    let baseImg = "http://localhost/ChristieMeta/view/admin/dir_objetos/" + arItem[12] + "/" + arItem["fotografia1"];
     img.src = baseImg;
     divImg.appendChild(img);
 
@@ -120,14 +127,14 @@ function fillArticles(arItem) {
     divTituloCont.id = "titulocont";
     divContenido.appendChild(divTituloCont);
     var h3 = document.createElement('h3');
-    h3.innerHTML = arItem["nombre"];
+    h3.innerHTML = arItem[1];
     h3.classList.add("responsive-font", "titulocont");
     divTituloCont.appendChild(h3);
 
     var divSubtituloCont = document.createElement('div');
     divContenido.appendChild(divSubtituloCont);
     var p = document.createElement('p');
-    p.innerHTML = arItem["descripcion"];
+    p.innerHTML = arItem[11];
     p.classList.add("responsive-font", "subtitulo");
     divSubtituloCont.appendChild(p);
 
@@ -146,50 +153,99 @@ function fillArticles(arItem) {
 }
 
 
-
+var searcher = document.querySelector("#buscador");
+var searcherButton = document.querySelector("#submitBuscador");
+var selectCategories = document.querySelector("#selectCategorias");
+var selectComments = document.querySelector("#selectCategorias");
+var commentPointsFilter = document.querySelector("#selectPuntuacionComentarios");
+var salePointsFilter = document.querySelector("#selectPuntuacionCompras");
+var salesValue = document.querySelector("#rangePrecio");
+arFilters = [searcher, selectCategories, selectComments, commentPointsFilter, salePointsFilter, salesValue];
 
 function listenerSearcher() {
-    var searcher = document.querySelector("#buscador");
-    searcher.addEventListener("keyup", () => {
-        let categoriesFilter = document.querySelector("#selectCategorias");
-        let commentPointsFilter = document.querySelector("#selectPuntuacionComentarios");
-        let salePointsFilter = document.querySelector("#selectPuntuacionCompras");
-        let salesValue = document.querySelector("#rangePrecio");
 
-        let idCategory = categoriesFilter.value;
-        let orderComments = commentPointsFilter.value;
-        let orderSales = salePointsFilter.value;
-        let precio = salesValue.value;
+    searcherButton.addEventListener("click", () => {
+        loader();
+    });
 
-        fetch("http://localhost/ChristieMeta/index.php/api/filtrar_items", {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
+    arFilters.forEach(element => {
+        element.addEventListener("change", () => {
+            loader();
+        });
+    });
+
+}
+
+
+function loader() {
+    // let categoriesFilter = document.querySelector("#selectCategorias");
+    // let commentPointsFilter = document.querySelector("#selectPuntuacionComentarios");
+    // let salePointsFilter = document.querySelector("#selectPuntuacionCompras");
+    // let salesValue = document.querySelector("#rangePrecio");
+
+    let idCategory = selectCategories.value;
+    let orderComments = commentPointsFilter.value;
+    let orderSales = salePointsFilter.value;
+    let precio = salesValue.value;
+    if (precio == 0) {
+        precio = "";
+    }
+
+    let jsonValues = {
+        id_category: idCategory,
+        order_comments: orderComments,
+        order_sales: orderSales,
+        price: precio,
+    }
+    let jsonFormat = JSON.stringify(jsonValues);
+
+    fetch("http://localhost/ChristieMeta/index.php/api/filtrar_items", {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: jsonFormat
+    })
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(function (data) {
+            var json = data;
+            productList = eval(json);
+            if (productList != undefined && productList.length != 0) {
+                // let sliderText = document.querySelector("#msjSlider");
+                // sliderText.innerHTML = "Los últimos artículos comentados";
+                removeArticles();
+                productList.forEach(element => {
+                    fillArticles(element);
+                })
             }
         })
-            .then(checkStatus)
-            .then(parseJSON)
-            .then(function (data) {
-                var json = data;
-                productList = eval(json);
-                if (productList != undefined && productList.length != 0) {
-                    let sliderText = document.querySelector("#msjSlider");
-                    sliderText.innerHTML = "Los últimos artículos comentados";
-                    fillSlider(productList);
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    });
+        .catch((error) => {
+            console.error(error);
+        });
 }
 
 
 
 
+function removeArticles() {
 
+    let items = document.querySelector("#items");
+    if (items.children.length > 0) {
 
+        // for (let i = 0; i < items.length; i++) {
+        //     items.firstChild.remove();
+        // }
+
+        // while(items.has){
+
+        // }
+        while (items.hasChildNodes()) {
+            items.firstChild.remove();
+        }
+    }
+}
 
 
 

@@ -61,17 +61,17 @@
                 <div class="row col-3 mx-2">
                     <label for="selectPuntuacionComents">Comentarios</label>
                     <select name="selectPuntuacionComents" id="selectPuntuacionComentarios" class="mx-2 ">
+                        <option value="" selected>Sin filtrado</option>
                         <option  value="0"> De mayor a menor</option>
                         <option  value="1">De menor a mayor</option>
-                        <option value="" selected>Sin filtrado</option>
                     </select>
                 </div>
                 <div class="row col-3 mx-2">
                     <label for="selectPuntuacionCompras">Compras</label>
                     <select name="selectPuntuacionCompras" id="selectPuntuacionCompras" class="mx-2">
+                        <option value="" selected>Sin filtrado</option>
                         <option value="0"> De mayor a menor</option>
                         <option value="1">De menor a mayor</option>
-                        <option value="" selected>Sin filtrado</option>
                     </select>
                 </div>
                 <div class="row col-3 mx-2">

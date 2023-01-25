@@ -197,29 +197,6 @@ class DataController
                     $temp_name = $foto['tmp_name'];
                     move_uploaded_file($temp_name, $file);
                 }
-                // $i = 0;
-                // try {
-                //     $files = glob("C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\*"); // get all file names
-                //     $i = 1;
-                //     foreach ($files as $file) {
-                //         if ($i > 2) {
-                //             @unlink($file);
-                //         }
-                //         $i++;
-                //     }
-                // } catch (Exception $ex) {
-                // }
-                // $fotos = ["img1", "img2", "img3"];
-                // $i = 0;
-                // foreach ($fotos as $foto) {
-                //     $path = $foto["full_path"];
-                //     $name = $foto["name"];
-                //     $temp_name = $foto['tmp_name'];
-                //     $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\$fotos[$i]";
-                //     if (!file_exists($file)) {
-                //         move_uploaded_file($temp_name, $file);
-                //     }
-                // }
             }
 
             if (isset($_POST)) {
@@ -556,15 +533,15 @@ class DataController
             if (isset($_FILES)) {
                 if (isset($_FILES['fotografia1'])) {
                     $foto = $_FILES['fotografia1'];
-                    array_push($images, $foto);
+                    $images[0] = $foto;
                 }
                 if (isset($_FILES['fotografia2'])) {
                     $foto = $_FILES['fotografia2'];
-                    array_push($images, $foto);
+                    $images[1] = $foto;
                 }
                 if (isset($_FILES['fotografia3'])) {
                     $foto = $_FILES['fotografia3'];
-                    array_push($images, $foto);
+                    $images[2] = $foto;
                 }
             }
 
@@ -808,30 +785,55 @@ class DataController
 
     function storeImagesOnDirectoryObject($idObj, $images)
     {
-        foreach ($images as $foto) {
-            $path = $foto["full_path"];
-            $name = $foto["name"];
-            $temp_name = $foto['tmp_name'];
-            $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\$name";
-            if (!file_exists($file)) {
+            if (isset($images[0])) {
+                $ext = pathinfo($images[0]["full_path"], PATHINFO_EXTENSION);
+                $temp_name = $images[0]['tmp_name'];
+                $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\img1.$ext";
                 move_uploaded_file($temp_name, $file);
             }
-        }
-        try {
-            $files = glob("C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\*"); // get all file names
-            $i = 0;
-            foreach ($files as $file) {
-                if ($i > 2) {
-                    @unlink($file);
-                }
-                $i++;
+        
+            if (isset($images[1])) {
+                $ext = pathinfo($images[1]["full_path"], PATHINFO_EXTENSION);
+                $temp_name = $images[1]['tmp_name'];
+                $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\img2.$ext";
+                move_uploaded_file($temp_name, $file);
             }
-        } catch (Exception $ex) {
-        }
+            if (isset($images[2])) {
+                $ext = pathinfo($images[2]["full_path"], PATHINFO_EXTENSION);
+                $temp_name = $images[2]['tmp_name'];
+                $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\img3.$ext";
+                move_uploaded_file($temp_name, $file);
+            }
+        // foreach ($images as $foto) {
+
+        //     $path = $foto["full_path"];
+        //     $ext = pathinfo($foto["full_path"], PATHINFO_EXTENSION);
+        //     $name = $foto["name"];
+        //     $temp_name = $foto['tmp_name'];
+        //     $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\img1." . $ext;
+        //     $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\$name";
+        //     if (!file_exists($file)) {
+        //         move_uploaded_file($temp_name, $file);
+        //     }
+        // }
+        // try {
+        //     $files = glob("C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\*"); // get all file names
+        //     $i = 0;
+        //     foreach ($files as $file) {
+        //         if ($i > 2) {
+        //             @unlink($file);
+        //         }
+        //         $i++;
+        //     }
+        // } catch (Exception $ex) {
+        // }
     }
 
     function storeImagesOnDirectoryCategory($idObj, $images)
     {
+
+
+
         foreach ($images as $foto) {
             $path = $foto["full_path"];
             $name = $foto["name"];

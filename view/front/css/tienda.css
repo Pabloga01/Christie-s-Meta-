@@ -37,14 +37,7 @@ li {
 
 
 
-.article {
-    background-color: #e1e6e9;
-    background: linear-gradient(45deg, #a0c7e7, #638cbb);
-    border-radius: 10px;
-    /*  border: 1px solid black;*/
-    /* background-color: rgb(77, 67, 67);  */
 
-}
 #cab_articulo {
     display: flex;
     flex-direction: row;
@@ -63,6 +56,20 @@ li {
     object-fit: cover;
 }
 
+.article {
+    /* background-color: white;
+     background: linear-gradient(45deg, #a0c7e7, #7195be);  */
+     border-radius: 1px; 
+    width: 100%;
+    margin: 0 auto;
+    /*  border: 1px solid black;*/
+    /* background-color: rgb(77, 67, 67);  */
+    /* background-color: #e1e6e9; */
+    /* background: linear-gradient(45deg, #a0c7e7, #638cbb); */
+    border-radius: 1px;
+    border-top: 1px solid black;
+    /* border: solid black 2px; */
+}
 
 
 

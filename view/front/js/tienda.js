@@ -132,7 +132,7 @@ function fillArticles(arItem) {
     article.appendChild(img);
     
     var divBody = document.createElement('div');
-    divBody.classList.add("card-body","d-flex","row");
+    divBody.classList.add("card-body","d-flex","row","article");
     article.appendChild(divBody);
 
     var divInnerBody1 = document.createElement('div');

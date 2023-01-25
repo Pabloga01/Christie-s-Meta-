@@ -61,7 +61,8 @@ if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) &&
 //obtener pk de usuario e item a traves de nombres de comentario
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_comentario") {
     $dataController->getComment();
-}else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_categoria") {
+}
+else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_categoria") {
     $dataController->getIdCategory();
 }
 
@@ -106,4 +107,6 @@ else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1
     $apiController->getMostValuableItems();
 }else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "filtrar_items") {
     $apiController->getFilteredItems();
+}else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_item") {
+    $apiController->getItem();
 }

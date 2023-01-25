@@ -42,7 +42,7 @@ class ApiController
                 $orderSales = "";
                 $price = "";
 
-                if (isset($jsonParams['id_category']) ) {
+                if (isset($jsonParams['id_category'])) {
                     $idCategory = $jsonParams['id_category'];
                     $price = $jsonParams['price'];
                     if ($idCategory != "") {
@@ -95,9 +95,26 @@ class ApiController
                 $db = new Conexion();
                 $items = $db->getFilteredItems($arVar);
                 if (isset($items)) {
-                    if ($items!=false) {
+                    if ($items != false) {
                         echo json_encode($items);
                     }
+                }
+            }
+        }
+        
+    }
+
+
+    function getItem()
+    {
+
+        if (isset($_GET["idItem"])) {
+            $idItem = $_GET["idItem"];
+            $db = new Conexion();
+            $item = $db->getItemById($idItem);
+            if (isset($item)) {
+                if ($item) {
+                    echo json_encode($item);
                 }
             }
         }

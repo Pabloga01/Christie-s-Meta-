@@ -1,5 +1,5 @@
-body{
-    background-color:#B7D7EB ;
+body {
+    background-color: #B7D7EB;
 }
 
 
@@ -8,9 +8,11 @@ body{
 a {
     text-decoration: none;
 }
+
 .ico {
     width: 25px;
 }
+
 li {
     margin: 2%;
 }
@@ -18,6 +20,7 @@ li {
 .t_header {
     text-align: center;
 }
+
 .imgProfile {
     width: 25px;
 }
@@ -25,13 +28,14 @@ li {
 .font_title {
     color: white;
 }
+
 .navbar {
     background-color: #689FC2;
     height: 80%;
 }
 
-#buscador{
-  
+#buscador {
+
     height: 2.5em;
 }
 
@@ -43,7 +47,7 @@ li {
     flex-direction: row;
 }
 
-#imagenArt{
+#imagenArt {
     margin-top: -2%;
 
 }
@@ -57,11 +61,11 @@ li {
 }
 
 .article {
-    /* background-color: white;
-     background: linear-gradient(45deg, #a0c7e7, #7195be);  */
-     border-radius: 1px; 
+    /* background-color: white;*/
+    /* background: linear-gradient(45deg, #a0c7e7, #7195be); */
     width: 100%;
     margin: 0 auto;
+    /* border-radius: 1px; 
     /*  border: 1px solid black;*/
     /* background-color: rgb(77, 67, 67);  */
     /* background-color: #e1e6e9; */
@@ -73,6 +77,36 @@ li {
 
 
 
+.product--card-single{
+ background-color: white;
+}
+
+.owl-carousel .item {
+    height: 10rem;
+    background: #4dc7a0;
+    padding: 1rem;
+  }
+  h4 {
+    font-size: 20px;
+    font-weight: 400;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -81,11 +115,16 @@ li {
     .responsive-font {
         font-size: 25px;
     }
+
     .resp-font {
         font-size: 27px;
     }
+
     .r-font {
         font-size: 22px;
+    }
+    .ri-font {
+        font-size: 15px;
     }
 }
 
@@ -94,11 +133,16 @@ li {
     .responsive-font {
         font-size: 25px;
     }
+
     .resp-font {
         font-size: 27px;
     }
+
     .r-font {
         font-size: 20px;
+    }
+    .ri-font {
+        font-size: 15px;
     }
 }
 
@@ -106,22 +150,33 @@ li {
     .responsive-font {
         font-size: 18px;
     }
+
     .resp-font {
         font-size: 22px;
     }
+
     .r-font {
         font-size: 18px;
     }
+    .ri-font {
+        font-size: 16px;
+    }
 }
+
 @media (max-width:900px) {
     .responsive-font {
         font-size: 16px;
     }
+
     .resp-font {
         font-size: 22px;
     }
+
     .r-font {
         font-size: 16px;
+    }
+    .ri-font {
+        font-size: 14px;
     }
 }
 
@@ -129,11 +184,16 @@ li {
     .responsive-font {
         font-size: 15px;
     }
+
     .resp-font {
         font-size: 15px;
     }
+
     .r-font {
         font-size: 14px;
+    }
+    .ri-font {
+        font-size: 13px;
     }
 }
 
@@ -141,10 +201,15 @@ li {
     .responsive-font {
         font-size: 14px;
     }
+
     .resp-font {
         font-size: 14px;
     }
+
     .r-font {
         font-size: 10px;
+    }
+    .ri-font {
+        font-size: 11px;
     }
 }

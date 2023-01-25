@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <base href="http://localhost/ChristieMeta/">
+    <!-- <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
     <link rel="stylesheet" href="view/front/css/tienda.css">
     <title>Tienda</title>
 </head>
@@ -31,11 +33,11 @@
                 </ul>
             </nav>
             <!-- <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button> -->
+                <span class="navbar-toggler-icon"></span>
+            </button> -->
         </div>
     </header>
-    <div id="content" class="row container mx-auto justify-content-center">
+    <div id="content" class="row container mx-auto d-flex justify-content-center">
 
         <section id="filtros" class="col-11 mt-5 mb-5">
             <article id="div_buscador" class=" mb-4">
@@ -52,38 +54,111 @@
                     <option value="Colorado"> -->
                 </datalist>
             </article>
-            <article id="filtros" class="col-12 container d-flex justify-content-center">
-                <div class="row col-3 mx-2">
-                    <label for="selectCats">Categorías</label>
-                    <select name="selectCats" id="selectCategorias" class="mx-2 ">
+            <article id="filtros" class="col-11 container d-flex justify-content-center">
+                <div class="row col-4 col-md3 mx-2">
+                    <label class="ri-font" for="selectCats">Categorías</label>
+                    <select class="ri-font" name="selectCats" id="selectCategorias" class="mx-2 ">
                     </select>
                 </div>
-                <div class="row col-3 mx-2">
-                    <label for="selectPuntuacionComents">Comentarios</label>
-                    <select name="selectPuntuacionComents" id="selectPuntuacionComentarios" class="mx-2 ">
+                <div class="row col-4 col-md3 mx-2 d-flex justify-content-start">
+                    <label class="ri-font " for="selectPuntuacionComents">Comentarios</label>
+                    <select class="ri-font" name="selectPuntuacionComents" id="selectPuntuacionComentarios" class="mx-2 ">
                         <option value="" selected>Sin filtrado</option>
                         <option value="0"> De mayor a menor</option>
                         <option value="1">De menor a mayor</option>
                     </select>
                 </div>
-                <div class="row col-3 mx-2">
-                    <label for="selectPuntuacionCompras">Compras</label>
-                    <select name="selectPuntuacionCompras" id="selectPuntuacionCompras" class="mx-2">
+                <div class="row col-4 col-md3 mx-2">
+                    <label class="ri-font" for="selectPuntuacionCompras">Compras</label>
+                    <select class="ri-font" name="selectPuntuacionCompras" id="selectPuntuacionCompras" class="mx-2">
                         <option value="" selected>Sin filtrado</option>
                         <option value="0"> De mayor a menor</option>
                         <option value="1">De menor a mayor</option>
                     </select>
                 </div>
-                <div class="row col-3 mx-2">
-                    <label for="progressbar">Precio</label>
-                    <input id="rangePrecio" class="mt-2" type="range" min="20" max="2000" value="2000" class="slider" id="myRange">
+                <div class="row col-4  col-md3 mx-2">
+                    <label class="ri-font" for="progressbar">Precio Máximo</label>
+                    <input class="ri-font" id="rangePrecio" class="mt-2" type="range" min="20" max="2000" value="2000" class="slider" id="myRange">
                     <span id="spanRange" class="text-center">2000 C</span>
 
                 </div>
             </article>
 
         </section>
-        <section id="items" class="col-12  mb-3">
+        <div class="owl-carousel owl-theme">
+            <div class="item">
+                <h4>1</h4>
+            </div>
+            <div class="item">
+                <h4>2</h4>
+            </div>
+            <div class="item">
+                <h4>3</h4>
+            </div>
+            <div class="item">
+                <h4>4</h4>
+            </div>
+            <div class="item">
+                <h4>5</h4>
+            </div>
+        </div>
+
+
+        <article class="product--card-single" style="display:none">
+            <h2 class="product--card-brend text-center">Brend</h2>
+            <h1 class="product--card-name text-center">Name</h1>
+            <div class="product--card-body d-flex justify-content-center">
+
+                <div class="owl-carousel owl-theme">
+                    <div class="item">
+                        <h4>1</h4>
+                    </div>
+                    <div class="item">
+                        <h4>2</h4>
+                    </div>
+                    <div class="item">
+                        <h4>3</h4>
+                    </div>
+                    <div class="item">
+                        <h4>4</h4>
+                    </div>
+                    <div class="item">
+                        <h4>5</h4>
+                    </div>
+                </div>
+                <div class="product--card-data">
+                    <div class="product--card-btn">
+                        <div class="product--card-price">
+                            <p>$10</p>
+                        </div>
+                        <input type="number" value="1">
+                        <span>Add to Cart</span>
+                    </div>
+                    <div class="product--card-additional">
+                        <div class="product--sku"><span>SKU:</span><span>SKU-00001</span></div>
+                        <div class="product--color"><span>Aroma:</span><span>floral</span></div>
+                        <div class="product--cat"><span>Category:</span><span>oils</span></div>
+                    </div>
+                    <div class="product--card-desc">
+                        <nav class="product--card-nav">
+                            <ul class="product--card-list">
+                                <li data-link="description" class="product--card-item card--item-active">Description</li>
+                                <li data-link="delivery" class="product--card-item ">Delivery</li>
+                                <li data-link="reviews" class="product--card-item ">Reviews(0)</li>
+                            </ul>
+                        </nav>
+                        <div class="product--card-panels">
+                            <div class="product--card-panel card--panel-active" id="description">
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce mauris dui, vehicula vel erat ac, eleifend hendrerit nibh. Aenean neque nulla, suscipit vitae enim in, cursus tincidunt erat. In consequat libero mi, et vestibulum felis convallis et. Vivamus vestibulum, eros vel elementum feugiat, tellus magna pellentesque sapien</p>
+                            </div>
+                            <div class="product--card-panel" id="delivery">Some text...</div>
+                            <div class="product--card-panel" id="reviews">Be the First to review this item</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <section id="items" class="col-12  mb-3 mt-2">
             <article class="card mx-auto mb-5" style="width: 90%">
                 <img class="card-img-top mx-aiut " src="view/admin/images/metaverseCar.jpeg" alt="Card image cap">
                 <div class="card-body">

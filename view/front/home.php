@@ -186,7 +186,7 @@
                 <!-- <form class="w-90 d-flex justify-content-center" action="#" method="post" target="_blank"> -->
                 <div class=" d-flex justify-content-center">
                     <select id="criterioBuscador" class="mx-2">
-                        <option value="nombre"selected> Por nombre</option>
+                        <option value="nombre" selected> Por nombre</option>
                         <option value="descripcion">Por descripción</option>
                         <option value="ordenMayor">Puntuación mayor de</option>
                         <option value="ordenMenor">Puntuación menor de</option>
@@ -235,6 +235,10 @@
                         </div>
                     </div>
                 </article> -->
+
+
+
+
             </section>
         </div>
     </div>

@@ -62,8 +62,8 @@
                     <label for="selectPuntuacionComents">Comentarios</label>
                     <select name="selectPuntuacionComents" id="selectPuntuacionComentarios" class="mx-2 ">
                         <option value="" selected>Sin filtrado</option>
-                        <option  value="0"> De mayor a menor</option>
-                        <option  value="1">De menor a mayor</option>
+                        <option value="0"> De mayor a menor</option>
+                        <option value="1">De menor a mayor</option>
                     </select>
                 </div>
                 <div class="row col-3 mx-2">
@@ -76,15 +76,36 @@
                 </div>
                 <div class="row col-3 mx-2">
                     <label for="progressbar">Precio</label>
-                    <input id="rangePrecio" class="mt-2" type="range" min="1" max="2000" value="200" class="slider" id="myRange">
-                    <span id="spanRange" class="text-center">200 C</span>
+                    <input id="rangePrecio" class="mt-2" type="range" min="20" max="2000" value="2000" class="slider" id="myRange">
+                    <span id="spanRange" class="text-center">2000 C</span>
 
                 </div>
             </article>
 
         </section>
-        <section id="items" class="col-11">
-
+        <section id="items" class="col-12  mb-3">
+            <article class="card mx-auto mb-5" style="width: 90%">
+                <img class="card-img-top mx-aiut " src="view/admin/images/metaverseCar.jpeg" alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+            </article>
+            <article class="card mx-auto" style="width: 90%; ">
+                <img class="card-img-top mx-aiut" src="view/admin/images/metaverseCar.jpeg" alt="Card image cap">
+                <div class="card-body d-flex row">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p>Nombre</p>
+                        </div>
+                        <div>
+                            <p>Precio</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Descripcion del artículo</p>
+                    </div>
+                </div>
+            </article>
         </section>
     </div>
     <script src="view/front/js/tienda.js"></script>

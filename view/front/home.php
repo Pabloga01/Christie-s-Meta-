@@ -54,7 +54,7 @@
                     <div class="btnSlider  col-1">
                         <img src="view/admin/images/before.png" class="imgNavigation">
                     </div>
-                    <article id="" class="articulo1 art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo1 art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt1 slider_img w-100">
                         </div>
@@ -66,7 +66,7 @@
                             <p class="r-font categoria1 fst-italic display-7" style="color: #60645cb6">Categoría</p>
                         </div>
                     </article>
-                    <article id="" class="articulo2 art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo2 art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt2 slider_img w-100">
                         </div>
@@ -78,7 +78,7 @@
                             <p class="r-font categoria2 fst-italic display-7" style="color: #60645cb6">Categoría 2</p>
                         </div>
                     </article>
-                    <article id="" class="articulo3 art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo3 art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt3 slider_img w-100">
                             <!-- <img src="view/admin/dir_objetos/19/2022074033326.jpg" class="slider_img w-100">  -->
@@ -92,7 +92,7 @@
                             <p class="r-font categoria3 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="" class="articulo4 art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo4 art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt4 slider_img w-100">
                         </div>
@@ -104,7 +104,7 @@
                             <p class="r-font categoria4 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="" class="articulo5 art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo5 art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt5 slider_img w-100">
                         </div>
@@ -116,7 +116,7 @@
                             <p class="r-font categoria5 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="" class="articulo6 art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo6 art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt6 slider_img w-100">
                         </div>
@@ -128,7 +128,7 @@
                             <p class="r-font categoria6 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="" class="articulo7 art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo7 art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt7 slider_img w-100">
                         </div>
@@ -140,7 +140,7 @@
                             <p class="r-font categoria7 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="" class="articulo8 art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo8 art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt8 slider_img w-100">
                         </div>
@@ -152,7 +152,7 @@
                             <p class="r-font categoria8 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="" class="articulo9 art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo9 art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt9 slider_img w-100">
                         </div>
@@ -164,7 +164,7 @@
                             <p class="r-font categoria9 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="" class="articulo10 art col-3 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo10 art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt10 slider_img w-100">
                         </div>

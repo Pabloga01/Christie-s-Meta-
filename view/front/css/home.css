@@ -135,12 +135,22 @@ body{
 
 .slider_img{
     width: 100%;
-    height: auto;
+    /* height: auto; */
     /* border-radius: 10px; */
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     margin-top: 2%;
 
+    object-fit: cover;
+    width: 20ch;
+    max-height: 200px;
+     height:10rem;
+    /*min-height: 10%; */
+    /* height: 10em; */
+}
+
+#imagenArt{
+    margin-top: -2%;
 }
 
 .btnSlider{
@@ -189,7 +199,5 @@ body{
     flex-direction: row;
 }
 
-#imagenArt{
-    margin-top: -2%;
 
-}
+

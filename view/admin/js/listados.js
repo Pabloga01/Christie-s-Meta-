@@ -1018,18 +1018,21 @@ function updateUser() {
 function updateObject() {
     let fields = document.querySelectorAll(".inputModal");
     var inputsFileChecked = [];
+    var inputsFileName = [];
     let i = 0;
     var inputsFile = document.querySelectorAll(".file");
 
     inputsFile.forEach(element => {
         if (element.files[0] != undefined) {
             inputsFileChecked[i] = element.files[0].name;
+            inputsFileName[i] = "img"+ parseInt(i+1)+".jpg";
+            
         } else {
             inputsFileChecked[i] = "";
+            inputsFileName[i] = "";
         }
         i++;
     });
-
 
     let jsonValues = {
         id_objeto: fields[0].id,
@@ -1039,9 +1042,9 @@ function updateObject() {
         latitud: parseFloat(fields[3].value),
         longitud: parseFloat(fields[4].value),
         id_categoria: parseInt(fields[5].value),
-        fotografia1: inputsFileChecked[0],
-        fotografia2: inputsFileChecked[1],
-        fotografia3: inputsFileChecked[2],
+        fotografia1: inputsFileName[0] ,
+        fotografia2: inputsFileName[1] ,
+        fotografia3: inputsFileName[2] ,
         descripcion: fields[6].value,
     }
     let jsonFormat = JSON.stringify(jsonValues);
@@ -1062,11 +1065,11 @@ function updateObject() {
     var fotos = ["fotografia1", "fotografia2", "fotografia3"];
     const formData = new FormData();
     for (let i = 0; i < inputsFile.length; i++) {
-
-        let file = inputsFile[i].files[0];
-        if (file != undefined) {
-            file.id = fields[0].id;
-            formData.append(fotos[i], file);
+        if (!inputsFileChecked[i].includes("/")) {
+            let file = inputsFile[i].files[0];
+            if (file != undefined) {
+                formData.append(fotos[i], file);
+            }
         }
     }
     formData.append("id", fields[0].id);

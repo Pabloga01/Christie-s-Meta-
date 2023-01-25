@@ -178,37 +178,48 @@ class DataController
                 $fotos = [];
                 if (isset($_FILES['fotografia1'])) {
                     $foto = $_FILES['fotografia1'];
-                    array_push($fotos, $foto);
+                    $ext = pathinfo($foto["full_path"], PATHINFO_EXTENSION);
+                    $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\img1." . $ext;
+                    $temp_name = $foto['tmp_name'];
+                    move_uploaded_file($temp_name, $file);
                 }
                 if (isset($_FILES['fotografia2'])) {
                     $foto = $_FILES['fotografia2'];
-                    array_push($fotos, $foto);
+                    $ext = pathinfo($foto["full_path"], PATHINFO_EXTENSION);
+                    $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\img2." . $ext;
+                    $temp_name = $foto['tmp_name'];
+                    move_uploaded_file($temp_name, $file);
                 }
                 if (isset($_FILES['fotografia3'])) {
                     $foto = $_FILES['fotografia3'];
-                    array_push($fotos, $foto);
-                }
-                $i = 0;
-                foreach ($fotos as $foto) {
-                    $path = $foto["full_path"];
-                    $name = $foto["name"];
+                    $ext = pathinfo($foto["full_path"], PATHINFO_EXTENSION);
+                    $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\img3." . $ext;
                     $temp_name = $foto['tmp_name'];
-                    $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\$name";
-                    if (!file_exists($file)) {
-                        move_uploaded_file($temp_name, $file);
-                    }
+                    move_uploaded_file($temp_name, $file);
                 }
-                try {
-                    $files = glob("C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\*"); // get all file names
-                    $i = 0;
-                    foreach ($files as $file) {
-                        if ($i > 2) {
-                            @unlink($file);
-                        }
-                        $i++;
-                    }
-                } catch (Exception $ex) {
-                }
+                // $i = 0;
+                // try {
+                //     $files = glob("C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\*"); // get all file names
+                //     $i = 1;
+                //     foreach ($files as $file) {
+                //         if ($i > 2) {
+                //             @unlink($file);
+                //         }
+                //         $i++;
+                //     }
+                // } catch (Exception $ex) {
+                // }
+                // $fotos = ["img1", "img2", "img3"];
+                // $i = 0;
+                // foreach ($fotos as $foto) {
+                //     $path = $foto["full_path"];
+                //     $name = $foto["name"];
+                //     $temp_name = $foto['tmp_name'];
+                //     $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\$fotos[$i]";
+                //     if (!file_exists($file)) {
+                //         move_uploaded_file($temp_name, $file);
+                //     }
+                // }
             }
 
             if (isset($_POST)) {
@@ -303,11 +314,10 @@ class DataController
                             //    if($f!))
                             //     @unlink($f);
                             // }
-                            if($files[0]==$foto){
+                            if ($files[0] == $foto) {
                                 @unlink($files[1]);
-                            }else{
+                            } else {
                                 @unlink($files[0]);
-
                             }
 
                             move_uploaded_file($temp_name, $file);
@@ -677,7 +687,7 @@ class DataController
                     array_push($paramsHeaders, "descripcion");
                 }
                 if (isset($jsonParams['fotografia'])) {
-                    $fotografia ="'" . $jsonParams['fotografia']. "'";
+                    $fotografia = "'" . $jsonParams['fotografia'] . "'";
                     array_push($arVar, $fotografia);
                     array_push($paramsHeaders, "fotografia");
                 }
@@ -836,9 +846,4 @@ class DataController
             }
         }
     }
-
-
-
-
-    
 }

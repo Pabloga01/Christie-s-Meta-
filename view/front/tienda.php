@@ -76,8 +76,8 @@
                 </div>
                 <div class="row col-3 mx-2">
                     <label for="progressbar">Precio</label>
-                    <input id="rangePrecio" class="mt-2" type="range" min="0" max="2000" value="0" class="slider" id="myRange">
-                    <span id="spanRange" class="text-center">0 C</span>
+                    <input id="rangePrecio" class="mt-2" type="range" min="1" max="2000" value="200" class="slider" id="myRange">
+                    <span id="spanRange" class="text-center">200 C</span>
 
                 </div>
             </article>

@@ -554,7 +554,8 @@ class Conexion
              $paramsOnString;
             $conexion = $this->getConexion();
             // $sql = "SELECT * FROM objeto inner join objeto on comentario.id_objeto=objeto.id_objeto inner join categoria on objeto.id_categoria=categoria.id_categoria group by comentario.id_objeto order by fecha desc limit 10;";
-             $sql = "SELECT * FROM objeto left outer JOIN comentario on objeto.id_objeto=comentario.id_objeto left outer join venta on objeto.id_objeto=venta.id_objeto left outer join categoria on objeto.id_categoria=categoria.id_categoria $paramsOnString";
+            // echo $sql = "SELECT * FROM objeto left outer JOIN comentario on objeto.id_objeto=comentario.id_objeto left outer join venta on objeto.id_objeto=venta.id_objeto left outer join categoria on objeto.id_categoria=categoria.id_categoria $paramsOnString";
+            $sql="SELECT * FROM objeto inner join categoria on objeto.id_categoria=categoria.id_categoria $paramsOnString;";
             $registros = $conexion->query($sql);
             if ($registros->rowCount() > 0) {
                 $datos_lista = [];

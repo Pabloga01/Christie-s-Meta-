@@ -42,18 +42,22 @@ class ApiController
                 $orderSales = "";
                 $price = "";
 
-                if (isset($jsonParams['id_category'])) {
+                if (isset($jsonParams['id_category']) ) {
                     $idCategory = $jsonParams['id_category'];
-                    array_push($arVar, " where objeto.id_categoria=$idCategory");
+                    $price = $jsonParams['price'];
+                    if ($idCategory != "") {
+                        array_push($arVar, " where objeto.id_categoria=$idCategory ");
+                    }
                 }
                 if (isset($jsonParams['price'])) {
                     $price = $jsonParams['price'];
                     if ($price != "") {
                         if (isset($jsonParams['id_category'])) {
-                            array_push($arVar, " and objeto.precio<=$price");
+                            array_push($arVar, " and objeto.precio<=$price ");
                         } else {
-                            array_push($arVar, " where objeto.precio<=$price");
+                            array_push($arVar, " where objeto.precio<=$price ");
                         }
+                        array_push($arVar, " and objeto.precio <= $price ");
                     }
                 }
                 if (isset($jsonParams['order_comments'])) {
@@ -61,11 +65,12 @@ class ApiController
                     $orderComments = $jsonParams['order_comments'];
                     if ($orderComments != "") {
                         if (intval($orderComments) == 0) {
-                            $orderComments = "DESC";
+                            array_push($arVar, " order by objeto.puntuacion_comentarios desc");
+                            // $orderComments = "DESC";
                         } else if (intval($orderComments) == 1) {
-                            $orderComments = "ASC";
+                            array_push($arVar, " order by objeto.puntuacion_comentarios asc");
+                            // $orderComments = "ASC";
                         }
-                        array_push($arVar, " order by comentario.fecha $orderComments");
                     }
                 }
                 if (isset($jsonParams['order_sales'])) {
@@ -77,10 +82,10 @@ class ApiController
                         } else if ($orderSales == 1) {
                             $orderSales = "ASC";
                         }
-                        if (isset($jsonParams['order_comments'])) {
+                        if (isset($jsonParams['order_comments']) && $jsonParams['order_comments'] != "") {
                             // array_push($arVar, " and order by venta.fecha $orderSales");
                         } else {
-                            array_push($arVar, " order by venta.fecha $orderSales");
+                            array_push($arVar, " order by objeto.puntuacion_compras $orderSales ");
                         }
                         // array_push($arVar, " order by venta.fecha $orderSales");
                     }
@@ -90,7 +95,7 @@ class ApiController
                 $db = new Conexion();
                 $items = $db->getFilteredItems($arVar);
                 if (isset($items)) {
-                    if ($items) {
+                    if ($items!=false) {
                         echo json_encode($items);
                     }
                 }

@@ -1046,6 +1046,8 @@ function updateObject() {
         fotografia3: inputsFileName[2] ,
         descripcion: fields[6].value,
     }
+
+
     let jsonFormat = JSON.stringify(jsonValues);
 
     fetch("http://localhost/ChristieMeta/index.php/api/actualizar_objeto", {
@@ -1587,3 +1589,33 @@ btnAddItem.addEventListener("click", () => {
     deployModalWindow(titleTable.innerHTML);
 
 });
+
+
+
+
+
+function regexName(texto){
+    let regex = /^[a-zA-Z ]+$/;
+    let resul = regex.test(texto);
+    return resul;
+}
+
+
+function regexPrice(texto){
+    let regex = /^[+-]?\d+(\.\d+)?$/;
+    let resul = regex.test(texto);
+    return resul;
+}
+
+function  regexCoords(texto){
+    let regex = /^[+-]?\d+(\.\d+)?$/;
+    let resul = regex.test(texto);
+    return resul;
+}
+
+function  regexDescription(texto){
+    // let regex = /^\d+\.\d{1,2}$/;
+    // let resul = regex.test(texto);
+    // return resul;
+    return true;
+}

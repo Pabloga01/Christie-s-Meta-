@@ -26,20 +26,20 @@
             </div>
             <nav id="menu" class="me-1 col-sm-6 col-md-5 col-xl-5  col-lg-4 col-6 row  navbar navbar-expand-lg  justify-content-end">
                 <ul class=" nav nav-pills justify-content-center text-light ">
-                    <li class="nav-item "><a class="responsive-font" style="color: white" class="nav-link" href="index.php/home">Home</a></li>
-                    <li class="nav-item "><a class="responsive-font" style="color: white; border-bottom: 3px solid;" class="nav-link" href="index.php/tienda">Tienda</a></li>
+                    <li class="nav-item "><a class="responsive-font" style="color: white;" class="nav-link" href="index.php/home">Home</a></li>
+                    <li class="nav-item "><a class="responsive-font" style="color: white ;  border-bottom: 3px solid;" class="nav-link" href="index.php/tienda">Tienda</a></li>
                     <li class="nav-item "><a class="responsive-font" style="color: white" class="nav-link" href="#">Mapa</a></li>
                     <li class="nav-item "><a class="responsive-font" style="color: white" class="nav-link" href="#">Perfil</a> </li>
                 </ul>
             </nav>
             <!-- <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button> -->
+                    <span class="navbar-toggler-icon"></span>
+                </button> -->
         </div>
     </header>
     <div id="content" class="row container mx-auto d-flex justify-content-center">
 
-        <section id="filtros" class="col-11 mt-5 mb-5">
+        <section id="filtros" class="col-11 col-md-10 col-sm-11 col-lg-9 col-xl-8  mt-5 mb-5">
             <article id="div_buscador" class=" mb-4">
                 <!-- <form class="w-90 d-flex justify-content-center" action="#" method="post" target="_blank"> -->
                 <div class=" d-flex justify-content-center">
@@ -85,79 +85,139 @@
             </article>
 
         </section>
-        <div class="owl-carousel owl-theme">
-            <div class="item">
-                <h4>1</h4>
-            </div>
-            <div class="item">
-                <h4>2</h4>
-            </div>
-            <div class="item">
-                <h4>3</h4>
-            </div>
-            <div class="item">
-                <h4>4</h4>
-            </div>
-            <div class="item">
-                <h4>5</h4>
-            </div>
-        </div>
 
 
-        <article class="product--card-single" style="display:none">
-            <h2 class="product--card-brend text-center">Brend</h2>
-            <h1 class="product--card-name text-center">Name</h1>
-            <div class="product--card-body d-flex justify-content-center">
+        <article class="product--card-single ficha_ampliada pt-3 mb-5" style="display: none;">
+            <div class="d-flex justify-content-end container">
+                <button class="btn btn-danger cerrarVentana">Cerrar</button>
+            </div>
+            <h1 class="product--card-name text-center mb-4 titleArt data1">Title</h1>
+            <div class="product--card-body d-flex justify-content-center row">
+                <div id="sliderObject " class="d-flex justify-content-center mb-5 ">
+                    <section id="articulos" class="col-11  row mt-2  d-flex justify-content-center ">
 
-                <div class="owl-carousel owl-theme">
-                    <div class="item">
-                        <h4>1</h4>
+                        <div class="col-11 mt-2  d-flex justify-content-center imgContainer">
+                            <div class="btnSlider  divbtnIzda col-1">
+                                <img src="view/admin/images/arrowLeft.png" class="imgNavigation btnIzda">
+                            </div>
+                            <!-- <article id="" class="articulo1 art col-10 col-sm-10 col-md-10 col-xl-10 ">
+                                <div id="imagenArt" class="d-flex justify-content-center">
+                                     <img class=" w-75 imgArt slider_img" src="view/admin/images/metaverseCar.jpeg"> 
+                                </div>
+                            </article>
+                            <article id="" class="articulo2 art col-10 col-sm-10 col-md-10 col-xl-10 " style="display: none;">
+                                <div id="imagenArt" class="d-flex justify-content-center">
+                                    <img class=" w-75 imgArt slider_img" src="view/admin/images/metaverseCar.jpeg">
+                                </div>
+                            </article>
+                            <article id="" class="articulo3 art col-10 col-sm-10 col-md-10 col-xl-10" style="display: none;">
+                                <div id="imagenArt" class="d-flex justify-content-center">
+                                    <img class=" w-75 imgArt slider_img" src="view/admin/images/metaverseCar.jpeg">
+                                </div>
+                            </article> -->
+                            <!-- <article id="" class="articulo2 art col-4 col-sm-3 col-md-3 col-xl-3 ">
+                                <div id="imagenArt" class="">
+                                    <img src="view/admin/images/item.png" class="imgArt2 slider_img w-100">
+                                </div>
+                                <div id="contenidoTexto">
+                                    <div class="d-flex justify-content-between mx-1 mt-1">
+                                        <h2 class="nombre2 r-font h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                        <p class="precio2 r-font ">40 C</p>
+                                    </div>
+                                    <p class="r-font categoria2 fst-italic display-7" style="color: #60645cb6">Categoría 2</p>
+                                </div>
+                            </article>
+                            <article id="" class="articulo3 art col-4 col-sm-3 col-md-3 col-xl-3 ">
+                                <div id="imagenArt" class="">
+                                    <img src="view/admin/images/item.png" class="imgArt3 slider_img w-100">
+                                   
+                                </div>
+                                <div id="contenidoTexto">
+                                    <div class="d-flex justify-content-between mx-1 mt-1">
+                                        <h2 class="nombre3 r-font  h6 text-start" style="font-family: Georgia, 'Times New Roman', Times, serif, Times, serif">Artículo 1</h2>
+                                        <p class="precio3 r-font ">40 C</p>
+                                    </div>
+                                    <p class="r-font categoria3 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
+                                </div>
+                            </article> -->
+                            <div class="btnSlider divbtnDcha col-1">
+                                <img src="view/admin/images/arrowRight.png" class="imgNavigation btnDcha">
+                            </div>
+
+                        </div>
+                    </section>
+
+                    <!-- <img class="w-75  imgArt" src="view/admin/images/metaverseCar.jpeg"> -->
+                </div>
+                <div id="textContent" class=" d-flex col-9 justify-content-between container">
+                    <div id="divLeft" class="col-6  mx-3">
+                        <div class="divName d-flex col">
+
+                            <div class="col-2">
+                                <p class="ri-font ">Nombre:</p>
+                            </div>
+                            <span class=" nameArt data1  "> Nombre</span>
+                        </div>
+                        <div class="divCategory d-flex col">
+                            <div class="col-2">
+                                <p class=" ri-font categoryArt w-40">Categoría: </p>
+                            </div>
+                            <span class=" data1  ">
+                        </div>
+                        <div class="divPrice d-flex col">
+                            <div class="col-2">
+                                <p class="ri-font priceArt w-40">Precio: </p>
+                            </div>
+                            <span class=" data1 "></span>
+                        </div>
                     </div>
-                    <div class="item">
-                        <h4>2</h4>
-                    </div>
-                    <div class="item">
-                        <h4>3</h4>
-                    </div>
-                    <div class="item">
-                        <h4>4</h4>
-                    </div>
-                    <div class="item">
-                        <h4>5</h4>
+                    <div id="divRight" class="col-3  justify-content-center ">
+
+                        <div class="divSales d-flex col">
+                            <div class="col-2">
+                                <p class="ri-font salesArt ">Compras: </p>
+                            </div>
+                            <span class=" data1 "></span>
+                        </div>
+                        <div class="divLong d-flex col">
+                            <div class="col-2">
+                                <p class="ri-font longArt ">Longitud: </p>
+                            </div>
+                            <span class=" data1 "></span>
+                        </div>
+                        <div class="divLat d-flex col">
+                            <div class="col-2">
+                                <p class="ri-font latArt ">Latitud: </p>
+                            </div> <span class=" data1 "></span>
+                        </div>
                     </div>
                 </div>
-                <div class="product--card-data">
-                    <div class="product--card-btn">
-                        <div class="product--card-price">
-                            <p>$10</p>
-                        </div>
-                        <input type="number" value="1">
-                        <span>Add to Cart</span>
-                    </div>
-                    <div class="product--card-additional">
-                        <div class="product--sku"><span>SKU:</span><span>SKU-00001</span></div>
-                        <div class="product--color"><span>Aroma:</span><span>floral</span></div>
-                        <div class="product--cat"><span>Category:</span><span>oils</span></div>
-                    </div>
-                    <div class="product--card-desc">
-                        <nav class="product--card-nav">
-                            <ul class="product--card-list">
-                                <li data-link="description" class="product--card-item card--item-active">Description</li>
-                                <li data-link="delivery" class="product--card-item ">Delivery</li>
-                                <li data-link="reviews" class="product--card-item ">Reviews(0)</li>
+                <div id="divComprar" class="d-flex justify-content-center mt-3">
+                    <button type="button" class="btn btn-success">Comprar</button>
+
+                </div>
+                <div id="varios" class="text-center mt-3">
+                    <div class="product--card-desc ">
+                        <nav class="product--card-nav justify-content-center">
+                            <ul class="optionList d-flex justify-content-center me-4">
+                                <li class="btnDesc">Descripcion</li>
+                                <li class="btnComents">Comentarios</li>
                             </ul>
                         </nav>
-                        <div class="product--card-panels">
-                            <div class="product--card-panel card--panel-active" id="description">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce mauris dui, vehicula vel erat ac, eleifend hendrerit nibh. Aenean neque nulla, suscipit vitae enim in, cursus tincidunt erat. In consequat libero mi, et vestibulum felis convallis et. Vivamus vestibulum, eros vel elementum feugiat, tellus magna pellentesque sapien</p>
+                        <div class="contenido">
+                            <div class="contenidoDescripcion container col-10" style="display: none" id="description">
+                                <p class="textoDescripcion r-font">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce mauris dui, vehicula vel erat ac, eleifend hendrerit nibh. Aenean neque nulla, suscipit vitae enim in, cursus tincidunt erat. In consequat libero mi, et vestibulum felis convallis et. Vivamus vestibulum, eros vel elementum feugiat, tellus magna pellentesque sapien</p>
                             </div>
-                            <div class="product--card-panel" id="delivery">Some text...</div>
-                            <div class="product--card-panel" id="reviews">Be the First to review this item</div>
+                            <div class="contenidoComentarios container" style="display: none"></div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </article>
+
+
+
         <section id="items" class="col-12  mb-3 mt-2">
             <article class="card mx-auto mb-5" style="width: 90%">
                 <img class="card-img-top mx-aiut " src="view/admin/images/metaverseCar.jpeg" alt="Card image cap">
@@ -166,8 +226,10 @@
                 </div>
             </article>
             <article class="card mx-auto" style="width: 90%; ">
-                <img class="card-img-top mx-aiut" src="view/admin/images/metaverseCar.jpeg" alt="Card image cap">
-                <div class="card-body d-flex row">
+                <div id="slider">
+                    <img class="card-img-top mx-aiut" src="view/admin/images/metaverseCar.jpeg" alt="Card image cap">
+                </div>
+                <div id="datos" class="card-body d-flex row">
                     <div class="d-flex justify-content-between">
                         <div>
                             <p>Nombre</p>
@@ -179,6 +241,9 @@
                     <div>
                         <p>Descripcion del artículo</p>
                     </div>
+                </div>
+                <div id="varios">
+                    <p>aaaaaaa</p>
                 </div>
             </article>
         </section>

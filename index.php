@@ -109,4 +109,12 @@ else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1
     $apiController->getFilteredItems();
 }else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_item") {
     $apiController->getItem();
+}else if(isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_comentarios"){
+    $apiController->getCommentsByObject();
 }
+
+
+
+
+
+

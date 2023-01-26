@@ -41,12 +41,22 @@ class ApiController
                 $orderComments = "";
                 $orderSales = "";
                 $price = "";
-
+                if (isset($jsonParams['search_value'])) {
+                    $searchValue = $jsonParams['search_value'];
+                    if ($searchValue != "") {
+                        array_push($arVar, " where objeto.nombre like '%$searchValue%' ");
+                    }
+                }
                 if (isset($jsonParams['id_category'])) {
                     $idCategory = $jsonParams['id_category'];
-                    $price = $jsonParams['price'];
-                    if ($idCategory != "") {
-                        array_push($arVar, " where objeto.id_categoria=$idCategory ");
+                    if (isset($jsonParams['search_value'])) {
+                        if ($idCategory != "") {
+                            array_push($arVar, " and objeto.id_categoria=$idCategory ");
+                        }
+                    } else {
+                        if ($idCategory != "") {
+                            array_push($arVar, " where objeto.id_categoria=$idCategory ");
+                        }
                     }
                 }
                 if (isset($jsonParams['price'])) {
@@ -101,7 +111,6 @@ class ApiController
                 }
             }
         }
-        
     }
 
 
@@ -112,6 +121,22 @@ class ApiController
             $idItem = $_GET["idItem"];
             $db = new Conexion();
             $item = $db->getItemById($idItem);
+            if (isset($item)) {
+                if ($item) {
+                    echo json_encode($item);
+                }
+            }
+        }
+    }
+
+
+    function getCommentsByObject()
+    {
+
+        if (isset($_GET["idItem"])) {
+            $idItem = $_GET["idItem"];
+            $db = new Conexion();
+            $item = $db->getCommentsByObject($idItem);
             if (isset($item)) {
                 if ($item) {
                     echo json_encode($item);

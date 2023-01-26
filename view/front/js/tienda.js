@@ -1,3 +1,7 @@
+var sliderIndex = 1;
+var imagesSliderObject = 0;
+
+
 
 addEventListener("load", () => {
     loadSelectOptionsCategories();
@@ -100,6 +104,7 @@ function fillArticles(arItem) {
 
     let inputCategories = document.querySelector("#items");
     var article = document.createElement('article');
+    article.style.cursor = 'pointer';
     inputCategories.appendChild(article);
 
     article.addEventListener("click", () => {
@@ -167,6 +172,10 @@ arFilters = [searcher, selectCategories, selectComments, commentPointsFilter, sa
 
 function listenerSearcher() {
 
+    searcher.addEventListener("keyup", () => {
+        loader();
+    });
+
     searcherButton.addEventListener("click", () => {
         loader();
     });
@@ -186,6 +195,7 @@ function loader() {
     // let salePointsFilter = document.querySelector("#selectPuntuacionCompras");
     // let salesValue = document.querySelector("#rangePrecio");
 
+    let searchValue = searcher.value;
     let idCategory = selectCategories.value;
     let orderComments = commentPointsFilter.value;
     let orderSales = salePointsFilter.value;
@@ -201,6 +211,7 @@ function loader() {
         idCategory = parseInt(idCategory);
     }
     let jsonValues = {
+        search_value: searchValue,
         id_category: idCategory,
         order_comments: orderComments,
         order_sales: orderSales,
@@ -228,6 +239,9 @@ function loader() {
                     productList.forEach(element => {
                         fillArticles(element);
                     })
+                } else {
+                    removeArticles();
+
                 }
             })
             .catch((error) => {
@@ -260,21 +274,20 @@ function removeArticles() {
 
 
 function deployArticle() {
-    art = event.target.parentNode;
-    idObject = art.id;
+    let art = event.target.parentNode;
+    let idObject = art.id;
     let section = document.querySelector(".product--card-single");
-    section.style.display="block";
+    // section.style.display = "block";
 
     fetch("http://localhost/ChristieMeta/index.php/api/consultar_item/?idItem=" + idObject)
         .then(checkStatus)
         .then(parseJSON)
         .then(function (data) {
             var json = data;
-            productList = eval(json);
-            jsonActual = productList;
+            let productList = eval(json);
 
             if (productList != undefined && productList.length != 0) {
-                fillTable(productList, arrCategoriesHeaders2);
+                loadArticleClicked(productList, art);
 
             }
 
@@ -299,11 +312,178 @@ function deployArticle() {
 
 
 
+function loadArticleClicked(item, previousArticle) {
+    sliderIndex = 1;
+    imagesSliderObject = 0;
+    item = item[0];
+    let structure = document.querySelector('.product--card-single');
+    const clone = structure.cloneNode(true);
+    clone.style.display = 'block';
+    previousArticle.after(clone);
+    clone.classList.add("artDetallado");
+    previousArticle.style.display = 'none';
+    // previousArticle=clone;
 
 
 
+    arData = [item[1], item[1], item["14"], item["precio"] + " C", item["puntuacion_compras"], item["latitud"], item["longitud"]];
+    let i = 0;
+    // clone.querySelectorAll('.data1').forEach(
+    //     element => {
+    //         element.classList.add("data2");
+    // });
+    clone.querySelectorAll('.data1').forEach(
+        element => {
+            element.innerHTML = arData[i];
+            element.style.fontWeight = "600";
+            element.classList.add("r-font", "mx-5");
+            i++;
+        });
+    let baseImg = "http://localhost/ChristieMeta/view/admin/dir_objetos/" + item["id_objeto"] + "/" + item["fotografia1"];
+    // clone.querySelector('.imgArt').src = baseImg;
 
 
+
+    var btnDesc = clone.querySelector(".btnDesc");
+    var btnComments = clone.querySelector(".btnComents");
+    var divDesc = clone.querySelector(".contenidoDescripcion");
+    var divComments = clone.querySelector(".contenidoComentarios");
+    var textDescripcion = clone.querySelector(".textoDescripcion");
+
+    btnDesc.addEventListener("click", () => {
+        divDesc.style.display = "block";
+        btnDesc.style.color = "#01218ac4";
+        btnComments.style.color = "black";
+
+        divComments.style.display = "none";
+        textDescripcion.innerHTML = item["descripcion"];
+    });
+
+    btnComments.addEventListener("click", () => {
+        btnDesc.style.color = "black";
+        btnComments.style.color = "#01218ac4";
+        divComments.style.display = "block";
+        divDesc.style.display = "none";
+
+
+        fetch("http://localhost/ChristieMeta/index.php/api/consultar_comentarios/?idItem=" + item["id_objeto"])
+            .then(checkStatus)
+            .then(parseJSON)
+            .then(function (data) {
+                var json = data;
+                let productList = eval(json);
+
+                if (productList != undefined && productList.length != 0) {
+                    productList.forEach(element => {
+                        let name = element[5];
+                        let date = element["fecha"];
+                        let comment = element["texto"];
+                        let user = element["usuario"];
+
+                        let div = document.createElement("div");
+                        divComments.appendChild(div);
+                        let p1 = document.createElement("p");
+                        p1.innerHTML = user;
+                        let p2 = document.createElement("p");
+                        p2.innerHTML = name;
+                        let p3 = document.createElement("p");
+                        p3.innerHTML = date;
+                        let p4= document.createElement("p");
+                        p4.innerHTML = comment;
+
+                        div.appendChild(p1);
+                        div.appendChild(p2);
+                        div.appendChild(p3);
+                        div.appendChild(p4);
+                        div.classList.add("mb-3");
+
+                    });
+                }
+
+            }).catch(function (error) {
+                return false;
+            });
+
+    });
+
+    var btnCloseWindow = clone.querySelector(".cerrarVentana");
+
+    btnCloseWindow.addEventListener("click", () => {
+        previousArticle.style.display = "block";
+        clone.remove();
+    });
+    try {
+        arImages = [item["fotografia1"], item["fotografia2"], item["fotografia3"]];
+        arImages.forEach(element => {
+            if (element != "" && element != undefined) {
+                let anterior = clone.querySelector(".divbtnIzda");
+
+                imagesSliderObject++;
+                let article = document.createElement("article");
+                article.id = "artSlider" + imagesSliderObject;
+                article.classList.add("articulo1", "art", "artSlider", "col-10", "col-sm-10", "col-md-10", "col-xl-10");
+                article.style.display = "block";
+
+                if (imagesSliderObject > 1) {
+                    article.style.display = "none";
+                }
+                anterior.after(article);
+                let div = document.createElement("div");
+                div.id = "imagenArt";
+                article.appendChild(div);
+                div.classList.add("d-flex", "justify-content-center");
+                let img = document.createElement("img");
+                img.classList.add("imgArt", "slider_img", "w-75");
+                let baseImg = "http://localhost/ChristieMeta/view/admin/dir_objetos/" + item["id_objeto"] + "/" + element;
+                img.src = baseImg;
+                div.appendChild(img);
+
+            }
+        });
+    } catch (ex) {
+
+    }
+    let leftButtonSlider = clone.querySelector(".btnIzda");
+    let rightButtonSlider = clone.querySelector(".btnDcha");
+
+
+    rightButtonSlider.addEventListener("click", () => {
+        let arts = document.querySelectorAll(".artSlider");
+        arts.forEach(element => {
+            element.style.display = "none";
+        });
+        sliderIndex++;
+        if (sliderIndex >= imagesSliderObject) {
+            sliderIndex = 1;
+        }
+        let artHtml = clone.querySelector("#artSlider" + sliderIndex);
+        if (artHtml != null)
+            artHtml.style.display = "block";
+    });
+
+    leftButtonSlider.addEventListener("click", () => {
+        let arts = document.querySelectorAll(".artSlider");
+        arts.forEach(element => {
+            element.style.display = "none";
+        });
+        sliderIndex--;
+        if (sliderIndex < 1) {
+            sliderIndex = imagesSliderObject;
+        }
+        let artHtml = clone.querySelector("#artSlider" + sliderIndex);
+        if (artHtml != null)
+            artHtml.style.display = "block";
+
+    });
+
+}
+
+{/* <article id="" class="articulo1 art col-10 col-sm-10 col-md-10 col-xl-10 ">
+<div id="imagenArt" class="d-flex justify-content-center">
+    <!-- <img src="view/admin/images/item.png" class="imgArt1 slider_img  "> -->
+    <img class=" w-75 imgArt slider_img" src="view/admin/images/metaverseCar.jpeg">
+</div>
+</article> */}
 
 
 
@@ -324,3 +504,4 @@ function parseJSON(response) {
 function parseText(response) {
     return response.text();
 }
+

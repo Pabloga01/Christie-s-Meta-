@@ -596,4 +596,26 @@ class Conexion
             return false;
         }
     }
+
+    function getCommentsByObject($id){
+        try {
+            $conexion = $this->getConexion();
+            $sql="select * from comentario inner join objeto on objeto.id_objeto=comentario.id_objeto inner join usuario on usuario.id_usuario=comentario.id_usuario where objeto.id_objeto=$id;";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                $datos_lista = [];
+                foreach ($registros as $registro) {
+                    array_push($datos_lista, $registro);
+                }
+                $registros->closeCursor();
+                $conexion = null;
+                return $datos_lista;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
 }

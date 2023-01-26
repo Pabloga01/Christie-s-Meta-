@@ -2,9 +2,9 @@
 var sliderIndex = 0;
 var sliderIndexFirst = 0;
 var inputCategories = document.querySelector("#listaCategorias");
+var loged = false;
 
-
-
+var totalSlides = 0;
 
 
 addEventListener("load", () => {
@@ -12,6 +12,7 @@ addEventListener("load", () => {
     addListenersToButtons();
     loadCategories();
     enableSearcher();
+    // enableFooter();
 });
 
 
@@ -19,6 +20,7 @@ addEventListener("load", () => {
 function sliderCheckLogedIn() {
     var x = document.cookie;
     if (x.includes("logedInUser=1")) {
+        loged = true;
         fetch("http://localhost/ChristieMeta/index.php/api/slider_login", {
             method: 'POST',
             headers: {
@@ -38,11 +40,12 @@ function sliderCheckLogedIn() {
                 }
             })
             .catch((error) => {
-                console.error(error);
+
             });
 
     } else if (x.includes("logedInUser=2")) {
 
+        loged = false;
         fetch("http://localhost/ChristieMeta/index.php/api/slider_notlogin", {
             method: 'POST',
             headers: {
@@ -62,7 +65,7 @@ function sliderCheckLogedIn() {
                 }
             })
             .catch((error) => {
-                console.error(error);
+                // console.error(error);
             });
     }
 }
@@ -71,16 +74,27 @@ function sliderCheckLogedIn() {
 function fillSlider(itemList) {
     let arProductHeaders = [1, 2, 14, 8];
     let i = 1;
-
     itemList.forEach(element => {
+        if (loged) {
+            let itemName = element[5];
+            let itemPrice = element["precio"];
+            let category = element[18];
+            let image = element["fotografia1"];
+            let idItem = element["id_objeto"];
+            addToSlider(itemName, itemPrice, category, image, idItem, i);
+            totalSlides = i;
+            i++;
+        } else {
+            let itemName = element[1];
+            let itemPrice = element[2];
+            let category = element[14];
+            let image = element["fotografia1"];
+            let idItem = element[0];
+            addToSlider(itemName, itemPrice, category, image, idItem, i);
+            totalSlides = i;
+            i++;
 
-        let itemName = element[1];
-        let itemPrice = element[2];
-        let category = element[14];
-        let image = element[8];
-        let idItem = element[0];
-        addToSlider(itemName, itemPrice, category, image, idItem, i);
-        i++;
+        }
     });
 }
 
@@ -125,9 +139,8 @@ function addListenersToButtons() {
     let btns = document.querySelectorAll(".imgNavigation");
     btns[0].style.cursor = "pointer";
     btns[1].style.cursor = "pointer";
-    btns[0].addEventListener("click", () => {
 
-        // let artHtml = document.querySelector("#articulo" + index);
+    btns[0].addEventListener("click", () => {
         let arts = document.querySelectorAll(".art");
 
         arts.forEach(element => {
@@ -137,13 +150,15 @@ function addListenersToButtons() {
         for (let i = 1; i < 4; i++) {
             sliderIndexFirst--;
             if (sliderIndexFirst < 1) {
-                sliderIndexFirst = 10;
+                sliderIndexFirst = totalSlides;
             }
             if (i == 1) {
                 sliderIndex = sliderIndexFirst;
             }
             let artHtml = document.querySelector(".articulo" + sliderIndexFirst);
-            artHtml.style.display = "block";
+            if (artHtml != null) {
+                artHtml.style.display = "block";
+            }
         }
 
     })
@@ -155,7 +170,7 @@ function addListenersToButtons() {
         });
         for (let i = 1; i < 4; i++) {
             sliderIndex++;
-            if (sliderIndex > 10) {
+            if (sliderIndex > totalSlides) {
                 sliderIndex = 1;
             }
             if (i == 1) {
@@ -164,7 +179,9 @@ function addListenersToButtons() {
             }
 
             let artHtml = document.querySelector(".articulo" + sliderIndex);
-            artHtml.style.display = "block";
+            if (artHtml != null) {
+                artHtml.style.display = "block";
+            }
         }
     })
 }
@@ -195,7 +212,7 @@ function loadCategories() {
             }
         })
         .catch((error) => {
-            console.error(error);
+            // console.error(error);
         });
 
 }
@@ -215,7 +232,7 @@ function fillArticlesCategories(idCat, name, description, points, image) {
 
     var divImg = document.createElement('div');
     divImg.id = "cab_img";
-    divImg.classList.add("m-2", "col-6", "col-sm-4", "col-md-3","d-flex","align-middle");
+    divImg.classList.add("m-2", "col-6", "col-sm-4", "col-md-3", "d-flex", "align-middle");
     divArt.appendChild(divImg);
 
     var img = document.createElement('img');
@@ -262,6 +279,9 @@ function fillArticlesCategories(idCat, name, description, points, image) {
 
 
 }
+
+
+
 
 
 
@@ -390,6 +410,66 @@ function enableSearcher() {
         }
     }
 
+    // enableHrefs();
+    // function enableHrefs() {
+    //     let arts = document.querySelectorAll(".artSlider");
+    //     arts.forEach(element => {
+    //         element.addEventListener("click", () => {
+    //             idObject = event.target.parentNode.parentNode.id;
+    //             fetch("http://localhost/ChristieMeta/index.php/home", {
+    //                 method: 'POST',
+    //                 headers: {
+    //                     'Accept': 'application/json',
+    //                     'Content-Type': 'application/json',
+    //                 }
+    //             })
+    //                 .then(checkStatus)
+    //                 .then(parseJSON)
+    //                 .then(function () {
+
+    //                     let jsonValues = {
+    //                         id_object: idObject,
+
+    //                     }
+    //                     let jsonFormat = JSON.stringify(jsonValues);
+    //                     try {
+    //                         fetch("http://localhost/ChristieMeta/index.php/api/filtrar_items", {
+    //                             method: 'POST',
+    //                             headers: {
+    //                                 'Accept': 'application/json',
+    //                                 'Content-Type': 'application/json',
+    //                             },
+    //                             body: jsonFormat
+    //                         })
+    //                             // .then(checkStatus)
+    //                             .then(parseJSON)
+    //                             .then(function (data) {
+    //                                 var json = data;
+    //                                 productList = eval(json);
+    //                                 if (productList != undefined && productList.length != 0) {
+    //                                     // let sliderText = document.querySelector("#msjSlider");
+    //                                     // sliderText.innerHTML = "Los últimos artículos comentados";
+    //                                     removeArticles();
+    //                                     productList.forEach(element => {
+    //                                         fillArticles(element);
+    //                                     })
+    //                                 } else {
+    //                                     removeArticles();
+
+    //                                 }
+    //                             })
+    //                             .catch((error) => {
+    //                                 // console.error(error);
+    //                             });
+    //                     } catch (error) {
+    //                     }
+    //                 })
+    //                 .catch((error) => {
+
+    //                 });
+    //         });
+    //     });
+    // }
 
     function enableSearchHigherThan() {
         let arts = document.querySelectorAll(".article");
@@ -444,6 +524,14 @@ function loadFilteredCategories(idCatsList) {
 }
 
 
+
+function enableFooter() {
+    let footer = document.querySelector("#footer");
+    let divFooter = document.querySelector("#divFooter");
+    const clone = footer.cloneNode(true);
+    clone.style.display = 'block';
+    divFooter.appendChild(clone);
+}
 
 
 function checkStatus(response) {

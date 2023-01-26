@@ -1,6 +1,6 @@
 var sliderIndex = 1;
 var imagesSliderObject = 0;
-
+var previousClone;
 
 
 addEventListener("load", () => {
@@ -51,7 +51,7 @@ function loadSelectOptionsCategories() {
             }
         })
         .catch((error) => {
-            console.error(error);
+            // console.error(error);
         });
 }
 
@@ -77,7 +77,7 @@ function loadItems() {
             }
         })
         .catch((error) => {
-            console.error(error);
+            // console.error(error);
         });
 
 }
@@ -114,7 +114,7 @@ function fillArticles(arItem) {
 
 
     article.id = arItem["id_objeto"];
-    article.classList.add("card", "mb-5", "mx-auto", "mb-5", "art");
+    article.classList.add("card", "cardObject", "mb-5", "mx-auto", "mb-5", "art");
     article.style.width = "90%";
 
     var img = document.createElement('img');
@@ -292,7 +292,7 @@ function deployArticle() {
             }
 
         }).catch(function (error) {
-            console.log('error request', error);
+            // console.log('error request', error);
         });
 
 
@@ -321,6 +321,7 @@ function loadArticleClicked(item, previousArticle) {
     clone.style.display = 'block';
     previousArticle.after(clone);
     clone.classList.add("artDetallado");
+    clone.id = item["id_objeto"];
     previousArticle.style.display = 'none';
     // previousArticle=clone;
 
@@ -357,133 +358,241 @@ function loadArticleClicked(item, previousArticle) {
 
         divComments.style.display = "none";
         textDescripcion.innerHTML = item["descripcion"];
+        while (divComments.hasChildNodes()) {
+            divComments.firstChild.remove();
+        }
     });
 
-    btnComments.addEventListener("click", () => {
-        btnDesc.style.color = "black";
-        btnComments.style.color = "#01218ac4";
-        divComments.style.display = "block";
-        divDesc.style.display = "none";
 
 
-        fetch("http://localhost/ChristieMeta/index.php/api/consultar_comentarios/?idItem=" + item["id_objeto"])
-            .then(checkStatus)
-            .then(parseJSON)
-            .then(function (data) {
-                var json = data;
-                let productList = eval(json);
+    var btnBuy = clone.querySelector("#btnComprar");
+    try {
+        if (btnBuy != null && btnBuy != undefined) {
+            let userId = "";
+            var usertag = document.querySelector(".usertag").innerHTML;
 
-                if (productList != undefined && productList.length != 0) {
-                    productList.forEach(element => {
-                        let name = element[5];
-                        let date = element["fecha"];
-                        let comment = element["texto"];
-                        let user = element["usuario"];
+            btnBuy.addEventListener("click", () => {
+                fetch("http://localhost/ChristieMeta/index.php/api/consultar_usuario/?usuario=" + usertag)
+                    .then(checkStatus)
+                    .then(parseText)
+                    .then(function (data) {
 
-                        let div = document.createElement("div");
-                        divComments.appendChild(div);
-                        let p1 = document.createElement("p");
-                        p1.innerHTML = user;
-                        let p2 = document.createElement("p");
-                        p2.innerHTML = name;
-                        let p3 = document.createElement("p");
-                        p3.innerHTML = date;
-                        let p4= document.createElement("p");
-                        p4.innerHTML = comment;
 
-                        div.appendChild(p1);
-                        div.appendChild(p2);
-                        div.appendChild(p3);
-                        div.appendChild(p4);
-                        div.classList.add("mb-3");
+                        userId = data;
+                        fetch("http://localhost/ChristieMeta/index.php/api/comprar_item/?idItem=" + item["id_objeto"] + "&usuario=" + userId)
+                            // .then(checkStatus)
+                            // .then(parseJSON)
+                        //.then(function (data) {
+                        // var json = data;
+                        // let productList = eval(json);
+                        // while (divComments.hasChildNodes()) {
+                        //     divComments.firstChild.remove();
+                        // }
+                        // if (productList != undefined && productList.length != 0) {
+                        //     productList.forEach(element => {
 
-                    });
-                }
+                        //     }).catch(function (error) {
 
-            }).catch(function (error) {
-                return false;
+                        //     });
+                        // }
+                        //})})
+                    
+
             });
 
-    });
-
-    var btnCloseWindow = clone.querySelector(".cerrarVentana");
-
-    btnCloseWindow.addEventListener("click", () => {
-        previousArticle.style.display = "block";
-        clone.remove();
-    });
-    try {
-        arImages = [item["fotografia1"], item["fotografia2"], item["fotografia3"]];
-        arImages.forEach(element => {
-            if (element != "" && element != undefined) {
-                let anterior = clone.querySelector(".divbtnIzda");
-
-                imagesSliderObject++;
-                let article = document.createElement("article");
-                article.id = "artSlider" + imagesSliderObject;
-                article.classList.add("articulo1", "art", "artSlider", "col-10", "col-sm-10", "col-md-10", "col-xl-10");
-                article.style.display = "block";
-
-                if (imagesSliderObject > 1) {
-                    article.style.display = "none";
-                }
-                anterior.after(article);
-                let div = document.createElement("div");
-                div.id = "imagenArt";
-                article.appendChild(div);
-                div.classList.add("d-flex", "justify-content-center");
-                let img = document.createElement("img");
-                img.classList.add("imgArt", "slider_img", "w-75");
-                let baseImg = "http://localhost/ChristieMeta/view/admin/dir_objetos/" + item["id_objeto"] + "/" + element;
-                img.src = baseImg;
-                div.appendChild(img);
-
-            }
+        }).catch (function (error) {
         });
-    } catch (ex) {
-
     }
-    let leftButtonSlider = clone.querySelector(".btnIzda");
-    let rightButtonSlider = clone.querySelector(".btnDcha");
 
-
-    rightButtonSlider.addEventListener("click", () => {
-        let arts = document.querySelectorAll(".artSlider");
-        arts.forEach(element => {
-            element.style.display = "none";
-        });
-        sliderIndex++;
-        if (sliderIndex >= imagesSliderObject) {
-            sliderIndex = 1;
-        }
-        let artHtml = clone.querySelector("#artSlider" + sliderIndex);
-        if (artHtml != null)
-            artHtml.style.display = "block";
-    });
-
-    leftButtonSlider.addEventListener("click", () => {
-        let arts = document.querySelectorAll(".artSlider");
-        arts.forEach(element => {
-            element.style.display = "none";
-        });
-        sliderIndex--;
-        if (sliderIndex < 1) {
-            sliderIndex = imagesSliderObject;
-        }
-        let artHtml = clone.querySelector("#artSlider" + sliderIndex);
-        if (artHtml != null)
-            artHtml.style.display = "block";
-
-    });
+    } catch (ex) {
 
 }
 
-{/* <article id="" class="articulo1 art col-10 col-sm-10 col-md-10 col-xl-10 ">
+
+
+btnComments.addEventListener("click", () => {
+    btnDesc.style.color = "black";
+    btnComments.style.color = "#01218ac4";
+    divComments.style.display = "flex";
+    divComments.classList.add("mb-3", "comentsDiv", "container", "col-12");
+
+    divDesc.style.display = "none";
+
+
+    fetch("http://localhost/ChristieMeta/index.php/api/consultar_comentarios/?idItem=" + item["id_objeto"])
+        .then(checkStatus)
+        .then(parseJSON)
+        .then(function (data) {
+            var json = data;
+            let productList = eval(json);
+            while (divComments.hasChildNodes()) {
+                divComments.firstChild.remove();
+            }
+            if (productList != undefined && productList.length != 0) {
+                productList.forEach(element => {
+                    let name = element[5];
+                    let date = element["fecha"];
+                    let comment = element["texto"];
+                    let user = element["usuario"];
+
+
+                    let div = document.createElement("div");
+                    div.classList.add("mb-3");
+
+                    div.style.backgroundColor = "gray";
+                    div.style.background = "linear-gradient(45deg, #a0c7e7, #7195be)";
+                    div.style.borderRadius = "10px";
+                    divComments.appendChild(div);
+                    div.classList.add("d-flex", "row");
+                    div.style.marginLeft = "17%";
+                    div.style.marginRight = "17%";
+                    let divHeader = document.createElement("div");
+                    div.appendChild(divHeader);
+
+
+                    let p1 = document.createElement("p");
+                    p1.innerHTML = user;
+                    p1.style.fontWeight = "500";
+
+                    p1.classList.add("me-4");
+                    let p2 = document.createElement("p");
+                    p2.innerHTML = date;
+                    p2.style.fontStyle = "italic"
+                    divHeader.appendChild(p1);
+                    divHeader.appendChild(p2);
+                    divHeader.classList.add("d-flex", "justify-content-center");
+
+                    let p3 = document.createElement("p");
+                    p3.innerHTML = name;
+                    let p4 = document.createElement("p");
+                    p4.innerHTML = comment;
+
+
+                    div.appendChild(p3);
+                    div.appendChild(p4);
+                    div.classList.add("mb-3");
+
+                });
+            } else {
+                let div = document.createElement("div");
+                divComments.appendChild(div);
+                let p1 = document.createElement("p");
+                p1.innerHTML = "No hay comentarios en este objeto";
+                div.appendChild(p1);
+
+            }
+
+        }).catch(function (error) {
+            while (divComments.hasChildNodes()) {
+                divComments.firstChild.remove();
+            }
+            let div = document.createElement("div");
+            divComments.appendChild(div);
+            let p1 = document.createElement("p");
+            p1.classList.add("r-font");
+            p1.innerHTML = "No hay comentarios en este objeto";
+            div.appendChild(p1);
+        });
+
+});
+previousClone = clone;
+var btnCloseWindow = clone.querySelector(".cerrarVentana");
+
+btnCloseWindow.addEventListener("click", () => {
+    previousArticle.style.display = "block";
+    clone.remove();
+});
+
+
+var btnOtherArticle = document.querySelectorAll(".cardObject");
+
+btnOtherArticle.forEach(element => {
+    element.addEventListener("click", () => {
+        if (element.id != item[0]) {
+            previousArticle.style.display = "block";
+            clone.remove();
+            imagesSliderObject = 0;
+            sliderIndex = 0;
+        }
+    });
+});
+
+
+
+
+
+try {
+    arImages = [item["fotografia1"], item["fotografia2"], item["fotografia3"]];
+    arImages.forEach(element => {
+        if (element != "" && element != undefined) {
+            let anterior = clone.querySelector(".divbtnIzda");
+
+            imagesSliderObject++;
+            let article = document.createElement("article");
+            article.id = "artSlider" + imagesSliderObject;
+            article.classList.add("articulo1", "art", "artSlider", "col-10", "col-sm-10", "col-md-10", "col-xl-10");
+            article.style.display = "block";
+
+            if (imagesSliderObject > 1) {
+                article.style.display = "none";
+            }
+            anterior.after(article);
+            let div = document.createElement("div");
+            div.id = "imagenArt";
+            article.appendChild(div);
+            div.classList.add("d-flex", "justify-content-center");
+            let img = document.createElement("img");
+            img.classList.add("imgArt", "slider_img", "w-75");
+            let baseImg = "http://localhost/ChristieMeta/view/admin/dir_objetos/" + item["id_objeto"] + "/" + element;
+            img.src = baseImg;
+            div.appendChild(img);
+
+        }
+    });
+} catch (ex) {
+
+}
+let leftButtonSlider = clone.querySelector(".btnIzda");
+let rightButtonSlider = clone.querySelector(".btnDcha");
+
+
+rightButtonSlider.addEventListener("click", () => {
+    let arts = document.querySelectorAll(".artSlider");
+    arts.forEach(element => {
+        element.style.display = "none";
+    });
+    sliderIndex++;
+    if (sliderIndex > imagesSliderObject) {
+        sliderIndex = 1;
+    }
+    let artHtml = clone.querySelector("#artSlider" + sliderIndex);
+    if (artHtml != null)
+        artHtml.style.display = "block";
+});
+
+leftButtonSlider.addEventListener("click", () => {
+    let arts = document.querySelectorAll(".artSlider");
+    arts.forEach(element => {
+        element.style.display = "none";
+    });
+    sliderIndex--;
+    if (sliderIndex < 1) {
+        sliderIndex = imagesSliderObject;
+    }
+    let artHtml = clone.querySelector("#artSlider" + sliderIndex);
+    if (artHtml != null)
+        artHtml.style.display = "block";
+
+});
+
+}
+
+/* <article id="" class="articulo1 art col-10 col-sm-10 col-md-10 col-xl-10 ">
 <div id="imagenArt" class="d-flex justify-content-center">
     <!-- <img src="view/admin/images/item.png" class="imgArt1 slider_img  "> -->
     <img class=" w-75 imgArt slider_img" src="view/admin/images/metaverseCar.jpeg">
 </div>
-</article> */}
+</article> */
 
 
 
@@ -494,7 +603,7 @@ function checkStatus(response) {
     } else {
         var error = new Error(response.statusText)
         error.response = response
-        throw error
+        // throw error
     }
 }
 

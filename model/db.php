@@ -551,11 +551,11 @@ class Conexion
                 $paramsOnString .= $element . " ";
             }
 
-             $paramsOnString;
+            $paramsOnString;
             $conexion = $this->getConexion();
             // $sql = "SELECT * FROM objeto inner join objeto on comentario.id_objeto=objeto.id_objeto inner join categoria on objeto.id_categoria=categoria.id_categoria group by comentario.id_objeto order by fecha desc limit 10;";
             // echo $sql = "SELECT * FROM objeto left outer JOIN comentario on objeto.id_objeto=comentario.id_objeto left outer join venta on objeto.id_objeto=venta.id_objeto left outer join categoria on objeto.id_categoria=categoria.id_categoria $paramsOnString";
-            $sql="SELECT * FROM objeto inner join categoria on objeto.id_categoria=categoria.id_categoria $paramsOnString;";
+            $sql = "SELECT * FROM objeto inner join categoria on objeto.id_categoria=categoria.id_categoria $paramsOnString;";
             $registros = $conexion->query($sql);
             if ($registros->rowCount() > 0) {
                 $datos_lista = [];
@@ -575,10 +575,11 @@ class Conexion
     }
 
 
-    function getItemById($id){
+    function getItemById($id)
+    {
         try {
             $conexion = $this->getConexion();
-            $sql="SELECT * FROM objeto inner join categoria on objeto.id_categoria=categoria.id_categoria where id_objeto=$id;";
+            $sql = "SELECT * FROM objeto inner join categoria on objeto.id_categoria=categoria.id_categoria where id_objeto=$id;";
             $registros = $conexion->query($sql);
             if ($registros->rowCount() > 0) {
                 $datos_lista = [];
@@ -597,10 +598,11 @@ class Conexion
         }
     }
 
-    function getCommentsByObject($id){
+    function getCommentsByObject($id)
+    {
         try {
             $conexion = $this->getConexion();
-            $sql="select * from comentario inner join objeto on objeto.id_objeto=comentario.id_objeto inner join usuario on usuario.id_usuario=comentario.id_usuario where objeto.id_objeto=$id;";
+            $sql = "select * from comentario inner join objeto on objeto.id_objeto=comentario.id_objeto inner join usuario on usuario.id_usuario=comentario.id_usuario where objeto.id_objeto=$id;";
             $registros = $conexion->query($sql);
             if ($registros->rowCount() > 0) {
                 $datos_lista = [];
@@ -610,6 +612,73 @@ class Conexion
                 $registros->closeCursor();
                 $conexion = null;
                 return $datos_lista;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+    public function getUserId($user)
+    {
+        try {
+            $conexion = $this->getConexion();
+            $sql = "SELECT * FROM usuario WHERE correo='$user' ";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                $userId = "";
+                foreach ($registros as $registro) {
+                    $userId = $registro["id_usuario"];
+                    return $userId;
+                }
+                $registros->closeCursor();
+                $conexion = null;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+    public function getUser2($user)
+    {
+        try {
+            $conexion = $this->getConexion();
+            $sql = "SELECT * FROM usuario WHERE correo='$user' ";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                foreach ($registros as $registro) {
+                    return $registro;
+                }
+                $registros->closeCursor();
+                $conexion = null;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+    function buyItem($idItem, $idUser)
+    {
+
+        try {
+            $date = date('Y-m-d');
+            $conexion = $this->getConexion();
+             $sql = "insert into venta (fecha,id_objeto,id_usuario) values ('$date',$idItem,$idUser)";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+
+                $registros->closeCursor();
+                $conexion = null;
+
+                return true;
             } else {
                 $conexion = null;
                 return false;

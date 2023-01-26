@@ -38,7 +38,6 @@ if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) &&
     $dataController->updateObject();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "actualizar_comentario") {
     $dataController->updateComment();
-
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "borrar_usuario") {
     $dataController->removeUser();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "borrar_objeto") {
@@ -47,8 +46,7 @@ if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) &&
     $dataController->removeCategory();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "borrar_comentario") {
     $dataController->removeComment();
-}
- else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "anadir_usuario") {
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "anadir_usuario") {
     $dataController->addUser();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "anadir_objeto") {
     $dataController->addObject();
@@ -58,11 +56,10 @@ if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) &&
     $dataController->addComment();
 
 
-//obtener pk de usuario e item a traves de nombres de comentario
+    //obtener pk de usuario e item a traves de nombres de comentario
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_comentario") {
     $dataController->getComment();
-}
-else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_categoria") {
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_categoria") {
     $dataController->getIdCategory();
 }
 
@@ -82,7 +79,7 @@ else if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta
     $controller->informes();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta[1]) && $array_ruta[1] == "mapa") {
     $controller->mapa();
-}else if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta[1]) && $array_ruta[1] == "cerrar_sesion") {
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "admin" && isset($array_ruta[1]) && $array_ruta[1] == "cerrar_sesion") {
     $controller->exit_session();
 }
 
@@ -92,10 +89,14 @@ else if (isset($array_ruta[0]) && $array_ruta[0] == "login" && !isset($array_rut
     $frontController->login();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "loginprocess" && !isset($array_ruta[1])) {
     $frontController->login_check();
-}else if (isset($array_ruta[0]) && $array_ruta[0] == "home" && !isset($array_ruta[1])) {
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "home" && !isset($array_ruta[1])) {
     $frontController->home();
-}else if (isset($array_ruta[0]) && $array_ruta[0] == "tienda" && !isset($array_ruta[1])) {
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "tienda" && !isset($array_ruta[1])) {
     $frontController->tienda();
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "perfil" && !isset($array_ruta[1])) {
+    $frontController->perfil();
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "logout" && !isset($array_ruta[1])) {
+    $frontController->logout();
 }
 
 
@@ -103,18 +104,18 @@ else if (isset($array_ruta[0]) && $array_ruta[0] == "login" && !isset($array_rut
 //acciones del api generando JSON frontend
 else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "slider_login") {
     $apiController->getLastCommentedItems();
-}else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "slider_notlogin") {
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "slider_notlogin") {
     $apiController->getMostValuableItems();
-}else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "filtrar_items") {
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "filtrar_items") {
     $apiController->getFilteredItems();
-}else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_item") {
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_item") {
     $apiController->getItem();
-}else if(isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_comentarios"){
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_comentarios") {
     $apiController->getCommentsByObject();
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_usuario") {
+    $apiController->getUserIdByUsertag();
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_user") {
+    $apiController->getUserByUsertag();
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "comprar_item") {
+    $apiController->buy_item();
 }
-
-
-
-
-
-

@@ -21,17 +21,28 @@
                     <img src="view/admin/images/C&Mico.png" class="ico ">
                 </div>
                 <div class=" t_header   ">
-                    <p class="font_title responsive-font mt-3 "><strong> Christie's & Meta</strong></p>
+                    <p class="font_title ri3-font mt-3 "><strong> Christie's & Meta</strong></p>
                 </div>
             </div>
-            <nav id="menu" class="me-1 col-sm-6 col-md-5 col-xl-5  col-lg-4 col-6 row  navbar navbar-expand-lg  justify-content-end">
-                <ul class=" nav nav-pills justify-content-center text-light ">
-                    <li class="nav-item "><a class="responsive-font" style="color: white;" class="nav-link" href="index.php/home">Home</a></li>
-                    <li class="nav-item "><a class="responsive-font" style="color: white ;  border-bottom: 3px solid;" class="nav-link" href="index.php/tienda">Tienda</a></li>
-                    <li class="nav-item "><a class="responsive-font" style="color: white" class="nav-link" href="#">Mapa</a></li>
-                    <li class="nav-item "><a class="responsive-font" style="color: white" class="nav-link" href="#">Perfil</a> </li>
-                </ul>
-            </nav>
+            <?php if (isset($_SESSION["loged_in_front"])) { ?>
+                <nav id="menu" class=" me-1 col-sm-6 col-md-5 col-xl-5  col-lg-4 col-6 row  navbar navbar-expand-lg  justify-content-end">
+                    <ul class=" nav nav-pills justify-content-center text-light ">
+                        <li class="nav-item "><a class="ri2-font" style="color: white;  " href="index.php/home">Home</a></li>
+                        <li class="nav-item "><a class="ri2-font" style="color: white;border-bottom: 3px solid;" href="index.php/tienda">Tienda</a></li>
+                        <li class="nav-item "><a class="ri2-font" style="color: white" href="#">Mapa</a></li>
+                        <li class="nav-item "><a class="ri2-font usertag" style="color: white" href="index.php/perfil" ><?php echo $_SESSION["username_front"]?></a> </li>
+                    </ul>
+                </nav>
+            <?php } else { ?>
+                <nav id="menu" class=" me-1 col-sm-6 col-md-5 col-xl-5  col-lg-4 col-6 row  navbar navbar-expand-lg  justify-content-end">
+                    <ul class=" nav nav-pills justify-content-center text-light ">
+                        <li class="nav-item "><a class="ri2-font" style="color: white;" href="index.php/home">Home</a></li>
+                        <li class="nav-item "><a class="ri2-font" style="color: white;border-bottom: 3px solid;" href="index.php/tienda">Tienda</a></li>
+                        <li class="nav-item "><a class="ri2-font" style="color: white" href="#">Mapa</a></li>
+                        <li class="nav-item "><a class="ri2-font" style="color: white" href="index.php/login">Registro</a> </li>
+                    </ul>
+                </nav>
+            <?php } ?>
             <!-- <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button> -->
@@ -88,7 +99,7 @@
 
 
         <article class="product--card-single ficha_ampliada pt-3 mb-5" style="display: none;">
-            <div class="d-flex justify-content-end container">
+            <div class="d-flex justify-content-end container mb-3">
                 <button class="btn btn-danger cerrarVentana">Cerrar</button>
             </div>
             <h1 class="product--card-name text-center mb-4 titleArt data1">Title</h1>
@@ -149,8 +160,8 @@
 
                     <!-- <img class="w-75  imgArt" src="view/admin/images/metaverseCar.jpeg"> -->
                 </div>
-                <div id="textContent" class=" d-flex col-9 justify-content-between container">
-                    <div id="divLeft" class="col-6  mx-3">
+                <div id="textContent" class=" d-flex col-11 col-md-9 col-sm-9 col-xl-9 justify-content-between container">
+                    <div id="divLeft" class="col-4 col-md-6 col-sm-5 col-xl-6 mx-3">
                         <div class="divName d-flex col">
 
                             <div class="col-2">
@@ -171,7 +182,8 @@
                             <span class=" data1 "></span>
                         </div>
                     </div>
-                    <div id="divRight" class="col-3  justify-content-center ">
+                    <div class="col-2"></div>
+                    <div id="divRight" class="col-4 col-md-3 col-sm-4 col-xl-3 mx-3 justify-content-center ">
 
                         <div class="divSales d-flex col">
                             <div class="col-2">
@@ -192,10 +204,13 @@
                         </div>
                     </div>
                 </div>
-                <div id="divComprar" class="d-flex justify-content-center mt-3">
-                    <button type="button" class="btn btn-success">Comprar</button>
+                <?php if (isset($_SESSION["loged_in_front"])) { ?>
 
-                </div>
+                    <div id="divComprar" class="d-flex justify-content-center mt-3">
+                        <button type="button" id="btnComprar" class="btn btn-success">Comprar</button>
+                    </div>
+                <?php } ?>
+
                 <div id="varios" class="text-center mt-3">
                     <div class="product--card-desc ">
                         <nav class="product--card-nav justify-content-center">
@@ -248,6 +263,24 @@
             </article>
         </section>
     </div>
+    <section id="divFooter">
+        <footer id="footer" class="col-12 mt-5 ">
+            <div class="footer-content container">
+                <h3>Christie's & Meta</h3>
+                <p>Página web perteneciente al dominio de Christie's & Meta. Todos los derechos de la misma están reservados.</p>
+            </div>
+            <div class="footer-bottom container">
+                <p>Copyright &copy <span id="year"></span> <a href="#">Pablo García</a> </p>
+                <div class="footer-menu">
+                    <ul class="f-menu">
+                        <li><a href="index.php/home">Home</a></li>
+                        <li><a href="index.php/tienda">Tienda</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </footer>
+    </section>
     <script src="view/front/js/tienda.js"></script>
 </body>
 

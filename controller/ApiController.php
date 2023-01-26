@@ -59,6 +59,13 @@ class ApiController
                         }
                     }
                 }
+                if (isset($jsonParams['id_object'])) {
+                    $idObject = $jsonParams['id_object'];
+                    if ($idObject != "") {
+                        array_push($arVar, " where objeto.id_objeto=$idObject ");
+                    }
+                }
+
                 if (isset($jsonParams['price'])) {
                     $price = $jsonParams['price'];
                     if ($price != "") {
@@ -144,4 +151,51 @@ class ApiController
             }
         }
     }
+
+
+
+
+
+    function buy_item(){
+        if (isset($_GET["idItem"]) && isset($_GET["usuario"])) {
+            $idItem = $_GET["idItem"];
+            $usuario= $_GET["usuario"];
+            $db = new Conexion();
+            $item = $db->buyItem($idItem,$usuario);
+            if (isset($item)) {
+                if ($item) {
+                    return true;
+                }
+            }
+        }
+    
+    }
+
+
+    function getUserIdByUsertag(){
+        if (isset($_GET["usuario"])) {
+            $usuario= $_GET["usuario"];
+            $db = new Conexion();
+            $userId = $db->getUserId($usuario);
+            if (isset($userId)) {
+                if ($userId!=false) {
+                    echo $userId;
+                }
+            }
+        }
+    }
+
+    function getUserByUsertag(){
+        if (isset($_GET["usuario"])) {
+            $usuario= $_GET["usuario"];
+            $db = new Conexion();
+            $item = $db->getUser2($usuario);
+            if (isset($item)) {
+                if ($item) {
+                    echo json_encode($item);
+                }
+            }
+        }
+    }
+
 }

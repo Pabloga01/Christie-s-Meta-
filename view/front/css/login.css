@@ -258,3 +258,161 @@ body {
 span{
 	z-index: -5;
 }
+
+
+
+
+
+
+
+
+
+
+/* If the screen size is 1200px wide or more, set the font-size to 80px */
+@media (min-width: 1200px) {
+    .responsive-font {
+        font-size: 25px;
+    }
+
+    .resp-font {
+        font-size: 27px;
+    }
+
+    .r-font {
+        font-size: 22px;
+    }
+
+    .ri-font {
+        font-size: 15px;
+    }
+    .ri2-font {
+        font-size: 20px;
+    }
+    .ri3-font {
+        font-size: 20px;
+    }
+}
+
+/* If the screen size is smaller than 1200px, set the font-size to 80px */
+@media (max-width: 1199.98px) {
+    .responsive-font {
+        font-size: 25px;
+    }
+
+    .resp-font {
+        font-size: 27px;
+    }
+
+    .r-font {
+        font-size: 20px;
+    }
+
+    .ri-font {
+        font-size: 15px;
+    }
+    .ri2-font {
+        font-size: 18px;
+    }
+    .ri3-font {
+        font-size: 17px;
+    }
+}
+
+@media (max-width:1000px) {
+    .responsive-font {
+        font-size: 18px;
+    }
+
+    .resp-font {
+        font-size: 22px;
+    }
+
+    .r-font {
+        font-size: 18px;
+    }
+
+    .ri-font {
+        font-size: 16px;
+    }
+    .ri2-font {
+        font-size: 17px;
+    }
+    .ri3-font {
+        font-size: 16px;
+    }
+}
+
+@media (max-width:900px) {
+    .responsive-font {
+        font-size: 16px;
+    }
+
+    .resp-font {
+        font-size: 22px;
+    }
+
+    .r-font {
+        font-size: 16px;
+    }
+
+    .ri-font {
+        font-size: 14px;
+    }
+    .ri2-font {
+        font-size: 16px;
+    }
+    .ri3-font {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 800px) {
+    .responsive-font {
+        font-size: 15px;
+    }
+
+    .resp-font {
+        font-size: 15px;
+    }
+
+    .r-font {
+        font-size: 14px;
+    }
+
+    .ri-font {
+        font-size: 13px;
+    }
+    .ri2-font {
+        font-size: 14px;
+    }
+    .ri3-font {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 600px) {
+    .responsive-font {
+        font-size: 14px;
+    }
+
+    .resp-font {
+        font-size: 14px;
+    }
+
+    .r-font {
+        font-size: 10px;
+    }
+
+    .ri-font {
+        font-size: 11px;
+    }
+    .ri2-font {
+        font-size: 12px;
+    }
+    .ri3-font {
+        font-size: 10px;
+    }
+}
+
+
+

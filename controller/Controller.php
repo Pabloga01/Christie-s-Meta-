@@ -95,6 +95,9 @@ class Controller
         require("view/admin/map.php");
     }
 
+
+
+
     function exit_session()
     {
         require_once("./model/sesiones.php");

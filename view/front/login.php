@@ -14,13 +14,12 @@
 </head>
 
 <body>
-    <div class="container right-panel-active">
+    <div class="container right-panel-active col-10">
 
 
-        <div class="container__form container--signin">
+        <div class="container__form container--signin ">
             <form name="login" class="form" id="form2" enctype="multipart/form-data" action="index.php/loginprocess" method="post">
-                <h2 class="form__title"><strong>Registro</strong></h2>
-                <div class="input_block d-flex row justify-content-center">
+                <div class="input_block d-flex row justify-content-center mt-2">
                     <label for="username" class="text-start">Usuario</label>
                     <input type="text" name="username" placeholder="Nombre de usuario" class=" h-50  border border-0" />
                     <span id="checkUsername">a</span>
@@ -36,7 +35,7 @@
                     <span id="checkSurnames">a </span>
                 </div>
                 <div class="input_block d-flex row justify-content-center">
-                    <label for="mail" class="text-start">Correo electrónico</label>
+                    <label for="mail" class="text-start">Correo </label>
                     <input type="email" class=" h-50  border border-0" name="mail" placeholder="Email" />
                     <span id="checkMail">a </span>
                 </div>
@@ -45,7 +44,7 @@
                     <input type="password" class=" h-50 border border-0" name="password" placeholder="Debe contener mayús. y número" />
                     <span id="checkPassword">a </span>
                 </div>
-                <button class="btn">Registrarse</button>
+                <button class="btn">Registro</button>
             </form>
         </div>
 
@@ -55,8 +54,8 @@
                     <img id="imgLogo" src="view/admin/images/logoFront.png">
                 </div>
                 <div class="input_block d-flex row justify-content-center">
-                    <label for="correo" class=" text-start">Correo electrónico</label>
-                    <input type="text" name="correo" placeholder="Correo electrónico" class="input" />
+                    <label for="correo" class="ri3-font text-start">Correo</label>
+                    <input type="text" name="correo" placeholder="Correo electrónico" class="input ri3-font" />
                     <span id="checkMailLogin"> a</span>
                 </div>
                 <div class="input_block d-flex row justify-content-center">

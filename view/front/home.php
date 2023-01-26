@@ -19,17 +19,29 @@
                     <img src="view/admin/images/C&Mico.png" class="ico ">
                 </div>
                 <div class=" t_header   ">
-                    <p class="font_title responsive-font mt-3 "><strong> Christie's & Meta</strong></p>
+                    <p class="font_title ri3-font mt-3 "><strong> Christie's & Meta</strong></p>
                 </div>
             </div>
-            <nav id="menu" class="me-1 col-sm-6 col-md-5 col-xl-5  col-lg-4 col-6 row  navbar navbar-expand-lg  justify-content-end">
-                <ul class=" nav nav-pills justify-content-center text-light ">
-                    <li class="nav-item "><a class="responsive-font" style="color: white;  border-bottom: 3px solid;" class="nav-link" href="index.php/home">Home</a></li>
-                    <li class="nav-item "><a class="responsive-font" style="color: white;" class="nav-link" href="index.php/tienda">Tienda</a></li>
-                    <li class="nav-item "><a class="responsive-font" style="color: white" class="nav-link" href="#">Mapa</a></li>
-                    <li class="nav-item "><a class="responsive-font" style="color: white" class="nav-link" href="#">Perfil</a> </li>
-                </ul>
-            </nav>
+            <?php if (isset($_SESSION["loged_in_front"])) { ?>
+                <nav id="menu" class=" me-1 col-sm-6 col-md-5 col-xl-5  col-lg-4 col-6 row  navbar navbar-expand-lg  justify-content-end">
+                    <ul class=" nav nav-pills justify-content-center text-light ">
+                        <li class="nav-item "><a class="ri2-font" style="color: white;  border-bottom: 3px solid;" href="index.php/home">Home</a></li>
+                        <li class="nav-item "><a class="ri2-font" style="color: white;" href="index.php/tienda">Tienda</a></li>
+                        <li class="nav-item "><a class="ri2-font" style="color: white" href="#">Mapa</a></li>
+                        <li class="nav-item "><a class="ri2-font" style="color: white" href="index.php/perfil"><?php echo $_SESSION["username_front"]?></a> </li>
+                    </ul>
+                </nav>
+            <?php } else { ?>
+                <nav id="menu" class=" me-1 col-sm-6 col-md-5 col-xl-5  col-lg-4 col-6 row  navbar navbar-expand-lg  justify-content-end">
+                    <ul class=" nav nav-pills justify-content-center text-light ">
+                        <li class="nav-item "><a class="ri2-font" style="color: white;  border-bottom: 3px solid;" href="index.php/home">Home</a></li>
+                        <li class="nav-item "><a class="ri2-font" style="color: white;" href="index.php/tienda">Tienda</a></li>
+                        <li class="nav-item "><a class="ri2-font" style="color: white" href="#">Mapa</a></li>
+                        <li class="nav-item "><a class="ri2-font" style="color: white" href="index.php/login">Registro</a> </li>
+                    </ul>
+                </nav>
+            <?php } ?>
+
             <!-- <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button> -->
@@ -54,7 +66,7 @@
                     <div class="btnSlider  col-1">
                         <img src="view/admin/images/before.png" class="imgNavigation">
                     </div>
-                    <article id="" class="articulo1 art col-4 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo1 art artSlider col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt1 slider_img w-100">
                         </div>
@@ -66,7 +78,7 @@
                             <p class="r-font categoria1 fst-italic display-7" style="color: #60645cb6">Categoría</p>
                         </div>
                     </article>
-                    <article id="" class="articulo2 art col-4 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo2 artSlider art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt2 slider_img w-100">
                         </div>
@@ -78,7 +90,7 @@
                             <p class="r-font categoria2 fst-italic display-7" style="color: #60645cb6">Categoría 2</p>
                         </div>
                     </article>
-                    <article id="" class="articulo3 art col-4 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo3 artSlider art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt3 slider_img w-100">
                             <!-- <img src="view/admin/dir_objetos/19/2022074033326.jpg" class="slider_img w-100">  -->
@@ -92,7 +104,7 @@
                             <p class="r-font categoria3 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="" class="articulo4 art col-4 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo4 artSlider art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt4 slider_img w-100">
                         </div>
@@ -104,7 +116,7 @@
                             <p class="r-font categoria4 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="" class="articulo5 art col-4 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo5 artSlider art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt5 slider_img w-100">
                         </div>
@@ -116,7 +128,7 @@
                             <p class="r-font categoria5 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="" class="articulo6 art col-4 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo6 artSlider art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt6 slider_img w-100">
                         </div>
@@ -128,7 +140,7 @@
                             <p class="r-font categoria6 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="" class="articulo7 art col-4 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo7 artSlider art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt7 slider_img w-100">
                         </div>
@@ -140,7 +152,7 @@
                             <p class="r-font categoria7 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="" class="articulo8 art col-4 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo8 artSlider art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt8 slider_img w-100">
                         </div>
@@ -152,7 +164,7 @@
                             <p class="r-font categoria8 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="" class="articulo9 art col-4 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo9 artSlider art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt9 slider_img w-100">
                         </div>
@@ -164,7 +176,7 @@
                             <p class="r-font categoria9 fst-italic display-7" style="color: #60645cb6">Categoría 3</p>
                         </div>
                     </article>
-                    <article id="" class="articulo10 art col-4 col-sm-3 col-md-3 col-xl-3 ">
+                    <article id="" class="articulo10 artSlider art col-4 col-sm-3 col-md-3 col-xl-3 ">
                         <div id="imagenArt" class="">
                             <img src="view/admin/images/item.png" class="imgArt10 slider_img w-100">
                         </div>
@@ -236,12 +248,31 @@
                     </div>
                 </article> -->
 
-
-
-
             </section>
+
+
         </div>
+
+
     </div>
+    <section id="divFooter" class="mt-5">
+        <footer id="footer" class="col-12  ">
+            <div class="footer-content container">
+                <h3>Christie's & Meta</h3>
+                <p>Página web perteneciente al dominio de Christie's & Meta. Todos los derechos de la misma están reservados.</p>
+            </div>
+            <div class="footer-bottom container">
+                <p>Copyright &copy <span id="year"></span> <a href="#">Pablo García</a> </p>
+                <div class="footer-menu">
+                    <ul class="f-menu">
+                        <li><a href="index.php/home">Home</a></li>
+                        <li><a href="index.php/tienda">Tienda</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </footer>
+    </section>
     <script src="view/front/js/home.js"></script>
 </body>
 

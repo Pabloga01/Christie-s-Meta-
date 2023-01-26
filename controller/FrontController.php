@@ -24,7 +24,8 @@ class FrontController
             $login = $db->loginBBDD($user, $password);
 
             if ($login) {
-                $_SESSION["loged_in"] = true;
+                $_SESSION["loged_in_front"] = true;
+                $_SESSION["username_front"] = $_POST["correo"];
                 header("Location: /ChristieMeta/index.php/home");
             } else {
                 $mensaje = "Inicio de sesión fallido. Usuario incorrecto2.";
@@ -42,10 +43,9 @@ class FrontController
     function home()
     {
         session_start();
-        $_SESSION["logedInUser"] = false;
         $items = false;
-        if (isset($_SESSION["logedInUser"])) {
-            if ($_SESSION["logedInUser"]) {
+        if (isset($_SESSION["loged_in_front"])) {
+            if ($_SESSION["loged_in_front"]) {
                 $db = new Conexion();
                 setcookie("logedInUser", 1);
                 // $items = $db->getLastCommentedItems();
@@ -73,5 +73,22 @@ class FrontController
     {
         session_start();
         require("view/front/tienda.php");
+    }
+
+    function perfil()
+    {
+        session_start();
+        require("view/front/profile.php");
+    }
+
+
+
+    function logout()
+    {
+        require_once("./model/sesionesFront.php");
+        session_destroy();
+        unset($_SESSION["loged_in_front"]);
+        unset($_SESSION["username_front"]);
+        header("Location: http://localhost/ChristieMeta/index.php/login");
     }
 }

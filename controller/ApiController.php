@@ -156,46 +156,173 @@ class ApiController
 
 
 
-    function buy_item(){
+    function buy_item()
+    {
         if (isset($_GET["idItem"]) && isset($_GET["usuario"])) {
             $idItem = $_GET["idItem"];
-            $usuario= $_GET["usuario"];
+            $usuario = $_GET["usuario"];
             $db = new Conexion();
-            $item = $db->buyItem($idItem,$usuario);
+            $item = $db->buyItem($idItem, $usuario);
             if (isset($item)) {
                 if ($item) {
                     return true;
                 }
             }
         }
-    
+        return false;
+    }
+
+    function comment_item()
+    {
+        if (isset($_GET["idItem"]) && isset($_GET["usuario"]) && isset($_GET["texto"])) {
+            $idItem = $_GET["idItem"];
+            $user = $_GET["usuario"];
+            $text = $_GET["texto"];
+            $db = new Conexion();
+            $item = $db->commentItem($idItem, $user, $text);
+            if (isset($item)) {
+                if ($item) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 
-    function getUserIdByUsertag(){
+    function getUserIdByUsertag()
+    {
         if (isset($_GET["usuario"])) {
-            $usuario= $_GET["usuario"];
+            $usuario = $_GET["usuario"];
             $db = new Conexion();
             $userId = $db->getUserId($usuario);
             if (isset($userId)) {
-                if ($userId!=false) {
+                if ($userId != false) {
                     echo $userId;
                 }
             }
         }
     }
 
-    function getUserByUsertag(){
+    function getUserByUsertag()
+    {
         if (isset($_GET["usuario"])) {
-            $usuario= $_GET["usuario"];
+            $usuario = $_GET["usuario"];
             $db = new Conexion();
-            $item = $db->getUser2($usuario);
-            if (isset($item)) {
-                if ($item) {
-                    echo json_encode($item);
+            $user = $db->getUser2($usuario);
+            if (isset($user)) {
+                if ($user != false) {
+                    echo json_encode($user);
                 }
             }
         }
     }
 
+
+
+    function getObjectsByCategory()
+    {
+        if (isset($_GET["idCategoria"])) {
+            $idCategory = $_GET["usuario"];
+            $db = new Conexion();
+            $data = $db->getObjectsByCategory($idCategory);
+            if (isset($data)) {
+                if ($data != false) {
+                    echo json_encode($data);
+                }
+            }
+        }
+    }
+
+
+
+
+    function getObjectDetailed()
+    {
+        if (isset($_GET["idObject"])) {
+            $idObject = $_GET["idObject"];
+            $db = new Conexion();
+            $item = $db->getObjectDetailed($idObject);
+            if (isset($item)) {
+                if ($item != false) {
+                    var_dump($item);
+                }
+            }
+        }
+        return false;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function getFilteredCategories()
+    {
+
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            if (isset($_POST)) {
+                $foo = file_get_contents("php://input");
+                $jsonParams = json_decode($foo, true);
+                $arVar = [];
+
+
+
+                if (isset($jsonParams['search_value']) && $jsonParams['select_value'] == "nombre") {
+                    $searchValue = $jsonParams['search_value'];
+                    if ($searchValue != "") {
+                        array_push($arVar, " where nombre like '%$searchValue%' ");
+                    }
+                } else if (isset($jsonParams['search_value']) && $jsonParams['select_value'] == "descripcion") {
+                    $searchValue = $jsonParams['search_value'];
+                    if ($searchValue != "") {
+                        array_push($arVar, " where descripcion like '%$searchValue%' ");
+                    }
+                } else if (isset($jsonParams['search_value']) && $jsonParams['select_value'] == "ordenMayor") {
+                    $searchValue = $jsonParams['search_value'];
+                    if ($searchValue != "") {
+                        array_push($arVar, " where puntuacion > $searchValue ");
+                    }
+                } else if (isset($jsonParams['search_value']) && $jsonParams['select_value'] == "ordenMenor") {
+                    $searchValue = $jsonParams['search_value'];
+                    if ($searchValue != "") {
+                        array_push($arVar, " where puntuacion < $searchValue ");
+                    }
+                }
+
+                //  var_dump($arVar);
+                $db = new Conexion();
+                $items = $db->getFilteredCategories($arVar);
+                if (isset($items)) {
+                    if ($items != false) {
+                        echo json_encode($items);
+                    }
+                }
+            }
+        }
+    }
+
+
+
+    function getObjectsGeoLoc()
+    {
+        $db = new Conexion();
+        $items = $db->getObjectsGeoLoc();
+        if (isset($items)) {
+            if ($items != false) {
+                echo json_encode($items);
+            }
+        }
+
+        return false;
+    }
 }

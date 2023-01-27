@@ -272,12 +272,7 @@ function fillArticlesCategories(idCat, name, description, points, image) {
     span.id = "puntuacion";
     p2.appendChild(span);
 
-    var div = document.createElement('div');
-    var div = document.createElement('div');
-    var div = document.createElement('div');
-    var div = document.createElement('div');
-
-
+ 
 }
 
 
@@ -291,237 +286,75 @@ function enableSearcher() {
     var searcher = document.querySelector("#buscador");
     let searcherButton = document.querySelector("#submitBuscador");
 
-    searcher.addEventListener("keyup", () => {
-        var value = selectCriteria.value;
-        var text = selectCriteria.options[selectCriteria.selectedIndex].text;
-        switch (text) {
-            case "Por nombre":
-                enableSearchByTitles();
-                break;
-            case "Por descripción":
-                enableSearchByDescripction();
-                break;
-            case "Puntuación mayor de":
-                enableSearchHigherThan();
-                break;
-            case "Puntuación menor de":
-                enableSearchLowerThan();
-                break;
-        }
+    arSearchers = [searcher, searcherButton];
 
-    });
-
-    searcherButton.addEventListener("click", () => {
-        var value = selectCriteria.value;
-        var text = selectCriteria.options[selectCriteria.selectedIndex].text;
-        switch (text) {
-            case "Por nombre":
-                enableSearchByTitles();
-                break;
-            case "Por descripción":
-                enableSearchByDescripction();
-                break;
-
-            case "Puntuación mayor de":
-                enableSearchHigherThan();
-                break;
-            case "Puntuación menor de":
-                enableSearchLowerThan();
-                break;
-        }
-    });
-
-    function enableSearchByTitles() {
-        let arts = document.querySelectorAll(".article");
-        let idCatsList = [];
-        let valueSearcher = searcher.value;
-        let options = inputCategories.children;
-
-        if (valueSearcher != undefined && valueSearcher != "") {
-            for (let i = 0; i < options.length; i++) {
-                if (options[i].value.toLowerCase().includes(valueSearcher.toLowerCase())) {
-                    idCatsList.push(options[i].id);
-                }
-            }
-
-            loadFilteredCategories(idCatsList);
-        } else {
-            arts.forEach(element => {
-                element.style.display = "block";
-            });
-        }
-    }
-
-
-    function enableSearchByDescripction() {
-        let arts = document.querySelectorAll(".article");
-        let desc = document.querySelectorAll("#descripcion");
-        let idCatsList = [];
-        let valueSearcher = searcher.value;
-        //let options = inputCategories.children;
-
-        if (valueSearcher != undefined && valueSearcher != "") {
-            for (let i = 0; i < desc.length; i++) {
-                if (desc[i].innerHTML.toLowerCase().includes(valueSearcher.toLowerCase())) {
-                    idCatsList.push(desc[i].parentNode.parentNode.parentNode.parentNode.id);
-                }
-            }
-
-            loadFilteredCategories(idCatsList);
-        } else {
-            arts.forEach(element => {
-                element.style.display = "block";
-            });
-        }
-    }
-
-
-    function enableSearchLowerThan() {
-        let arts = document.querySelectorAll(".article");
-        let desc = document.querySelectorAll("#puntuacion");
-        let idCatsList = [];
-        let valueSearcher = searcher.value;
-
-        try {
-            valueSearcher = parseFloat(Math.floor(valueSearcher));
-
-            if (typeof valueSearcher == 'number') {
-                if (valueSearcher == 0)
-                    valueSearcher = 1;
-                //valueSearcher = parseFloat(Math.floor(valueSearcher));
-                //let options = inputCategories.children;
-
-                if (valueSearcher != undefined && valueSearcher != "") {
-                    for (let i = 0; i < desc.length; i++) {
-                        if (desc[i].innerHTML < valueSearcher) {
-                            idCatsList.push(desc[i].parentNode.parentNode.parentNode.parentNode.parentNode.id);
-                        }
-                    }
-
-                    loadFilteredCategories(idCatsList);
-                } else {
-                    arts.forEach(element => {
-                        element.style.display = "block";
-                    });
-                }
-            }
-        } catch (ex) {
-
-        }
-    }
-
-    // enableHrefs();
-    // function enableHrefs() {
-    //     let arts = document.querySelectorAll(".artSlider");
-    //     arts.forEach(element => {
-    //         element.addEventListener("click", () => {
-    //             idObject = event.target.parentNode.parentNode.id;
-    //             fetch("http://localhost/ChristieMeta/index.php/home", {
-    //                 method: 'POST',
-    //                 headers: {
-    //                     'Accept': 'application/json',
-    //                     'Content-Type': 'application/json',
-    //                 }
-    //             })
-    //                 .then(checkStatus)
-    //                 .then(parseJSON)
-    //                 .then(function () {
-
-    //                     let jsonValues = {
-    //                         id_object: idObject,
-
-    //                     }
-    //                     let jsonFormat = JSON.stringify(jsonValues);
-    //                     try {
-    //                         fetch("http://localhost/ChristieMeta/index.php/api/filtrar_items", {
-    //                             method: 'POST',
-    //                             headers: {
-    //                                 'Accept': 'application/json',
-    //                                 'Content-Type': 'application/json',
-    //                             },
-    //                             body: jsonFormat
-    //                         })
-    //                             // .then(checkStatus)
-    //                             .then(parseJSON)
-    //                             .then(function (data) {
-    //                                 var json = data;
-    //                                 productList = eval(json);
-    //                                 if (productList != undefined && productList.length != 0) {
-    //                                     // let sliderText = document.querySelector("#msjSlider");
-    //                                     // sliderText.innerHTML = "Los últimos artículos comentados";
-    //                                     removeArticles();
-    //                                     productList.forEach(element => {
-    //                                         fillArticles(element);
-    //                                     })
-    //                                 } else {
-    //                                     removeArticles();
-
-    //                                 }
-    //                             })
-    //                             .catch((error) => {
-    //                                 // console.error(error);
-    //                             });
-    //                     } catch (error) {
-    //                     }
-    //                 })
-    //                 .catch((error) => {
-
-    //                 });
-    //         });
-    //     });
-    // }
-
-    function enableSearchHigherThan() {
-        let arts = document.querySelectorAll(".article");
-        let desc = document.querySelectorAll("#puntuacion");
-        let idCatsList = [];
-        let valueSearcher = searcher.value;
-
-        try {
-            valueSearcher = parseFloat(Math.floor(valueSearcher));
-
-            if (typeof valueSearcher == 'number') {
-                if (valueSearcher == 0)
-                    valueSearcher = 1;
-                //valueSearcher = parseFloat(Math.floor(valueSearcher));
-                //let options = inputCategories.children;
-
-                if (valueSearcher != undefined && valueSearcher != "") {
-                    for (let i = 0; i < desc.length; i++) {
-                        if (desc[i].innerHTML > valueSearcher) {
-                            idCatsList.push(desc[i].parentNode.parentNode.parentNode.parentNode.parentNode.id);
-                        }
-                    }
-
-                    loadFilteredCategories(idCatsList);
-
-                } else {
-                    arts.forEach(element => {
-                        element.style.display = "block";
-                    });
-                }
-            }
-        } catch (ex) {
-
-        }
-    }
-
-}
-
-
-function loadFilteredCategories(idCatsList) {
-
-    let arts = document.querySelectorAll(".article");
-    arts.forEach(element => {
-        element.style.display = "none";
-        idCatsList.forEach(element1 => {
-            if (element.id == element1) {
-                element.style.display = "block";
-            }
+    arSearchers.forEach(element => {
+        element.addEventListener("keyup", () => {
+            searcherLoad();
         });
     });
 
+    function searcherLoad() {
+        var value = selectCriteria.value;
+        var text = selectCriteria.options[selectCriteria.selectedIndex].text;
+
+        let jsonValues = {
+            search_value: searcher.value,
+            select_value: selectCriteria.value,
+        }
+
+        let jsonFormat = JSON.stringify(jsonValues);
+        try {
+            fetch("http://localhost/ChristieMeta/index.php/api/filtrar_categorias", {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: jsonFormat
+            })
+                .then(checkStatus)
+                .then(parseJSON)
+                .then(function (data) {
+                    var json = data;
+                    catList = eval(json);
+                    if (catList != undefined && catList.length != 0) {
+
+                        removeArticles();
+                        catList.forEach(element => {
+                            fillArticlesCategories(element["id_categoria"], element["nombre"], element["descripcion"], element["puntuacion"], element["fotografia"]);
+
+                        })
+                    } else {
+                        removeArticles();
+
+                    }
+                })
+                .catch((error) => {
+                    // console.error(error);
+                });
+        } catch (error) {
+        }
+
+    }
+
+
 }
+
+
+// function loadFilteredCategories(idCatsList) {
+
+//     let arts = document.querySelectorAll(".article");
+//     arts.forEach(element => {
+//         element.style.display = "none";
+//         idCatsList.forEach(element1 => {
+//             if (element.id == element1) {
+//                 element.style.display = "block";
+//             }
+//         });
+//     });
+
+// }
 
 
 
@@ -549,4 +382,16 @@ function parseJSON(response) {
 }
 function parseText(response) {
     return response.text();
+}
+
+
+function removeArticles() {
+
+    let items = document.querySelectorAll(".article");
+    if (items.length > 0) {
+
+        items.forEach(element => {
+            element.remove();
+        });
+    }
 }

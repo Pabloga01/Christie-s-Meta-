@@ -259,13 +259,6 @@ function removeArticles() {
     let items = document.querySelector("#items");
     if (items.children.length > 0) {
 
-        // for (let i = 0; i < items.length; i++) {
-        //     items.firstChild.remove();
-        // }
-
-        // while(items.has){
-
-        // }
         while (items.hasChildNodes()) {
             items.firstChild.remove();
         }
@@ -365,8 +358,8 @@ function loadArticleClicked(item, previousArticle) {
 
 
 
-    var btnBuy = clone.querySelector("#btnComprar");
     try {
+        var btnBuy = clone.querySelector("#btnComprar");
         if (btnBuy != null && btnBuy != undefined) {
             let userId = "";
             var usertag = document.querySelector(".usertag").innerHTML;
@@ -376,214 +369,217 @@ function loadArticleClicked(item, previousArticle) {
                     .then(checkStatus)
                     .then(parseText)
                     .then(function (data) {
-
-
                         userId = data;
                         fetch("http://localhost/ChristieMeta/index.php/api/comprar_item/?idItem=" + item["id_objeto"] + "&usuario=" + userId)
-                            // .then(checkStatus)
-                            // .then(parseJSON)
-                        //.then(function (data) {
-                        // var json = data;
-                        // let productList = eval(json);
-                        // while (divComments.hasChildNodes()) {
-                        //     divComments.firstChild.remove();
-                        // }
-                        // if (productList != undefined && productList.length != 0) {
-                        //     productList.forEach(element => {
 
-                        //     }).catch(function (error) {
+                    });
 
-                        //     });
-                        // }
-                        //})})
-                    
-
+            }).catch(function (error) {
             });
-
-        }).catch (function (error) {
-        });
-    }
-
+        }
     } catch (ex) {
 
-}
+    }
+    try {
+        var btnComment = clone.querySelector("#btnComentar");
+        var inputComment = clone.querySelector("#inputComentario");
+        if (btnComment != null && btnComment != undefined && inputComment != null) {
+            let userId = "";
+            var usertag = document.querySelector(".usertag").innerHTML;
+
+            btnComment.addEventListener("click",()=>{
+                if (inputComment.value != "") {
+                    fetch("http://localhost/ChristieMeta/index.php/api/consultar_usuario/?usuario=" + usertag)
+                        .then(checkStatus)
+                        .then(parseText)
+                        .then(function (data) {
+                            userId = data;
+                            fetch("http://localhost/ChristieMeta/index.php/api/comentar_item/?idItem=" + item["id_objeto"] + "&usuario=" + userId + "&texto=" + inputComment.value)
+
+                        });
+                }
+            });
+
+        }
+    } catch (error) {
+    }
 
 
 
-btnComments.addEventListener("click", () => {
-    btnDesc.style.color = "black";
-    btnComments.style.color = "#01218ac4";
-    divComments.style.display = "flex";
-    divComments.classList.add("mb-3", "comentsDiv", "container", "col-12");
+    btnComments.addEventListener("click", () => {
+        btnDesc.style.color = "black";
+        btnComments.style.color = "#01218ac4";
+        divComments.style.display = "flex";
+        divComments.classList.add("mb-3", "comentsDiv", "container", "col-12");
 
-    divDesc.style.display = "none";
-
-
-    fetch("http://localhost/ChristieMeta/index.php/api/consultar_comentarios/?idItem=" + item["id_objeto"])
-        .then(checkStatus)
-        .then(parseJSON)
-        .then(function (data) {
-            var json = data;
-            let productList = eval(json);
-            while (divComments.hasChildNodes()) {
-                divComments.firstChild.remove();
-            }
-            if (productList != undefined && productList.length != 0) {
-                productList.forEach(element => {
-                    let name = element[5];
-                    let date = element["fecha"];
-                    let comment = element["texto"];
-                    let user = element["usuario"];
+        divDesc.style.display = "none";
 
 
+        fetch("http://localhost/ChristieMeta/index.php/api/consultar_comentarios/?idItem=" + item["id_objeto"])
+            .then(checkStatus)
+            .then(parseJSON)
+            .then(function (data) {
+                var json = data;
+                let productList = eval(json);
+                while (divComments.hasChildNodes()) {
+                    divComments.firstChild.remove();
+                }
+                if (productList != undefined && productList.length != 0) {
+                    productList.forEach(element => {
+                        let name = element[5];
+                        let date = element["fecha"];
+                        let comment = element["texto"];
+                        let user = element["usuario"];
+
+
+                        let div = document.createElement("div");
+                        div.classList.add("mb-3");
+
+                        div.style.backgroundColor = "gray";
+                        div.style.background = "linear-gradient(45deg, #a0c7e7, #7195be)";
+                        div.style.borderRadius = "10px";
+                        divComments.appendChild(div);
+                        div.classList.add("d-flex", "row");
+                        div.style.marginLeft = "17%";
+                        div.style.marginRight = "17%";
+                        let divHeader = document.createElement("div");
+                        div.appendChild(divHeader);
+
+
+                        let p1 = document.createElement("p");
+                        p1.innerHTML = user;
+                        p1.style.fontWeight = "500";
+
+                        p1.classList.add("me-4");
+                        let p2 = document.createElement("p");
+                        p2.innerHTML = date;
+                        p2.style.fontStyle = "italic"
+                        divHeader.appendChild(p1);
+                        divHeader.appendChild(p2);
+                        divHeader.classList.add("d-flex", "justify-content-center");
+
+                        let p3 = document.createElement("p");
+                        p3.innerHTML = name;
+                        let p4 = document.createElement("p");
+                        p4.innerHTML = comment;
+
+
+                        div.appendChild(p3);
+                        div.appendChild(p4);
+                        div.classList.add("mb-3");
+
+                    });
+                } else {
                     let div = document.createElement("div");
-                    div.classList.add("mb-3");
-
-                    div.style.backgroundColor = "gray";
-                    div.style.background = "linear-gradient(45deg, #a0c7e7, #7195be)";
-                    div.style.borderRadius = "10px";
                     divComments.appendChild(div);
-                    div.classList.add("d-flex", "row");
-                    div.style.marginLeft = "17%";
-                    div.style.marginRight = "17%";
-                    let divHeader = document.createElement("div");
-                    div.appendChild(divHeader);
-
-
                     let p1 = document.createElement("p");
-                    p1.innerHTML = user;
-                    p1.style.fontWeight = "500";
+                    p1.innerHTML = "No hay comentarios en este objeto";
+                    div.appendChild(p1);
 
-                    p1.classList.add("me-4");
-                    let p2 = document.createElement("p");
-                    p2.innerHTML = date;
-                    p2.style.fontStyle = "italic"
-                    divHeader.appendChild(p1);
-                    divHeader.appendChild(p2);
-                    divHeader.classList.add("d-flex", "justify-content-center");
+                }
 
-                    let p3 = document.createElement("p");
-                    p3.innerHTML = name;
-                    let p4 = document.createElement("p");
-                    p4.innerHTML = comment;
-
-
-                    div.appendChild(p3);
-                    div.appendChild(p4);
-                    div.classList.add("mb-3");
-
-                });
-            } else {
+            }).catch(function (error) {
+                while (divComments.hasChildNodes()) {
+                    divComments.firstChild.remove();
+                }
                 let div = document.createElement("div");
                 divComments.appendChild(div);
                 let p1 = document.createElement("p");
+                p1.classList.add("r-font");
                 p1.innerHTML = "No hay comentarios en este objeto";
                 div.appendChild(p1);
+            });
 
-            }
+    });
+    previousClone = clone;
+    var btnCloseWindow = clone.querySelector(".cerrarVentana");
 
-        }).catch(function (error) {
-            while (divComments.hasChildNodes()) {
-                divComments.firstChild.remove();
+    btnCloseWindow.addEventListener("click", () => {
+        previousArticle.style.display = "block";
+        clone.remove();
+    });
+
+
+    var btnOtherArticle = document.querySelectorAll(".cardObject");
+
+    btnOtherArticle.forEach(element => {
+        element.addEventListener("click", () => {
+            if (element.id != item[0]) {
+                previousArticle.style.display = "block";
+                clone.remove();
+                imagesSliderObject = 0;
+                sliderIndex = 0;
             }
-            let div = document.createElement("div");
-            divComments.appendChild(div);
-            let p1 = document.createElement("p");
-            p1.classList.add("r-font");
-            p1.innerHTML = "No hay comentarios en este objeto";
-            div.appendChild(p1);
         });
-
-});
-previousClone = clone;
-var btnCloseWindow = clone.querySelector(".cerrarVentana");
-
-btnCloseWindow.addEventListener("click", () => {
-    previousArticle.style.display = "block";
-    clone.remove();
-});
-
-
-var btnOtherArticle = document.querySelectorAll(".cardObject");
-
-btnOtherArticle.forEach(element => {
-    element.addEventListener("click", () => {
-        if (element.id != item[0]) {
-            previousArticle.style.display = "block";
-            clone.remove();
-            imagesSliderObject = 0;
-            sliderIndex = 0;
-        }
     });
-});
 
 
 
 
 
-try {
-    arImages = [item["fotografia1"], item["fotografia2"], item["fotografia3"]];
-    arImages.forEach(element => {
-        if (element != "" && element != undefined) {
-            let anterior = clone.querySelector(".divbtnIzda");
+    try {
+        arImages = [item["fotografia1"], item["fotografia2"], item["fotografia3"]];
+        arImages.forEach(element => {
+            if (element != "" && element != undefined) {
+                let anterior = clone.querySelector(".divbtnIzda");
 
-            imagesSliderObject++;
-            let article = document.createElement("article");
-            article.id = "artSlider" + imagesSliderObject;
-            article.classList.add("articulo1", "art", "artSlider", "col-10", "col-sm-10", "col-md-10", "col-xl-10");
-            article.style.display = "block";
+                imagesSliderObject++;
+                let article = document.createElement("article");
+                article.id = "artSlider" + imagesSliderObject;
+                article.classList.add("articulo1", "art", "artSlider", "col-10", "col-sm-10", "col-md-10", "col-xl-10");
+                article.style.display = "block";
 
-            if (imagesSliderObject > 1) {
-                article.style.display = "none";
+                if (imagesSliderObject > 1) {
+                    article.style.display = "none";
+                }
+                anterior.after(article);
+                let div = document.createElement("div");
+                div.id = "imagenArt";
+                article.appendChild(div);
+                div.classList.add("d-flex", "justify-content-center");
+                let img = document.createElement("img");
+                img.classList.add("imgArt", "slider_img", "w-75");
+                let baseImg = "http://localhost/ChristieMeta/view/admin/dir_objetos/" + item["id_objeto"] + "/" + element;
+                img.src = baseImg;
+                div.appendChild(img);
+
             }
-            anterior.after(article);
-            let div = document.createElement("div");
-            div.id = "imagenArt";
-            article.appendChild(div);
-            div.classList.add("d-flex", "justify-content-center");
-            let img = document.createElement("img");
-            img.classList.add("imgArt", "slider_img", "w-75");
-            let baseImg = "http://localhost/ChristieMeta/view/admin/dir_objetos/" + item["id_objeto"] + "/" + element;
-            img.src = baseImg;
-            div.appendChild(img);
+        });
+    } catch (ex) {
 
+    }
+    let leftButtonSlider = clone.querySelector(".btnIzda");
+    let rightButtonSlider = clone.querySelector(".btnDcha");
+
+
+    rightButtonSlider.addEventListener("click", () => {
+        let arts = document.querySelectorAll(".artSlider");
+        arts.forEach(element => {
+            element.style.display = "none";
+        });
+        sliderIndex++;
+        if (sliderIndex > imagesSliderObject) {
+            sliderIndex = 1;
         }
+        let artHtml = clone.querySelector("#artSlider" + sliderIndex);
+        if (artHtml != null)
+            artHtml.style.display = "block";
     });
-} catch (ex) {
 
-}
-let leftButtonSlider = clone.querySelector(".btnIzda");
-let rightButtonSlider = clone.querySelector(".btnDcha");
+    leftButtonSlider.addEventListener("click", () => {
+        let arts = document.querySelectorAll(".artSlider");
+        arts.forEach(element => {
+            element.style.display = "none";
+        });
+        sliderIndex--;
+        if (sliderIndex < 1) {
+            sliderIndex = imagesSliderObject;
+        }
+        let artHtml = clone.querySelector("#artSlider" + sliderIndex);
+        if (artHtml != null)
+            artHtml.style.display = "block";
 
-
-rightButtonSlider.addEventListener("click", () => {
-    let arts = document.querySelectorAll(".artSlider");
-    arts.forEach(element => {
-        element.style.display = "none";
     });
-    sliderIndex++;
-    if (sliderIndex > imagesSliderObject) {
-        sliderIndex = 1;
-    }
-    let artHtml = clone.querySelector("#artSlider" + sliderIndex);
-    if (artHtml != null)
-        artHtml.style.display = "block";
-});
-
-leftButtonSlider.addEventListener("click", () => {
-    let arts = document.querySelectorAll(".artSlider");
-    arts.forEach(element => {
-        element.style.display = "none";
-    });
-    sliderIndex--;
-    if (sliderIndex < 1) {
-        sliderIndex = imagesSliderObject;
-    }
-    let artHtml = clone.querySelector("#artSlider" + sliderIndex);
-    if (artHtml != null)
-        artHtml.style.display = "block";
-
-});
 
 }
 

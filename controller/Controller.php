@@ -35,20 +35,20 @@ class Controller
                 $_SESSION["loged_in"] = $user;
                 $user = $db->getUser($user, $password);
                 if ($user != false) {
-                     $_SESSION["username"] = $user->getNombre();
+                     $_SESSION["username"] = $user["usuario"];
                 }else{
                     $_SESSION["username"]=$_POST["user"];
                 }
                 header("Location: /ChristieMeta/index.php/admin/home");
                 return true;
             } else {
-                $mensaje = "Inicio de sesión fallido. Usuario incorrecto2.";
+                $mensaje = "Inicio de sesión fallido. Usuario incorrecto.";
                 $_SESSION["mensaje_error"] = $mensaje;
                 header("Location: /ChristieMeta/index.php/admin/login");
                 return false;
             }
         } else {
-            $mensaje = "Inicio de sesión fallido. Usuario incorrecto4.";
+            $mensaje = "Inicio de sesión fallido. Usuario incorrecto.";
             $_SESSION["mensaje_error"] = $mensaje;
             header("Location: /ChristieMeta/index.php/admin/login");
             return false;

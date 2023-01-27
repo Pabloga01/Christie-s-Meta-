@@ -205,10 +205,14 @@
                     </div>
                 </div>
                 <?php if (isset($_SESSION["loged_in_front"])) { ?>
-
-                    <div id="divComprar" class="d-flex justify-content-center mt-3">
-                        <button type="button" id="btnComprar" class="btn btn-success">Comprar</button>
+                    <div class="mt-3 mb-3 d-flex justify-content-center">
+                        <textarea id="inputComentario" class="w-75 h-100"></textarea>
                     </div>
+                    <div id="divComprar" class="d-flex justify-content-center mt-3">
+                        <button type="button" id="btnComprar" class="btn btn-success mx-2">Comprar</button>
+                        <button type="button" id="btnComentar" class="btn btn-success mx-2">Comentar</button>
+                    </div>
+
                 <?php } ?>
 
                 <div id="varios" class="text-center mt-3">

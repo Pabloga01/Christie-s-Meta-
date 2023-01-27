@@ -62,8 +62,6 @@ class DataController
         if (isset($_GET['q']) && isset($_GET['indice'])) {
             $q = intval($_GET['q']);
             $indice = intval($_GET['indice']);
-            //  $criterio = $_GET['criterio'];
-            // $orden = $_GET['orden'];
 
             $db = new Conexion();
             $datos = $db->getItemPagedList($q, $indice, "comentario");
@@ -296,7 +294,6 @@ class DataController
                             } else {
                                 @unlink($files[0]);
                             }
-
                             move_uploaded_file($temp_name, $file);
                         }
                     }
@@ -505,7 +502,7 @@ class DataController
                     array_push($paramsHeaders, "password");
                 }
                 //var_dump($paramsHeaders);
-                if (count($arVar) > 0) {
+                if (isset($jsonParams['password']) && $jsonParams['password'] != "" && isset($jsonParams['correo']) && $jsonParams['correo']!="" &&  isset($jsonParams['nombre']) && $jsonParams['nombre']!="" &&  isset($jsonParams['apellidos']) && $jsonParams['apellidos']!="") {
                     $db = new Conexion();
                     $datos = $db->addUser($arVar, $paramsHeaders);
                     if (isset($datos)) {
@@ -701,7 +698,12 @@ class DataController
                     $fecha = "'" . $jsonParams['fecha'] . "'";
                     array_push($arVar, $fecha);
                     array_push($paramsHeaders, "fecha");
+                }else{
+                    $fecha = "'" .date('Y-m-d'). "'";
+                    array_push($arVar, $fecha);
+                    array_push($paramsHeaders, "fecha");
                 }
+
                 if (isset($jsonParams['id_objeto'])) {
                     $id_objeto = $jsonParams['id_objeto'];
                     array_push($arVar, $id_objeto);
@@ -748,16 +750,15 @@ class DataController
         return false;
     }
 
-    function getIdCategory()
+    function getCategory()
     {
         if (isset($_GET["id_categoria"])) {
             $db = new Conexion();
             $datos = $db->getCategory($_GET["id_categoria"]);
             if ($datos != false) {
-                $category = $datos;
-                echo $category->getNombre();
-
-                //echo json_encode($datos);
+                // $category = $datos;
+                //echo $category->getNombre();
+                echo json_encode($datos);
             }
         }
         return false;
@@ -785,25 +786,25 @@ class DataController
 
     function storeImagesOnDirectoryObject($idObj, $images)
     {
-            if (isset($images[0])) {
-                $ext = pathinfo($images[0]["full_path"], PATHINFO_EXTENSION);
-                $temp_name = $images[0]['tmp_name'];
-                $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\img1.$ext";
-                move_uploaded_file($temp_name, $file);
-            }
-        
-            if (isset($images[1])) {
-                $ext = pathinfo($images[1]["full_path"], PATHINFO_EXTENSION);
-                $temp_name = $images[1]['tmp_name'];
-                $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\img2.$ext";
-                move_uploaded_file($temp_name, $file);
-            }
-            if (isset($images[2])) {
-                $ext = pathinfo($images[2]["full_path"], PATHINFO_EXTENSION);
-                $temp_name = $images[2]['tmp_name'];
-                $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\img3.$ext";
-                move_uploaded_file($temp_name, $file);
-            }
+        if (isset($images[0])) {
+            $ext = pathinfo($images[0]["full_path"], PATHINFO_EXTENSION);
+            $temp_name = $images[0]['tmp_name'];
+            $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\img1.$ext";
+            move_uploaded_file($temp_name, $file);
+        }
+
+        if (isset($images[1])) {
+            $ext = pathinfo($images[1]["full_path"], PATHINFO_EXTENSION);
+            $temp_name = $images[1]['tmp_name'];
+            $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\img2.$ext";
+            move_uploaded_file($temp_name, $file);
+        }
+        if (isset($images[2])) {
+            $ext = pathinfo($images[2]["full_path"], PATHINFO_EXTENSION);
+            $temp_name = $images[2]['tmp_name'];
+            $file = "C:\\xampp\\htdocs\\ChristieMeta\\view\\admin\\dir_objetos\\$idObj\\img3.$ext";
+            move_uploaded_file($temp_name, $file);
+        }
         // foreach ($images as $foto) {
 
         //     $path = $foto["full_path"];
@@ -831,9 +832,6 @@ class DataController
 
     function storeImagesOnDirectoryCategory($idObj, $images)
     {
-
-
-
         foreach ($images as $foto) {
             $path = $foto["full_path"];
             $name = $foto["name"];
@@ -848,4 +846,24 @@ class DataController
             }
         }
     }
+
+
+
+
+
+    function getUser(){
+        if (isset($_GET["idUsuario"])) {
+            $usuario= $_GET["idUsuario"];
+            $db = new Conexion();
+            $user = $db->getUser1($usuario);
+            if (isset($user)) {
+                if ($user!=false) {
+                    echo json_encode($user);
+                }
+            }
+        }
+    }
+
+
+
 }

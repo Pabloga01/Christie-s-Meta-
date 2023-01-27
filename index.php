@@ -56,11 +56,13 @@ if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) &&
     $dataController->addComment();
 
 
-    //obtener pk de usuario e item a traves de nombres de comentario
+    //obtener todo el item
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_comentario") {
     $dataController->getComment();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_categoria") {
-    $dataController->getIdCategory();
+    $dataController->getCategory();
+}else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_usuario1") {
+    $dataController->getUser();
 }
 
 
@@ -118,4 +120,20 @@ else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1
     $apiController->getUserByUsertag();
 } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "comprar_item") {
     $apiController->buy_item();
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "comentar_item") {
+    $apiController->comment_item();
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_objetos_categoria") {
+    $apiController->getObjectsByCategory();
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "filtrar_categorias") {
+    $apiController->getFilteredCategories();
+} else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "consultar_geolocalizaciones") {
+    $apiController->getObjectsGeoLoc();
 }
+
+
+
+// else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "detalle_objeto") {
+//     $apiController->getObjectDetailed();
+// } else if (isset($array_ruta[0]) && $array_ruta[0] == "api" && isset($array_ruta[1]) && $array_ruta[1] == "detalle_categoria") {
+//     // $apiController->getCategoryDetailed();
+// }

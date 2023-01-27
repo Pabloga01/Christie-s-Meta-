@@ -24,7 +24,7 @@ class Conexion
     {
         try {
             $conexion = $this->getConexion();
-            $sql = "select * from usuario where correo='$user' and password=sha1('$password')";
+            $sql = "select * from usuario where correo='$user' and password=sha1('$password') and rol='admin'";
             $registros = $conexion->query($sql);
             if ($registros->rowCount() > 0) {
                 // foreach ($registros as $registro){
@@ -409,9 +409,8 @@ class Conexion
             $headersOnString .= $element . ",";
         }
         //var_dump($arVal);
-        echo $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
-        echo "<br>";
-        echo $headersOnString = substr($headersOnString, 0, strlen($headersOnString) - 1);
+        $paramsOnString = substr($paramsOnString, 0, strlen($paramsOnString) - 1);
+        $headersOnString = substr($headersOnString, 0, strlen($headersOnString) - 1);
         try {
             $conexion = $this->getConexion();
             $sql = "insert into comentario ($headersOnString) values ($paramsOnString)";
@@ -456,15 +455,17 @@ class Conexion
     {
         try {
             $conexion = $this->getConexion();
-            $sql = "SELECT * FROM usuario WHERE password=sha1($password) and correo='$user' ";
+            $sql = "SELECT * FROM usuario WHERE password=sha1('$password') and correo='$user' ";
             $registros = $conexion->query($sql);
             if ($registros->rowCount() > 0) {
+                $userJson = "";
                 foreach ($registros as $registro) {
-                    $user = new Usuario($registro["usuario"], $registro["password"], $registro["moneda"], $registro["nombre"], $registro["apellidos"], $registro["rol"], $registro["id_usuario"], $registro["correo"]);
+                    //$user = new Usuario($registro["usuario"], $registro["password"], $registro["moneda"], $registro["nombre"], $registro["apellidos"], $registro["rol"], $registro["id_usuario"], $registro["correo"]);
+                    $userJson = $registro;
                 }
                 $registros->closeCursor();
                 $conexion = null;
-                return $user;
+                return $userJson;
             } else {
                 $conexion = null;
                 return false;
@@ -574,6 +575,40 @@ class Conexion
         }
     }
 
+    public function getFilteredCategories($arVal)
+    {
+        try {
+            $paramsOnString = "";
+            foreach ($arVal as $element) {
+                $paramsOnString .= $element . " ";
+            }
+
+            $paramsOnString;
+            $conexion = $this->getConexion();
+            // $sql = "SELECT * FROM objeto inner join objeto on comentario.id_objeto=objeto.id_objeto inner join categoria on objeto.id_categoria=categoria.id_categoria group by comentario.id_objeto order by fecha desc limit 10;";
+            // echo $sql = "SELECT * FROM objeto left outer JOIN comentario on objeto.id_objeto=comentario.id_objeto left outer join venta on objeto.id_objeto=venta.id_objeto left outer join categoria on objeto.id_categoria=categoria.id_categoria $paramsOnString";
+            $sql = "SELECT * FROM categoria $paramsOnString;";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                $datos_lista = [];
+                foreach ($registros as $registro) {
+                    array_push($datos_lista, $registro);
+                }
+                $registros->closeCursor();
+                $conexion = null;
+                return $datos_lista;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+
+
+
 
     function getItemById($id)
     {
@@ -644,6 +679,33 @@ class Conexion
         }
     }
 
+
+    public function getUser1($id)
+    {
+        try {
+            $conexion = $this->getConexion();
+            $sql = "SELECT * FROM usuario WHERE id_usuario=$id ";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                $user = "";
+                foreach ($registros as $registro) {
+                    $user = $registro;
+                }
+                $registros->closeCursor();
+                $conexion = null;
+                return $user;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+
+
+
     public function getUser2($user)
     {
         try {
@@ -667,17 +729,15 @@ class Conexion
 
     function buyItem($idItem, $idUser)
     {
-
         try {
             $date = date('Y-m-d');
             $conexion = $this->getConexion();
-             $sql = "insert into venta (fecha,id_objeto,id_usuario) values ('$date',$idItem,$idUser)";
+            $sql = "insert into venta (fecha,id_objeto,id_usuario) values ('$date',$idItem,$idUser)";
             $registros = $conexion->query($sql);
             if ($registros->rowCount() > 0) {
 
                 $registros->closeCursor();
                 $conexion = null;
-
                 return true;
             } else {
                 $conexion = null;
@@ -687,4 +747,98 @@ class Conexion
             return false;
         }
     }
+
+    function commentItem($idItem, $idUser,$text)
+    {
+        try {
+            $date = date('Y-m-d');
+            $conexion = $this->getConexion();
+            $sql = "insert into comentario (fecha,id_objeto,id_usuario,texto) values ('$date',$idItem,$idUser,'$text' )";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+
+                $registros->closeCursor();
+                $conexion = null;
+                return true;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+
+    function getObjectDetailed($idObject){
+        try {
+            $conexion = $this->getConexion();
+            $sql = "SELECT * FROM objeto WHERE id_objeto=$idObject ";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                $object="";
+                foreach ($registros as $registro) {
+                    $object= $registro;
+                }
+                $registros->closeCursor();
+                $conexion = null;
+                return $object;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+
+    }
+
+    function getObjectsByCategory($idCat){
+        try {
+            $conexion = $this->getConexion();
+            $sql = "select * from categoria inner join objeto on objeto.id_categoria=categoria.id_categoria where categoria.id_categoria=$idCat;";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                $object="";
+                foreach ($registros as $registro) {
+                    $object= $registro;
+                }
+                $registros->closeCursor();
+                $conexion = null;
+                return $object;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+
+    }
+
+
+    function getObjectsGeoLoc(){
+        try {
+            $conexion = $this->getConexion();
+            $sql = "SELECT * FROM objeto WHERE latitud!='' and longitud!=''";
+            $registros = $conexion->query($sql);
+            if ($registros->rowCount() > 0) {
+                $arData=[];
+                foreach ($registros as $registro) {
+                     array_push($arData,$registro);
+                }
+                $registros->closeCursor();
+                $conexion = null;
+                return $arData;
+            } else {
+                $conexion = null;
+                return false;
+            }
+        } catch (PDOException $ex) {
+            return false;
+        }
+    }
+
+
+
 }

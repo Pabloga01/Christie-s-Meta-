@@ -77,7 +77,8 @@ class FrontController
 
     function perfil()
     {
-        session_start();
+        require_once("./model/sesionesFront.php");
+
         require("view/front/profile.php");
     }
 
